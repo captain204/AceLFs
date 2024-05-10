@@ -43,11 +43,11 @@ export default function Sidebar() {
 					<h3 className="sidebar__widget-title pb-10">Recent Post</h3>
 				</div>
 				<div className="sidebar__widget-content">
-					<div className="sidebar__post">
+					<div  className="sidebar__post">
 						{
 							Blogs.map((blog) => {
 								return (
-									<div className="rc__post mb-30 d-flex align-items-start">
+									<div key={blog.id} className="rc__post mb-30 d-flex align-items-start">
 										<div className="rc__post-thumb mr-20">
 											<Link href={blog.slug}>
 												<Image src={blog.image} alt="" width={98} height={98} />
