@@ -1,4 +1,4 @@
-import Sidebar from "@/components/Blog/Sidebar";
+//import Sidebar from "@/components/Blog/Sidebar";
 import SingleBlogThree from "@/components/Blog/Three";
 import Blogs from "@/data/blogs";
 import Image from "next/legacy/image";
@@ -26,9 +26,6 @@ export default function BlogArea() {
                 );
               }).slice(13, 16)}
             </div>
-          </div>
-          <div className="col-xxl-4 col-xl-4 col-lg-4">
-            <Sidebar />
           </div>
         </div>
         <div className="row">

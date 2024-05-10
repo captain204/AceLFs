@@ -19,22 +19,11 @@
       "static/chunks/8583.fd643b8ce937c22e.js"
     ]
   },
-  "blog-2/index.js -> @/modules/BlogTwo": {
-    "id": 5737,
-    "files": [
-      "static/chunks/5737.931edf51a1885363.js"
-    ]
-  },
-  "blog-sidebar/index.js -> @/modules/BlogSidebar": {
-    "id": 5681,
-    "files": [
-      "static/chunks/5681.92ad8c9f73ae64aa.js"
-    ]
-  },
   "blog/[slug]/index.js -> @/modules/BlogDetails": {
-    "id": 3850,
+    "id": 3603,
     "files": [
-      "static/chunks/5251.85fbd07ae0d8ce98.js"
+      "static/chunks/5675.f00e403b276fae76.js",
+      "static/chunks/3603.fe11b0eccf878e46.js"
     ]
   },
   "blog/index.js -> @/modules/Blog": {
@@ -68,18 +57,6 @@
       "static/chunks/410.4fac827d7a93e2af.js"
     ]
   },
-  "course/[slug]/index.js -> @/modules/CourseDetails": {
-    "id": 1457,
-    "files": [
-      "static/chunks/1457.d53c907f5a079999.js"
-    ]
-  },
-  "course/index.js -> @/modules/Course": {
-    "id": 3224,
-    "files": [
-      "static/chunks/3224.ba1c2d23476c0b34.js"
-    ]
-  },
   "event/[slug]/index.js -> @/modules/EventDetails": {
     "id": 3422,
     "files": [
@@ -104,8 +81,8 @@
     "files": [
       "static/chunks/3621.36d12fca9f1e1339.js",
       "static/chunks/1239.616559f2fb2b8a94.js",
-      "static/chunks/1090.a5439bc49bbafe8a.js",
-      "static/chunks/2719.db6074743fcc9576.js"
+      "static/chunks/4290.8b875659b5a169c9.js",
+      "static/chunks/2719.109112cd23bd5cff.js"
     ]
   },
   "home-5/index.js -> @/modules/HomeFive": {
@@ -134,8 +111,8 @@
     "files": [
       "static/chunks/3621.36d12fca9f1e1339.js",
       "static/chunks/1239.616559f2fb2b8a94.js",
-      "static/chunks/1090.a5439bc49bbafe8a.js",
-      "static/chunks/2678.9033ad9647743e56.js"
+      "static/chunks/4290.8b875659b5a169c9.js",
+      "static/chunks/2678.95985c6059f46dd9.js"
     ]
   },
   "index.js -> @/modules/HomeOne": {
