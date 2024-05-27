@@ -1,1 +1,6 @@
-{"/_app":"pages/_app.js","/_error":"pages/_error.js","/404":"pages/404.html","/about-us":"pages/about-us.html","/blog/[slug]":"pages/blog/[slug].html","/blog":"pages/blog.html","/cart":"pages/cart.html","/checkout":"pages/checkout.html","/contact":"pages/contact.html","/course-2":"pages/course-2.html","/event/[slug]":"pages/event/[slug].html","/event":"pages/event.html","/faq":"pages/faq.html","/home-4":"pages/home-4.html","/home-5":"pages/home-5.html","/home1-onepage":"pages/home1-onepage.html","/home4-onepage":"pages/home4-onepage.html","/":"pages/index.html","/price":"pages/price.html","/registration/instructor":"pages/registration/instructor.html","/registration/student-2":"pages/registration/student-2.html","/registration/student":"pages/registration/student.html","/services-2":"pages/services-2.html","/services-3":"pages/services-3.html","/services/[slug]":"pages/services/[slug].html","/services":"pages/services.html","/signin":"pages/signin.html","/signup":"pages/signup.html","/teacher/[slug]":"pages/teacher/[slug].html","/teacher":"pages/teacher.html","/testimonial":"pages/testimonial.html","/_document":"pages/_document.js"}
+{
+  "/_app": "pages/_app.js",
+  "/_error": "pages/_error.js",
+  "/_document": "pages/_document.js",
+  "/": "pages/index.js"
+}
