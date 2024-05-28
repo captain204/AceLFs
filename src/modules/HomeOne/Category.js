@@ -56,7 +56,7 @@ export default function Category() {
             </div>
             <div className="col-xl-4 col-lg-4">
               <div className="it-category-button text-start text-md-end">
-                <Link className="it-btn" href="#">
+                <Link className="it-btn" href="/services">
                   <span>
                     All Programs
                     <svg
@@ -99,7 +99,7 @@ export default function Category() {
                   Slug={degree.slug}
                   Icon="flaticon-study"
                   Title={degree.name}
-                  courseCount={degree.courseCount}
+                  courseCount={degree.coursesCount}
                 />
               </div>
             );

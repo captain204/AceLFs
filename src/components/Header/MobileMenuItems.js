@@ -165,13 +165,16 @@ export default function MobileMenuItems(props) {
             <Link href="/about-us">about us</Link>
           </li>
           <li>
-            <Link href="#">our programs</Link>
+            <Link href="/services">our programs</Link>
           </li>
           <li>
             <Link href="#">downloads</Link>
           </li>
           <li>
             <Link href="#">news</Link>
+          </li>
+          <li>
+            <Link href="#">portal</Link>
           </li>
           <li>
             <Link href="#">contact</Link>
