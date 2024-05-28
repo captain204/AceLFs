@@ -9,8 +9,7 @@ export default function Career() {
           src="/img/career/shape-1-1.png"
           width={366}
           height={255}
-          alt=""
-        />
+          alt=""/>
       </div>
       <div className="it-career-shape-3 d-none d-xl-block">
         <Image src="/img/career/shape-1-2.png" width={66} height={65} alt="" />

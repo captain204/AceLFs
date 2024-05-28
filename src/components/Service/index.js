@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 export default function SingleService(props) {
+  console.log(props)
   const { serviceClass, Slug, Icon, Title, courseCount } = props;
   return (
     <div
