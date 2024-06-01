@@ -220,7 +220,7 @@ export default function HeaderTwo(props) {
               </div>
               <div className="itoffcanvas__info-address">
                 <span>Phone</span>
-                <a href="tel:(00)45611227890">+2348023004426</a>
+                <a href="tel:(+234)8023004426">+2348023004426</a>
               </div>
             </div>
             <div className="it-info-wrapper mb-20 d-flex align-items-center">

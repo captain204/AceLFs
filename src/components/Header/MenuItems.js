@@ -235,7 +235,7 @@ export default function MenuItems(props) {
             <Link href="/about-us">about us</Link>
           </li>
           <li>
-            <Link href="#">our programs</Link>
+            <Link href="/services">our programs</Link>
           </li>
           <li>
             <Link href="#">downloads</Link>
@@ -244,7 +244,7 @@ export default function MenuItems(props) {
             <Link href="#">news</Link>
           </li>
           <li>
-            <Link href="/contact">contact</Link>
+            <Link href="/logins">portal</Link>
           </li>
         </ul>
       )}

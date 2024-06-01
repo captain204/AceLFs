@@ -6,7 +6,7 @@ import ScrollTop from "@/components/ScrollTop";
 export default function ServiceDetailsModules(singleService) {
   return (
     <main>
-      <BreadCrumbs Title="Service Details" subTitle="Service" />
+      <BreadCrumbs Title="Program Details" subTitle="Service" />
       <ServiceDetailsArea item={singleService.item} />
       <Newsletter />
       <ScrollTop />

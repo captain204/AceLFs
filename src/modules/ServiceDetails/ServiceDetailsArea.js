@@ -208,14 +208,9 @@ export default function ServiceDetailsArea({ item }) {
                 </h4>
                 <div className="sidebar__widget-content">
                   <div className="tagcloud">
-                    <Link href="#">Balance</Link>
-                    <Link href="#">coaching</Link>
-                    <Link href="#">Motivation</Link>
-                    <Link href="#">courses</Link>
-                    <Link href="#">Life guide</Link>
-                    <Link href="#">strategy</Link>
-                    <Link href="#">Education</Link>
-                    <Link href="#">coach</Link>
+                    <Link href="#">Masters Programme MSC</Link>
+                    <Link href="#">Masters In Philosophy M.PHIL</Link>
+                    <Link href="#">Doctor of Philosophy (P.H.D)</Link>
                   </div>
                 </div>
               </div>

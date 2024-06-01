@@ -96,6 +96,7 @@ export default function Category() {
             return (
               <div key={degree.id} className="col-xl-3 col-lg-3 col-md-6 mb-30">
                 <SingleCategory
+                  Id =  {degree.id}
                   Slug={degree.slug}
                   Icon="flaticon-study"
                   Title={degree.name}

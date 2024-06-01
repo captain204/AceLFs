@@ -4,11 +4,5 @@
     "files": [
       "static/chunks/src_modules_HomeOne_index_js.js"
     ]
-  },
-  "services/index.js -> @/modules/Service": {
-    "id": "services/index.js -> @/modules/Service",
-    "files": [
-      "static/chunks/src_modules_Service_index_js.js"
-    ]
   }
 }

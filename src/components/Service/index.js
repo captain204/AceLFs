@@ -1,8 +1,11 @@
 import Link from "next/link";
+import axios from "axios";
+
 
 export default function SingleService(props) {
   console.log(props)
   const { serviceClass, Slug, Icon, Title, courseCount } = props;
+ 
   return (
     <div
       className={serviceClass ? serviceClass : "it-category-item text-center"}
@@ -14,9 +17,11 @@ export default function SingleService(props) {
       </div>
       <div className="it-category-text">
         <h4 className="it-category-title">
-          <Link href={`#`}>{Title ? Title : "Web Design"}</Link>
+        <Link href={`services/${Slug}`} >
+            {Title ? Title : "Masters"}
+      </Link>
         </h4>
-        <Link href={`#`}>
+        <Link href={`services/${Slug}`}>
           {courseCount ? courseCount : "25"} Programme(s)
           <span>
             <svg
