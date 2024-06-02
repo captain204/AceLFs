@@ -13,7 +13,7 @@ export default function Contact() {
       id="it-contact"
       className="it-contact-area it-contact-bg p-relative pt-120 pb-120"
     >
-      <Image src="/img/contact/bg.jpg" alt="" fill={true} />
+      <Image src="/img/contact/bg.jpg" alt="" fill="true" />
       <div className="it-contact-shape-1 d-none d-lg-block">
         <Image src="/img/contact/shape-1-1.png" alt="" width={41} height={37} />
       </div>
@@ -64,7 +64,7 @@ export default function Contact() {
           </div>
           <div className="col-xl-5 col-lg-5">
             <div className="it-contact-wrap">
-              <Image src="/img/contact/bg-5.jpg" alt="" fill={true} />
+              <Image src="/img/contact/bg-5.jpg" alt="" fill="true" />
               <h4 className="it-contact-title pb-15">
                 Sign Up for Free Resources
               </h4>

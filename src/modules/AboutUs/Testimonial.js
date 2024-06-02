@@ -54,7 +54,7 @@ const Testimonial = () => {
 
   return (
     <div className="it-testimonial-area it-testimonial-ptb it-testimonial-bg fix p-relative">
-      <Image src="/img/testimonial/testimonial-bg.jpg" width={500} height={500} alt="" fill={true} />
+      <Image src="/img/testimonial/testimonial-bg.jpg" width={500} height={500} alt="" fill="true" />
       <div className="it-testimonial-shape-1 d-none d-xl-block">
         <Image
           src="/img/testimonial/shape-2-1.png"

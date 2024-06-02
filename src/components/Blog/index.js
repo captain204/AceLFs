@@ -16,7 +16,7 @@ export default function SingleBlog(props) {
   } = props;
   return (
     <div className={blogClass ? blogClass : "it-blog-item-box"}>
-      <Image src="/img/blog/bg-1.jpg" layout="fill" fill={true} alt="" />
+      <Image src="/img/blog/bg-1.jpg" layout="fill" fill="true" alt="" />
       <div className="it-blog-item">
         <div className="it-blog-thumb fix">
           <Link href={`/blog/${Slug ? Slug : "details"}`}>

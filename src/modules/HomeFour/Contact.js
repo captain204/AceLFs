@@ -63,7 +63,7 @@ export default function Contact() {
           </div>
           <div className="col-xl-5 col-lg-5">
             <div className="it-contact-wrap">
-              <Image src="/img/contact/bg-5.jpg" alt="" fill={true} />
+              <Image src="/img/contact/bg-5.jpg" alt="" fill="true" />
               <h4 className="it-contact-title pb-15">
                 Sign Up for Free Resources
               </h4>
