@@ -9,8 +9,8 @@ export default function HeaderTwo(props) {
   const { menuFormat } = props;
   const [isVisible, setIsVisible] = useState(false);
   const [offCanvasOpen, setOffCanvasOpen] = useState(false);
-  const cartItemsCount = useSelector((state) => state.product).addedProducts
-    .length;
+  // const cartItemsCount = useSelector((state) => state.product).addedProducts
+  //   .length;
 
   useEffect(() => {
     // Sticky is displayed after scrolling for 100 pixels

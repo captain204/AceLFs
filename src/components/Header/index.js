@@ -12,13 +12,13 @@ export default function Header(props) {
   const [multiLangOpen, setMultiLangOpen] = useState(false);
   const [langValue, setLangValue] = useState("English");
 
-  const langHandle = (value) => {
-    setLangValue(value);
-    setMultiLangOpen(false);
-  };
+  // const langHandle = (value) => {
+  //   setLangValue(value);
+  //   setMultiLangOpen(false);
+  // };
 
-  const cartItemsCount = useSelector((state) => state.product).addedProducts
-    .length;
+  // const cartItemsCount = useSelector((state) => state.product).addedProducts
+  //   .length;
 
   useEffect(() => {
     // Sticky is displayed after scrolling for 100 pixels

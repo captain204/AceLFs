@@ -12,7 +12,7 @@ export default function Video() {
       className="it-video-2-area it-video-2-bg p-relative pt-120 pb-120"
       data-background="/img/video/bg-5-1.jpg"
     >
-      <Image src="/img/video/bg-5-1.jpg" alt="" fill={true} />
+      <Image src="/img/video/bg-5-1.jpg" alt="" fill="true" />
       <ModalVideo
         channel="youtube"
         isOpen={isOpen}

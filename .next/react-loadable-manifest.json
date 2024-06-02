@@ -1,8 +1,8 @@
 {
-  "index.js -> @/modules/HomeOne": {
-    "id": "index.js -> @/modules/HomeOne",
+  "signin/index.js -> @/modules/Signin": {
+    "id": "signin/index.js -> @/modules/Signin",
     "files": [
-      "static/chunks/src_modules_HomeOne_index_js.js"
+      "static/chunks/src_modules_Signin_index_js.js"
     ]
   }
 }
