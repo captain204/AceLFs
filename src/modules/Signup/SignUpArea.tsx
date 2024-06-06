@@ -4,12 +4,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { signupUser } from "@/Globals/Slices/AuthSlice/SignupSlice";
+// import { signupUser } from "@/Globals/Slices/AuthSlice/SignupSlice";
 import { UnknownAction, ThunkDispatch } from "@reduxjs/toolkit";
-import { RootState } from "@/Globals/store/store";
+
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
-import LoaderSpinner from "@/components/Spinner";
+
+import { signupUser } from "../../Globals/Slices/AuthSlice/SignupSlice";
+import LoaderSpinner from "../../components/Spinner";
+import { RootState } from "../../Globals/store/store";
 
 // Validation schema
 const schema = yup.object().shape({

@@ -2,5 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/signin": "pages/signin.js"
+  "/dashboard": "pages/dashboard.js",
+  "/admissions/msc": "pages/admissions/msc.js",
+  "/admissions/mphil": "pages/admissions/mphil.js",
+  "/404": "pages/404.js",
+  "/admissions/phd": "pages/admissions/phd.js",
+  "/admissions/statistics": "pages/admissions/statistics.js"
 }

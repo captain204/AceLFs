@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
-import { productAddData } from "@/redux/product/actionCreator";
+import { productAddData } from "../../redux/product/actionCreator";
 
 export default function SingleCourse(props) {
   const {

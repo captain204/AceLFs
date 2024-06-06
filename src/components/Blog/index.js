@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import Link from "next/link";
 
-export default function SingleBlog(props) {
+ const SingleBlog = (props)  =>{
   const {
     blogClass,
     Slug,
@@ -81,3 +81,5 @@ export default function SingleBlog(props) {
     </div>
   );
 }
+
+export default SingleBlog 

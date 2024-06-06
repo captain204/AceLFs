@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/legacy/image";
-import SingleTeam from "@/components/Team";
-import Teachers from "@/data/teachers";
+import SingleTeam from "../../components/Team";
+import Teachers from "../../data/teachers.json";
 
 export default function Team() {
   return (
