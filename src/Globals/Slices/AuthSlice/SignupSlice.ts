@@ -1,8 +1,9 @@
 // signupSlice.ts
-import axiosInstanceAuth from "@/Globals/Interceptor";
+// import axiosInstanceAuth from "@/Globals/Interceptor";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axiosInstanceAuth from "../../Interceptor";
 
 interface SignupData {
   username: string;

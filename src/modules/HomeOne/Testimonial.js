@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import Image from "next/legacy/image";
-import SingleTestimonial from "@/components/Testimonial";
-import Testimonials from "@/data/testimonials";
+import SingleTestimonial from "../../components/Testimonial";
+import Testimonials from "../../data/testimonials.json";
 
 const Testimonial = () => {
   const [nav1, setNav1] = useState(null);

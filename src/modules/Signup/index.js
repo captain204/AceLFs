@@ -1,6 +1,6 @@
-import BreadCrumbs from "@/components/BreadCrumbs";
+import BreadCrumbs from "../../../src/components/BreadCrumbs";
 import SignUpArea from "./SignUpArea";
-import Newsletter from "@/components/Newsletter";
+import Newsletter from "../../../src/components/Newsletter";
 
 export default function SignUpModules() {
   return (

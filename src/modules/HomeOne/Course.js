@@ -1,7 +1,7 @@
-import SingleCourse from "@/components/Course";
+import SingleCourse from "../../components/Course";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import Courses from "@/data/courses";
+import Courses from "../../data/courses.json";
 
 export default function Course() {
   return (
