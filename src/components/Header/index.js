@@ -246,7 +246,6 @@ export default function Header(props) {
                 alt=""
                 width={'100%'}
                 height={40}
-                className="object-fit-none"
               />
             </Link>
           </div>
