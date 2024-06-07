@@ -1,8 +1,14 @@
 {
-  "signin/index.js -> @/modules/Signin": {
-    "id": "signin/index.js -> @/modules/Signin",
+  "index.js -> @/modules/HomeOne": {
+    "id": "index.js -> @/modules/HomeOne",
     "files": [
-      "static/chunks/src_modules_Signin_index_js.js"
+      "static/chunks/src_modules_HomeOne_index_js.js"
+    ]
+  },
+  "signup\\index.js -> @/modules/Signup": {
+    "id": "signup\\index.js -> @/modules/Signup",
+    "files": [
+      "static/chunks/src_modules_Signup_index_js.js"
     ]
   }
 }

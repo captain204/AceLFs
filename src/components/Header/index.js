@@ -157,12 +157,12 @@ export default function Header(props) {
                   <div className="row align-items-center">
                     <div className="col-xl-2 col-6">
                       <div className="it-header-2-logo">
-                        <Link href="/">
+                        <Link href="/" className="d-flex align-items-center">
                           <Image
                             src="/img/logo/acf-logo.png"
                             alt=""
                             width={50}
-                            height={40}
+                            height={50}
                           />
                         </Link>
                       </div>
@@ -244,8 +244,9 @@ export default function Header(props) {
               <Image
                 src="/img/logo/unilag-logo.png"
                 alt=""
-                width={50}
+                width={'100%'}
                 height={40}
+                className="object-fit-none"
               />
             </Link>
           </div>

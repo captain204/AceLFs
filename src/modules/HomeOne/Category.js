@@ -7,12 +7,12 @@ import axios from "axios"
 
 export default function Category() {
   const [Degree, setDegree] = useState([]);
-  useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/degrees`)
-        .then((response) => {
-            setDegree(response.data);
-        })
-}, [])
+//   useEffect(() => {
+//     axios.get(`http://localhost:8000/api/v1/degrees`)
+//         .then((response) => {
+//             setDegree(response.data);
+//         })
+// }, [])
   return (
 
     <div className="it-category-area pt-120 pb-120">

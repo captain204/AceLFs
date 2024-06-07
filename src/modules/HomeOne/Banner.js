@@ -95,7 +95,7 @@ export default function Banner() {
                 <Image
                   src="/img/hero/slider-1.jpg"
                   width={500}
-                  height={550}
+                  height={500}
                   alt=""
                 />
                 <div className="it-hero-2-shape-1 d-none d-xl-block">
