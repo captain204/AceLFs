@@ -45,7 +45,7 @@ export default function Blog() {
             </div>
             <div className="col-xl-4 col-lg-4 col-md-4">
               <div className="it-blog-button text-start text-md-end">
-                <Link className="it-btn" href="#">
+                <Link className="it-btn" href="/blog">
                   <span>
                     Recent News
                     <svg

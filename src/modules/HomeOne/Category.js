@@ -3,12 +3,11 @@ import Image from "next/legacy/image";
 import { useEffect,useState } from "react";
 import Link from "next/link";
 import axios from "axios"
-//import Services from "@/data/services";
 
 export default function Category() {
   const [Degree, setDegree] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/degrees`)
+    axios.get(`http://localhost:8000/api/v1/program/degrees`)
         .then((response) => {
             setDegree(response.data);
         }
