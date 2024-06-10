@@ -103,7 +103,7 @@ export default function Service() {
             <div className="it-choose-thumb-box text-center text-md-end">
               <div className="it-choose-thumb p-relative">
                 <Image
-                  src="/img/choose/Acedar-Video-Background.jpeg"
+                  src="/img/choose/Acedar-Video-Background.jpg"
                   width={330}
                   height={355}
                   alt=""

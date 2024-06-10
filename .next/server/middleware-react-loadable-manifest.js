@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"blog/[slug]/index.js -> ../../../src/modules/BlogDetails\":{\"id\":\"blog/[slug]/index.js -> ../../../src/modules/BlogDetails\",\"files\":[\"static/chunks/src_modules_BlogDetails_index_js.js\"]},\"index.js -> ../src/modules/HomeOne\":{\"id\":\"index.js -> ../src/modules/HomeOne\",\"files\":[\"static/chunks/src_modules_HomeOne_index_js.js\"]}}"

@@ -11,7 +11,8 @@ export default function Category() {
     axios.get(`http://localhost:8000/api/v1/degrees`)
         .then((response) => {
             setDegree(response.data);
-        })
+        }
+      ).catch((error) => console.log(error))
 }, [])
   return (
 
