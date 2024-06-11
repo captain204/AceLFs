@@ -10,7 +10,7 @@ export default function ServiceDetailsArea({ item }) {
   if (!item) {
     return <div>Loading...</div>;
   }
-  const { title, description } = item;
+  const { name, description } = item;
 
   return (
     <div className="it-sv-details-area pt-120 pb-120">
@@ -40,7 +40,7 @@ export default function ServiceDetailsArea({ item }) {
                 <div className="col-xl-6 col-lg-6">
                   <div className="it-sv-details-top-content">
                     <h4 className="it-sv-details-title">
-                      {title ? title : "web design"}
+                      {name? name: "web design"}
                     </h4>
                     <p>
                       {description

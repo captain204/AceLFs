@@ -1,7 +1,7 @@
-import BreadCrumbs from "@/components/BreadCrumbs";
+import BreadCrumbs from "../../components/BreadCrumbs";
 import BlogDetailsArea from "./BlogDetailsArea";
-import Newsletter from "@/components/Newsletter";
-import ScrollTop from "@/components/ScrollTop";
+import Newsletter from "../../components/Newsletter";
+import ScrollTop from "../../components/ScrollTop";
 
 export default function BlogDetailsModules(singleBlog) {
   return (

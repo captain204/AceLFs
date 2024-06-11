@@ -3,9 +3,15 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
 <<<<<<< HEAD
+  "/services": "pages/services.js",
+  "/": "pages/index.js",
+  "/services/[slug]": "pages/services/[slug].js"
+=======
+<<<<<<< HEAD
   "/": "pages/index.js",
 =======
   "/dashboard": "pages/dashboard.js",
 >>>>>>> main
   "/404": "pages/404.js"
+>>>>>>> main
 }
