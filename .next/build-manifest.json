@@ -12,14 +12,11 @@
   ],
   "rootMainFiles": [],
   "pages": {
-<<<<<<< HEAD
     "/": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/index.js"
     ],
-=======
->>>>>>> main
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -30,17 +27,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-<<<<<<< HEAD
+    "/blog/[slug]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/blog/[slug].js"
+    ],
+    "/services": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/services.js"
+    ],
     "/services/[slug]": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/services/[slug].js"
-=======
-    "/signin": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/signin.js"
->>>>>>> main
     ]
   },
   "ampFirstPages": []

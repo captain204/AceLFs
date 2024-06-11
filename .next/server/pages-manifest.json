@@ -1,17 +1,9 @@
 {
   "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-<<<<<<< HEAD
+  "/_error": "pages/_error.js",
+  "/": "pages/index.js",
   "/services": "pages/services.js",
-  "/": "pages/index.js",
-  "/services/[slug]": "pages/services/[slug].js"
-=======
-<<<<<<< HEAD
-  "/": "pages/index.js",
-=======
-  "/dashboard": "pages/dashboard.js",
->>>>>>> main
-  "/404": "pages/404.js"
->>>>>>> main
+  "/services/[slug]": "pages/services/[slug].js",
+  "/blog/[slug]": "pages/blog/[slug].js"
 }

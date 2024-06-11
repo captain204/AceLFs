@@ -1,5 +1,10 @@
-<<<<<<< HEAD
 {
+  "blog/[slug]/index.js -> ../../../src/modules/BlogDetails": {
+    "id": "blog/[slug]/index.js -> ../../../src/modules/BlogDetails",
+    "files": [
+      "static/chunks/src_modules_BlogDetails_index_js.js"
+    ]
+  },
   "index.js -> ../src/modules/HomeOne": {
     "id": "index.js -> ../src/modules/HomeOne",
     "files": [
@@ -11,8 +16,11 @@
     "files": [
       "static/chunks/src_modules_ServiceDetails_index_js.js"
     ]
+  },
+  "services/index.js -> ../../src/modules/Service": {
+    "id": "services/index.js -> ../../src/modules/Service",
+    "files": [
+      "static/chunks/src_modules_Service_index_js.js"
+    ]
   }
 }
-=======
-{}
->>>>>>> main

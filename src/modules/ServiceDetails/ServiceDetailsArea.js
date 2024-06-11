@@ -11,7 +11,7 @@ export default function ServiceDetailsArea({ item }) {
     return <div>Loading...</div>;
   }
   const { name, description } = item;
-
+  console.log(item)
   return (
     <div className="it-sv-details-area pt-120 pb-120">
       <ModalVideo
