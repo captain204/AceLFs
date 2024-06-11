@@ -105,8 +105,9 @@ export default function Service() {
                 <Image
                   src="/img/choose/Acedar-Video-Background.jpg"
                   width={330}
-                  height={355}
+                  height={300}
                   alt=""
+                  
                 />
                 <div className="it-choose-shape-1">
                   <Image

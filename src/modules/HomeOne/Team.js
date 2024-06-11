@@ -54,7 +54,7 @@ export default function Team() {
                   boast extensive research credentials. Their cutting-edge
                   knowledge and infectious enthusiasm create a dynamic learning
                   environment that fosters curiosity and prepares you for a
-                  fulfilling future.{" "}
+                  fulfilling future.{""}
                 </p>
               </div>
               <div className="it-team-button">
