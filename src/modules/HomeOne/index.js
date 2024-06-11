@@ -9,8 +9,8 @@ import Testimonial from "./Testimonial";
 import Team from "./Team";
 import Career from "./Career";
 import Blog from "./Blog";
-import Newsletter from "@/components/Newsletter";
-import ScrollTop from "@/components/ScrollTop";
+import Newsletter from "../../components/Newsletter";
+import ScrollTop from "../../components/ScrollTop";
 
 export default function HomeOneModules() {
   return (

@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Image from "next/legacy/image";
 import Link from "next/link";
-import { RootState } from "@/Globals/store/store";
+import { useRouter } from "next/navigation";
+
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-import { loginUser } from "@/Globals/Slices/AuthSlice/LoginUserSlice";
-import LoaderSpinner from "@/components/Spinner";
+import { RootState } from "../../Globals/store/store";
+import { loginUser } from "../../Globals/Slices/AuthSlice/LoginUserSlice";
+import LoaderSpinner from "../../components/Spinner";
 
 // Validation schema
 const schema = yup.object().shape({
@@ -29,6 +31,7 @@ export default function SignInArea() {
     resolver: yupResolver(schema),
   });
   const dispatch: AppDispatch = useDispatch();
+  const router = useRouter();
 
   const loading = useSelector((state: RootState) => state?.loginUser?.loading);
   const success = useSelector((state: RootState) => state?.loginUser?.success);
@@ -45,24 +48,30 @@ export default function SignInArea() {
         email,
       })
     );
-    // if (Cookies.get("authToken")) {
-    //   router.push("/");
-    // }
-
-    // dispatch(getUser());
+  
   };
 
-  const handleUsernameChange = (e:any) => {
+
+  useEffect(() => {
+    if (success) {
+      router.push("/dashboard");
+    }
+  }, [success]);
+
+
+  
+
+  const handleUsernameChange = (e: any) => {
     setUsername(e.target.value);
     clearErrors("username");
   };
 
-  const handleEmailChange = (e:any) => {
+  const handleEmailChange = (e: any) => {
     setEmail(e.target.value);
     clearErrors("email");
   };
 
-  const handlePasswordChange = (e:any) => {
+  const handlePasswordChange = (e: any) => {
     setPassword(e.target.value);
     clearErrors("password");
   };
@@ -148,18 +157,19 @@ export default function SignInArea() {
                     </div>
                   </div>
 
-                   {
-                    loading?   <div className="it-signup-btn mb-40">
-                    <button className="it-btn large" type="submit">
-                      <LoaderSpinner />
-                    </button>
-                  </div> :  <div className="it-signup-btn mb-40">
-                    <button className="it-btn large" type="submit">
-                      Sign In
-                    </button>
-                  </div>
-                   }
-                 
+                  {loading ? (
+                    <div className="it-signup-btn mb-40">
+                      <button className="it-btn large" type="submit">
+                        <LoaderSpinner />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="it-signup-btn mb-40">
+                      <button className="it-btn large" type="submit">
+                        Sign In
+                      </button>
+                    </div>
+                  )}
 
                   <div className="it-signup-text">
                     <span>

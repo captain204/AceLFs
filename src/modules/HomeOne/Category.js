@@ -1,4 +1,4 @@
-import SingleCategory from "@/components/Service";
+import SingleCategory from "../../components/Service";
 import Image from "next/legacy/image";
 import { useEffect,useState } from "react";
 import Link from "next/link";

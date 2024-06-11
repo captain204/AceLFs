@@ -244,7 +244,7 @@ export default function MenuItems(props) {
             <Link href="#">news</Link>
           </li>
           <li>
-            <Link href="/logins">portal</Link>
+            <Link href="/signin">portal</Link>
           </li>
         </ul>
       )}

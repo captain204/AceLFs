@@ -2,6 +2,10 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
   "/": "pages/index.js",
+=======
+  "/dashboard": "pages/dashboard.js",
+>>>>>>> main
   "/404": "pages/404.js"
 }
