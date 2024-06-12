@@ -3,7 +3,5 @@
   "/_document": "pages/_document.js",
   "/_error": "pages/_error.js",
   "/": "pages/index.js",
-  "/services": "pages/services.js",
-  "/services/[slug]": "pages/services/[slug].js",
-  "/blog/[slug]": "pages/blog/[slug].js"
+  "/admin-signin": "pages/admin-signin.js"
 }
