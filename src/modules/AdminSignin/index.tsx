@@ -63,22 +63,20 @@ export default function AdminSignIn() {
   };
 
   return (
-    <div className="it-signup-area pt-120 pb-120">
-      <div className="container w-50">
-        <div className="it-signup-bg p-relative">
-          <div className="row ">
-            <div className="col-xl-12 col-lg-12">
+      <div className="container pt-20">
+          <div className="row justify-content-center">
+            <div className="col-xl-4 col-lg-12">
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="it-signup-wrap">
-                  <h4 className="it-signup-title text-center">Admin Sign In</h4>
-                  <div className="it-signup-input-wrap">
-                    <div className="it-signup-input mb-20">
+                <div className="it-signup-bg mt-50 p-5">
+                  <h4 className="text-center mb-20">Sign in</h4>
+                    <div className="it-signup-input mb-20 ">
                       <input
                         type="text"
                         placeholder="Username *"
                         {...register("username")}
                         value={username}
                         onChange={handleUsernameChange}
+                        className="input-sm"
                       />
                       {errors.username && (
                         <p style={{ color: "red" }}>
@@ -86,13 +84,14 @@ export default function AdminSignIn() {
                         </p>
                       )}
                     </div>
-                    <div className="it-signup-input mb-20">
+                    <div className="mb-20 it-signup-input">
                       <input
                         type="password"
                         placeholder="Password *"
                         {...register("password")}
                         value={password}
                         onChange={handlePasswordChange}
+                        className="input-sm"
                       />
                       {errors.password && (
                         <p style={{ color: "red" }}>
@@ -100,7 +99,6 @@ export default function AdminSignIn() {
                         </p>
                       )}
                     </div>
-                  </div>
                   {loading ? (
                     <div className="it-signup-btn mb-40">
                       <button className="it-btn large" type="submit">
@@ -109,7 +107,7 @@ export default function AdminSignIn() {
                     </div>
                   ) : (
                     <div className="it-signup-btn mb-40 text-center">
-                      <button className="it-btn large" type="submit">
+                      <button className="it-btn" type="submit">
                         Log In
                       </button>
                     </div>
@@ -118,8 +116,6 @@ export default function AdminSignIn() {
               </form>
             </div>
           </div>
-        </div>
       </div>
-    </div>
   );
 }

@@ -279,7 +279,7 @@ export default function AdminLayout(props: Props) {
         <Link href="/" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/verifyfeespayment" ? "active" : ""}
+              className={router.pathname === "#" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
