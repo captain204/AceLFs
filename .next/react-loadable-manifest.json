@@ -1,8 +1,8 @@
 {
-  "admin-signin/index.tsx -> ../../src/modules/Admin": {
-    "id": "admin-signin/index.tsx -> ../../src/modules/Admin",
+  "admin\\login\\index.tsx -> ../../../src/modules/AdminSignin": {
+    "id": "admin\\login\\index.tsx -> ../../../src/modules/AdminSignin",
     "files": [
-      "static/chunks/src_modules_Admin_index_tsx.js"
+      "static/chunks/src_modules_AdminSignin_index_tsx.js"
     ]
   },
   "index.js -> ../src/modules/HomeOne": {
