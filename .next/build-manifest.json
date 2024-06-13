@@ -27,25 +27,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/admissions/mphil": [
+    "/application": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/admissions/mphil.js"
-    ],
-    "/admissions/msc": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admissions/msc.js"
-    ],
-    "/admissions/phd": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admissions/phd.js"
-    ],
-    "/admissions/statistics": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/admissions/statistics.js"
+      "static/chunks/pages/application.js"
     ],
     "/dashboard": [
       "static/chunks/webpack.js",

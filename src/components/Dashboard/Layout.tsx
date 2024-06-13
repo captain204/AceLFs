@@ -31,6 +31,7 @@ import Person4Icon from "@mui/icons-material/Person4";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 const drawerWidth = 240;
 
@@ -141,6 +142,25 @@ export default function Layout(props: Props) {
                 <DashboardIcon />
               </ListItemIcon>
               <ListItemText sx={{ fontWeight: "bold" }} primary="Dashboard" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link href="/application" passHref>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={router.pathname === "/application" ? "active" : ""}
+              sx={{
+                "&.active": {
+                  bgcolor: "rgba(255, 255, 255, 0.25)",
+                },
+                color: "white",
+              }}
+            >
+              <ListItemIcon sx={{ color: "white" }}>
+                <AppRegistrationIcon />
+              </ListItemIcon>
+              <ListItemText sx={{ fontWeight: "bold" }} primary="Application" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -393,6 +413,7 @@ export default function Layout(props: Props) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          overflow: "auto",
         }}
       >
         <Toolbar />
