@@ -39,7 +39,6 @@ export const loginAdmin = createAsyncThunk( "login/admin",
       );
       if (response.status >= 200 && response.status < 300) {
         toast.success(response?.data?.message || "Login successful");
-        console.log(response);
         const token = response.data.token;
         localStorage.setItem("token", token);
         const oneHour = 1 / 24;
