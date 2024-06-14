@@ -48,18 +48,13 @@ export default function SignInArea() {
         email,
       })
     );
-  
   };
-
 
   useEffect(() => {
     if (success) {
       router.push("/dashboard");
     }
   }, [success]);
-
-
-  
 
   const handleUsernameChange = (e: any) => {
     setUsername(e.target.value);
