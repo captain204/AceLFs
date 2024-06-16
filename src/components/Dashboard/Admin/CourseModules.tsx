@@ -53,13 +53,9 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
   const courses =
     useSelector((state: RootState) => state.courses).courses || [];
   const [degreeCourses, setDegreeCourses] = useState([]);
-  const [showCourseDetails, setShowCourseDetails] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [showCourseForm, setShowCourseForm] = useState(false);
-  const [courseDetails, setCourseDetails] = useState({
-    CourseName: "",
-    Description: "",
-  });
+  const [formData, setFormData] = useState({})
 
   const handleDegreeChange = (event) => {
     const selectedId = event.target.value;
@@ -85,14 +81,14 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
   };
   useEffect(() => getCourses(), [selectedDegree]);
 
-  const showDegreeDetails = () => {
-    setShowCourseDetails(!showCourseDetails);
-  };
 
   const deleteCourse = async (id: number) => {
     await axios
       .delete(`http://localhost:8000/api/v1/program/degreecourse/${id}`)
-      .then((response) => getCourses())
+      .then((response) => {
+       setDegreeCourses(degreeCourses.filter(course => course.id !== id))
+      }
+      )
       .catch((response) => console.log(response));
     setOpenDialog(false);
   };
@@ -135,11 +131,12 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
           </FormControl>
         </form>
         {selectedDegree.name !== "" && (
-          <div className="it-signup-btn mb-40">
+          <div className="it-signup-btn">
             <button
               className="it-btn"
-              type="submit"
-              onClick={() => setShowCourseForm(!showCourseForm)}
+              onClick={() => {
+                setFormData(null)
+                setShowCourseForm(!showCourseForm)}}
             >
               {buttonContent}
             </button>
@@ -147,18 +144,21 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
         )}
       </CardContent>
       <CardContent>
-        {showCourseDetails == true ||
-          (showCourseForm && <CourseModuleForm degree={selectedDegree} />)}
-        {degreeCourses.map(({ CourseName, id }) => (
+          {showCourseForm==true && <CourseModuleForm degree={selectedDegree} formHandler={setShowCourseForm} formData={formData}/>}
+        {degreeCourses.map((course) => (
           <div>
             <div>
               <div className="row">
-                <p className="mb-4 col-5 col-sm-4 col-lg-5">{CourseName}</p>
+                <p className="mb-4 col-5 col-sm-4 col-lg-5">{course.CourseName}</p>
                 <div className="d-flex flex-wrap justify-content-end col-7 col-sm-8 col-lg-7">
                   <button
                     className="it-btn px-2 me-2"
                     type="submit"
-                    onClick={() => showDegreeDetails()}
+                    onClick={() => {
+                      // pass the course to the form for viewing and editing
+                      showCourseForm===false && setFormData(course)
+                      setShowCourseForm(!showCourseForm)
+                    }}
                   >
                     View
                   </button>
@@ -169,13 +169,13 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
                   >
                     Delete
                   </button>
-                  <button
+                  {/* <button
                     className="it-btn px-2"
                     type="submit"
                     onClick={() => confirmDeletion()}
                   >
                     Edit
-                  </button>
+                  </button> */}
                 </div>
               </div>
             </div>
@@ -192,7 +192,7 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
               </DialogContent>
               <DialogActions>
                 <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-                <Button onClick={() => deleteCourse(id)}>Yes</Button>
+                <Button onClick={() => deleteCourse(course.id)}>Yes</Button>
               </DialogActions>
             </Dialog>
           </div>
