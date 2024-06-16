@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useFormik, Formik, Form } from "formik";
 import {
   Card,
   CardContent,
@@ -7,19 +6,20 @@ import {
   MenuItem,
   FormControl,
   Select,
-  Button,
   Dialog,
-  DialogActions,
   DialogContent,
+  DialogActions,
   DialogContentText,
+  Button,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../Globals/store/store";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 import { getAllCourses } from "../../../Globals/Slices/Degree/CoursesSlice";
 import { getAllDegrees } from "../../../Globals/Slices/Degree/DegreesSlice";
-import CourseModuleForm from "./CourseModuleForm";
 import axios from "axios";
+import CourseModuleForm from "./CourseModuleForm";
+import { toast } from "react-toastify";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
@@ -33,16 +33,18 @@ interface PersonalInfoFormProps {
 
 const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
   const dispatch: AppDispatch = useDispatch();
+  const [selectedDegree, setSelectedDegree] = useState<number>();
+  const [selectedCourse, setSelectedCourse] = useState();
+  const [degreeCourses, setDegreeCourses] = useState([]);
+  const [courseModules, setCourseModules] = useState([]);
+  const [authToken, setauthToken] = useState<string>();
+  const [openDialog, setOpenDialog] = useState(false);
+  const [formData, setFormData] = useState(null);
 
-  const [selectedDegree, setSelectedDegree] = useState({
-    name: "",
-    slug: "",
-    category: "",
-    description: "",
-    coursesCount: 0,
-    duration: "",
-    id: "",
-  });
+  const [showCourseModuleForm, setShowCourseModuleForm] = useState(false);
+  useEffect(() => {
+    setauthToken(localStorage.getItem("token"));
+  }, []);
 
   useEffect(() => {
     dispatch(getAllCourses());
@@ -52,57 +54,61 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
   const { degrees } = useSelector((state: RootState) => state.degrees);
   const courses =
     useSelector((state: RootState) => state.courses).courses || [];
-  const [degreeCourses, setDegreeCourses] = useState([]);
-  const [openDialog, setOpenDialog] = useState(false);
-  const [showCourseForm, setShowCourseForm] = useState(false);
-  const [formData, setFormData] = useState({})
-
   const handleDegreeChange = (event) => {
     const selectedId = event.target.value;
     const degree = degrees.find((d: any) => d.id === selectedId);
-    if (degree) {
-      setSelectedDegree({
-        name: degree.name,
-        slug: degree.slug,
-        category: degree.category,
-        description: degree.description,
-        coursesCount: degree.coursesCount,
-        duration: degree.duration,
-        id: degree.id,
-      });
-    }
+    setSelectedDegree(degree.id);
   };
 
-  const getCourses = () => {
-    const { slug } = selectedDegree;
-    setDegreeCourses(
-      courses.filter((course) => course?.degreeType?.slug === slug)
-    );
-  };
-  useEffect(() => getCourses(), [selectedDegree]);
-
-
-  const deleteCourse = async (id: number) => {
-    await axios
-      .delete(`http://localhost:8000/api/v1/program/degreecourse/${id}`)
-      .then((response) => {
-       setDegreeCourses(degreeCourses.filter(course => course.id !== id))
-      }
-      )
-      .catch((response) => console.log(response));
-    setOpenDialog(false);
-  };
-  const confirmDeletion = () => {
-    // handles popup to confirm deletion of that course
-    setOpenDialog(true);
-  };
-
-  const [buttonContent, setButtonContent] = useState("Add course");
   useEffect(() => {
-    showCourseForm === true
-      ? setButtonContent("Close")
-      : setButtonContent("Add course");
-  }, [showCourseForm]);
+    const filteredCourses = courses.filter(
+      (course) => course?.degreeType?.id === selectedDegree
+    );
+    // console.log(filteredCourses)
+    setDegreeCourses(filteredCourses);
+  }, [selectedDegree]);
+
+  const getCourseModules = async () => {
+    await axios
+      .get("http://localhost:8000/api/v1/coursemodule", {
+        headers: {
+          Authorization: `token ${authToken}`,
+        },
+      })
+      .then((response) => {
+        // course modules for the selected degree
+        const modules = response.data;
+        const filteredModules = modules.filter(
+          (module) => module.course === selectedCourse
+        );
+        setCourseModules(filteredModules);
+      })
+      .catch((error) => console.error(error.response.data));
+  };
+
+  const deleteModule = async (id) => {
+    setOpenDialog(false);
+    await axios
+      .delete(`http://localhost:8000/api/v1/coursemodule${id}`, {
+        headers: {
+          Authorization: `token ${authToken}`,
+        },
+      })
+      .then((response) => {
+        toast.success("Deleted successfully");
+        const filteredModules = courseModules.filter(
+          (module) => module.id !== id
+        );
+        setCourseModules(filteredModules);
+      })
+      .catch((error) => {
+        toast.error("Unable to delete module");
+        console.error(error.response.data);
+      });
+  };
+  useEffect(() => {
+    getCourseModules();
+  }, [selectedCourse]);
 
   return (
     <Card raised={true}>
@@ -114,7 +120,6 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
               labelId="degreeType-label"
               id="degreeType"
               name="degreeType"
-              //   value={formik.values.degreeType}
               onChange={(event) => {
                 handleDegreeChange(event);
               }}
@@ -129,56 +134,72 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
                 ))}
             </Select>
           </FormControl>
-        </form>
-        {selectedDegree.name !== "" && (
-          <div className="it-signup-btn">
-            <button
-              className="it-btn"
-              onClick={() => {
-                setFormData(null)
-                setShowCourseForm(!showCourseForm)}}
+          <FormControl sx={{ m: 1, width: "25ch" }} className="d-flex flex-row">
+            <InputLabel id="degreeType-label">Course</InputLabel>
+            <Select
+              labelId="courseType-label"
+              id="courseType"
+              name="Course Type"
+              onChange={(event) => {
+                setSelectedCourse(event.target.value);
+              }}
+              label="Course Type"
+              style={{ width: "100%" }}
             >
-              {buttonContent}
-            </button>
-          </div>
-        )}
+              {degreeCourses &&
+                degreeCourses.map((course: any) => (
+                  <MenuItem key={course.id} value={course.id}>
+                    {course.CourseName}
+                  </MenuItem>
+                ))}
+            </Select>
+          </FormControl>
+        </form>
       </CardContent>
+      {selectedCourse && (
+        <button
+          className="it-btn px-2 m-2"
+          type="submit"
+          onClick={() => {
+            setFormData(null);
+            setShowCourseModuleForm(!showCourseModuleForm);
+          }}
+        >
+          {showCourseModuleForm ? "Close" : "Add Module"}
+        </button>
+      )}
       <CardContent>
-          {showCourseForm==true && <CourseModuleForm degree={selectedDegree} formHandler={setShowCourseForm} formData={formData}/>}
-        {degreeCourses.map((course) => (
+        {showCourseModuleForm && (
+          <CourseModuleForm
+            formState={setShowCourseModuleForm}
+            degree={selectedDegree}
+            course={selectedCourse}
+            modules={courseModules}
+            modulesHandler={setCourseModules}
+            formData={formData}
+            getModules={getCourseModules}
+          />
+        )}
+        {courseModules.map((module) => (
           <div>
-            <div>
-              <div className="row">
-                <p className="mb-4 col-5 col-sm-4 col-lg-5">{course.CourseName}</p>
-                <div className="d-flex flex-wrap justify-content-end col-7 col-sm-8 col-lg-7">
-                  <button
-                    className="it-btn px-2 me-2"
-                    type="submit"
-                    onClick={() => {
-                      // pass the course to the form for viewing and editing
-                      showCourseForm===false && setFormData(course)
-                      setShowCourseForm(!showCourseForm)
-                    }}
-                  >
-                    View
-                  </button>
-                  <button
-                    className="it-btn px-2 me-2"
-                    type="submit"
-                    onClick={() => confirmDeletion()}
-                  >
-                    Delete
-                  </button>
-                  {/* <button
-                    className="it-btn px-2"
-                    type="submit"
-                    onClick={() => confirmDeletion()}
-                  >
-                    Edit
-                  </button> */}
-                </div>
+            <div className=" mb-4 px-1 d-flex justify-content-between">
+              <p className="me-2">{module.name}</p>
+              <p className="me-2">{module.courseCode}</p>
+              <div className="d-flex flex-wrap justify-content-end">
+                <button
+                  className="it-btn m-2"
+                  onClick={() => {
+                    setFormData(module);
+                    setShowCourseModuleForm((prev) => !prev);
+                  }}
+                >
+                  Edit
+                </button>
+                <button className="it-btn m-2" onClick={() => setOpenDialog(true)}>
+                  Delete
+                </button>
               </div>
-            </div>
+            </div>       
             <Dialog
               open={openDialog}
               // TransitionComponent={Transition}
@@ -187,12 +208,18 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
             >
               <DialogContent>
                 <DialogContentText id="alert-dialog-slide-description">
-                  Are you sure you want to delete this course?
+                  Are you sure you want to delete this module?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
                 <Button onClick={() => setOpenDialog(false)}>Cancel</Button>
-                <Button onClick={() => deleteCourse(course.id)}>Yes</Button>
+                <Button
+                  onClick={() => {
+                    deleteModule(module.id);
+                  }}
+                >
+                  Yes
+                </Button>
               </DialogActions>
             </Dialog>
           </div>

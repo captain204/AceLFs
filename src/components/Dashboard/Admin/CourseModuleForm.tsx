@@ -1,121 +1,122 @@
-import { TextField, InputLabel, Card } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Card, TextField, InputLabel } from "@mui/material";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { number } from "yup";
 
-interface CourseInfo {
-  CourseName: string;
-  description: string;
-  degreeType: Object;
+interface moduleState {
+  name: string;
+  degree: number;
+  course: number;
+  courseCode: string;
+  courseUnits: number;
 }
-// formhandler determines if the form is being displayed or not
-export default function CourseModuleForm({ degree, formHandler, formData }) {
-  const [courseData, setCourseData] = useState<CourseInfo>({
-    CourseName: "",
-    description: "",
-    degreeType: degree,
-  });
-  const [formEditable, setFormEditable] = useState(true);
-  const [confirmCourseEdit, setConfirmCourseEdit] = useState(false);
-  const resetFields = () =>
-    setCourseData({
-      CourseName: "",
-      description: "",
-      degreeType: degree,
-    });
-  const addCourse = async () => {
+export default function CourseModuleForm({
+  formState,
+  degree,
+  course,
+  modules,
+  modulesHandler,
+  formData,
+  getModules
+}) {
+  const [moduleData, setModuleData] = useState<moduleState>();
+  const [authToken, setauthToken] = useState<string>();
+  const [edit, setEdit] = useState(false);
+  useEffect(() => {
+    setauthToken(localStorage.getItem("token"));
+  }, []);
+
+  const addModule = async () => {
+    modulesHandler([...modules, moduleData]);
     await axios
-      .post("http://localhost:8000/api/v1/program/degreecourse", courseData)
-      .then((response) => {
-        toast.success("Added successfully");
+      .post("http://localhost:8000//api/v1/coursemodule", moduleData, {
+        headers: {
+          Authorization: `token ${authToken}`,
+        },
       })
+      .then((response) => toast.success("Course addedd successfully"))
       .catch((error) => {
         toast.error("Error adding course");
-        console.log(error.response.data);
+        console.log(error.response);
       });
-    resetFields();
-    formHandler(false);
+    // close the form
+    formState(false);
   };
-
   useEffect(() => {
-    if (formData !== null) {
-      setCourseData(formData);
-      setFormEditable(false);
+    setModuleData({ ...moduleData, degree: degree, course: course });
+    if (formData !==null) {
+      setEdit(true)
+      setModuleData(formData);
     }
-  }, [formData]);
+  }, []);
 
-  const editCourseHandler = () => {
-    setFormEditable(true);
-    setConfirmCourseEdit(true);
-  };
-  const editCourse = async () => {
-    const id = courseData["id"];
+  const editModule = async () => {
+    const id = moduleData["id"];
     await axios
-      .put(`http://localhost:8000/api/v1/program/degreecourse/${id}`, courseData)
+      .put(`http://localhost:8000/api/v1/coursemodule${id}`, moduleData, {
+        headers: {
+          Authorization: `token ${authToken}`,
+        },
+      })
       .then((response) => {
         toast.success("Edited successfully");
+        getModules()
       })
-      .then(() => formHandler(false))
+      .then(() => formState(false))
       .catch((error) => {
         toast.error("Unable to edit course");
         console.log(error.response.data);
       });
-
-      setConfirmCourseEdit(false)
-    formHandler(false);
+    formState(false);
   };
   return (
     <Card className="p-5" style={{ marginBottom: 40 }}>
-      <div>
+      <TextField
+        id="moduleName"
+        name="moduleName"
+        label="Module name"
+        color="success"
+        className="mb-4 col-6 col-md-6"
+        value={moduleData?.name || ""} 
+        contentEditable={false}
+        onChange={(event) =>
+          setModuleData({ ...moduleData, name: event.target.value })
+        }
+      />
+      <div className="d-flex">
         <TextField
-          id="courseName"
-          name="courseName"
-          label="Course name"
-          color="success"
-          className="mb-4 col-12 col-md-8"
-          value={courseData?.CourseName || ""}
-          inputProps={!formEditable && { readOnly: true }}
-          contentEditable={false}
-          // value={formik.values.firstName}
+          type="number"
+          required
+          label="Course units"
+          className="mr-5"
+          value={moduleData?.courseUnits || ""}
           onChange={(event) =>
-            setCourseData({ ...courseData, CourseName: event.target.value })
+            setModuleData({
+              ...moduleData,
+              courseUnits: parseInt(event.target.value),
+            })
           }
-          // error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-          // helperText={formik.touched.firstName && formik.errors.firstName}
         />
-
-        <InputLabel>Description</InputLabel>
         <TextField
-          id="description"
-          name="description"
-          aria-label="Description"
-          multiline
-          value={courseData?.description || ""}
-          rows={4}
-          className="mb-4 col-12 col-md-8"
+          id="coursecode"
+          name="coursecode"
+          label="Course code"
+          value={moduleData?.courseCode || ""}
+          color="success"
+          className="mb-4"
           onChange={(event) =>
-            setCourseData({ ...courseData, description: event.target.value })
+            setModuleData({ ...moduleData, courseCode: event.target.value })
           }
-          inputMode="none"
-          inputProps={!formEditable && { readOnly: true }}
         />
       </div>
-      {!confirmCourseEdit && (
         <button
           className="it-btn large"
           onClick={() => {
-            formData ? editCourseHandler() : addCourse();
+            edit ? editModule() : addModule();
           }}
         >
-          {formData ? "Edit" : "Add"}
+          {edit ? "Edit" : "Add"}
         </button>
-      )}
-      {confirmCourseEdit && (
-        <button className="it-btn large" onClick={() => editCourse()}>
-          Edit Course
-        </button>
-      )}
     </Card>
   );
 }

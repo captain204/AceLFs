@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"admin\\\\login\\\\index.tsx -> ../../../src/modules/AdminSignin\":{\"id\":\"admin\\\\login\\\\index.tsx -> ../../../src/modules/AdminSignin\",\"files\":[\"static/chunks/src_modules_AdminSignin_index_tsx.js\"]}}"
