@@ -1,11 +1,11 @@
 import Image from "next/legacy/image";
-import Sidebar from "@/components/Blog/Sidebar";
+import Sidebar from "../../components/Blog/Sidebar";
 
 export default function BlogDetailsArea({ item }) {
   if (!item) {
     return <div>Loading...</div>;
   }
-  const { image, detailsImg, title, publishedDate, commentCount, author } =
+  const { image, detailsImage, title, publishedDate, commentsCount, author } =
     item;
 
   return (
@@ -18,7 +18,7 @@ export default function BlogDetailsArea({ item }) {
                 <div className="postbox__thumb mb-30 w-img">
                   <Image
                     src={
-                      detailsImg ? detailsImg : "/img/blog/blog-details-1.jpg"
+                      detailsImage ? detailsImage : "/img/blog/blog-details-1.jpg"
                     }
                     alt=""
                     width={844}
@@ -33,7 +33,7 @@ export default function BlogDetailsArea({ item }) {
                     </span>
                     <span>
                       <i className="fa-regular fa-comments"></i>Comment (
-                      {commentCount ? commentCount : "06"})
+                      {commentsCount ? commentsCount : "06"})
                     </span>
                   </div>
                   <h4 className="postbox__title mb-20">

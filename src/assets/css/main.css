@@ -5545,7 +5545,7 @@ input[type="color"] {
   color: var(--it-theme-4);
 }
 
-.it-video-style-4 .it-video-content > span {
+.it-video-style-4 . > span {
   font-size: 15px;
   margin-bottom: 10px;
   text-transform: uppercase;

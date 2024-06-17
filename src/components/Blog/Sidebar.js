@@ -1,8 +1,16 @@
-import Blogs from "@/data/blogs"
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Sidebar() {
+	const [Blogs, setBlogs] = useState([])
+
+	useEffect(() => {
+		axios.get(`http://localhost:8000/api/v1/news`)
+		  .then((response) => { setBlogs(response.data)})
+	  }, [])
+	
 	return (
 		<div className="it-sv-details-sidebar">
 			<div className="it-sv-details-sidebar-search mb-55">

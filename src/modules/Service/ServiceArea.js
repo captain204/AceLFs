@@ -1,13 +1,14 @@
-import SingleCategory from "@/components/Service";
-import Services from "@/data/services";
+import SingleCategory from "../../components/Service";
+// import Services from "@/data/services";
 import { useEffect,useState } from "react";
 import axios from "axios";
 
 
 export default function ServiceArea() {
+
   const [Degree, setDegree] = useState([]);
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/v1/degrees`)
+    axios.get(`http://localhost:8000/api/v1/program/degrees`)
         .then((response) => {
             setDegree(response.data);
         })

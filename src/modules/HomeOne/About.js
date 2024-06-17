@@ -14,16 +14,16 @@ export default function About() {
               <div className="it-about-thumb-1 d-none d-xl-block">
                 <Image
                   src="/img/about/team-ace.jpg"
-                  width={300}
+                  width={360}
                   height={300}
-                  alt=""
+                  alt=""  
                 />
               </div>
               <div className="it-about-main-thumb text-xl-end text-center">
                 <Image
                   src="/img/about/ACEDARS-ABOUT.jpg"
                   width={350}
-                  height={350}
+                  height={300}
                   alt=""
                 />
               </div>
