@@ -1,7 +1,14 @@
 {
   "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
+<<<<<<< HEAD
+  "/_error": "pages/_error.js",
+  "/application": "pages/application.js",
+  "/signin": "pages/signin.js",
+  "/dashboard": "pages/dashboard.js",
+  "/404": "pages/404.js"
+=======
   "/admin/login": "pages/admin/login.js",
   "/": "pages/index.js"
+>>>>>>> main
 }
