@@ -182,12 +182,13 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
         )}
         {courseModules.map((module) => (
           <div>
-            <div className=" mb-4 px-1 d-flex justify-content-between">
-              <p className="me-2">{module.name}</p>
-              <p className="me-2">{module.courseCode}</p>
-              <div className="d-flex flex-wrap justify-content-end">
+            <div className="mb-4 px-1 d-flex flex-wrap justify-content-evenly align-items-center">
+              <p className="me-2 mb-0 me-md-5">{module.name}</p>
+              <p className="me-2 mb-0 me-md-3">{module.courseCode}</p>
+              <p className="me-2 mb-0 me-md-3">{module.courseUnits} units</p>
+              <div className="d-flex ms-auto mt-2 mt-md-0">
                 <button
-                  className="it-btn m-2"
+                  className="it-btn me-2"
                   onClick={() => {
                     setFormData(module);
                     setShowCourseModuleForm((prev) => !prev);
@@ -195,11 +196,11 @@ const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
                 >
                   Edit
                 </button>
-                <button className="it-btn m-2" onClick={() => setOpenDialog(true)}>
+                <button className="it-btn" onClick={() => setOpenDialog(true)}>
                   Delete
                 </button>
               </div>
-            </div>       
+            </div>
             <Dialog
               open={openDialog}
               // TransitionComponent={Transition}
