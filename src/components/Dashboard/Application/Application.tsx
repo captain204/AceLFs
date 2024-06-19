@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useFormik, Formik, Form } from "formik";
+import { useFormik } from "formik";
 import {
   Box,
   TextField,
@@ -29,8 +29,7 @@ import { submitFirstForm } from "../../../Globals/Slices/ApplicationSlice/FirstF
 import FileUpload from "./FileUpload";
 import axiosInstance from "../../../Globals/Interceptor";
 import axiosInstanceUpload from "../../../Globals/InterceptorUpload";
-
-
+import axios from "axios";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
@@ -60,11 +59,41 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const degrees = useSelector((state: RootState) => state?.degrees?.degrees);
   const courses = useSelector((state: RootState) => state?.courses?.courses);
+  const [states, setStates] = useState([]);
+  const [lgas, setLgas] = useState([]);
 
   useEffect(() => {
     dispatch(getAllCourses());
     dispatch(getAllDegrees());
+
+    const fetchStates = async () => {
+      try {
+        const response = await axios.get(
+          "https://nga-states-lga.onrender.com/fetch"
+        );
+        console.log(response);
+        setStates(response.data);
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+
+    fetchStates();
   }, [dispatch]);
+
+  const handleStateChange = async (event:any) => {
+    const selectedState = event.target.value;
+    formik.setFieldValue("state", selectedState);
+
+    try {
+      const response = await axios.get(
+        `https://nga-states-lga.onrender.com/?state=${selectedState}`
+      );
+      setLgas(response.data);
+    } catch (error) {
+      console.error("Error fetching LGAs:", error);
+    }
+  };
 
   return (
     <Box sx={{ "& > :not(style)": { m: 1, width: "25ch" }, marginTop: "2em" }}>
@@ -120,8 +149,11 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       </LocalizationProvider>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="gender-label">Gender</InputLabel>
+        <InputLabel id="gender-label" color="success">
+          Gender
+        </InputLabel>
         <Select
+          color="success"
           labelId="gender-label"
           id="gender"
           name="gender"
@@ -146,8 +178,11 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         )}
       </FormControl>
       <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="marital-status-label">Marital Status</InputLabel>
+        <InputLabel id="marital-status-label" color="success">
+          Marital Status
+        </InputLabel>
         <Select
+          color="success"
           labelId="marital-status-label"
           id="maritalStatus"
           name="maritalStatus"
@@ -177,8 +212,11 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         )}
       </FormControl>
       <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="religion-label">Religion</InputLabel>
+        <InputLabel id="religion-label" color="success">
+          Religion
+        </InputLabel>
         <Select
+          color="success"
           labelId="religion-label"
           id="religion"
           name="religion"
@@ -215,7 +253,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         error={formik.touched.nationality && Boolean(formik.errors.nationality)}
         helperText={formik.touched.nationality && formik.errors.nationality}
       />
-      <TextField
+      {/* <TextField
         id="state"
         name="state"
         label="State"
@@ -224,7 +262,43 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         onChange={formik.handleChange}
         error={formik.touched.state && Boolean(formik.errors.state)}
         helperText={formik.touched.state && formik.errors.state}
-      />
+      /> */}
+
+      <FormControl sx={{ m: 1, width: "25ch" }}>
+        <InputLabel id="state-label" color="success">
+          State
+        </InputLabel>
+        <Select
+          color="success"
+          labelId="state-label"
+          id="state"
+          name="state"
+          value={formik.values.state}
+          onChange={handleStateChange}
+          label="State"
+          error={formik.touched.state && Boolean(formik.errors.state)}
+        >
+          {states &&
+            states.map((state) => (
+              <MenuItem key={state} value={state}>
+                {state}
+              </MenuItem>
+            ))}
+        </Select>
+        {formik.touched.state && formik.errors.state && (
+          <p
+            style={{
+              color: "#d32f2f",
+              fontSize: "0.75rem",
+              margin: "3px 0 0 14px",
+            }}
+          >
+            {formik.errors.state}
+          </p>
+        )}
+      </FormControl>
+
+      {/* 
       <TextField
         id="lga"
         name="lga"
@@ -234,7 +308,42 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         onChange={formik.handleChange}
         error={formik.touched.lga && Boolean(formik.errors.lga)}
         helperText={formik.touched.lga && formik.errors.lga}
-      />
+      /> */}
+
+      <FormControl sx={{ m: 1, width: "25ch" }}>
+        <InputLabel id="lga-label" color="success">
+          LGA
+        </InputLabel>
+        <Select
+          color="success"
+          labelId="lga-label"
+          id="lga"
+          name="lga"
+          value={formik.values.lga}
+          onChange={formik.handleChange}
+          label="LGA"
+          error={formik.touched.lga && Boolean(formik.errors.lga)}
+        >
+          {lgas &&
+            lgas.map((lga) => (
+              <MenuItem key={lga} value={lga}>
+                {lga}
+              </MenuItem>
+            ))}
+        </Select>
+        {formik.touched.lga && formik.errors.lga && (
+          <p
+            style={{
+              color: "#d32f2f",
+              fontSize: "0.75rem",
+              margin: "3px 0 0 14px",
+            }}
+          >
+            {formik.errors.lga}
+          </p>
+        )}
+      </FormControl>
+
       <TextField
         id="contactAddress"
         name="contactAddress"
@@ -250,6 +359,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         }
       />
       <TextField
+        type="number"
         id="phoneNumber"
         name="phoneNumber"
         label="Phone Number"
@@ -260,8 +370,11 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
       />
       <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="physicalChallenge-label">Physical Challenge</InputLabel>
+        <InputLabel id="physicalChallenge-label" color="success">
+          Physical Challenge
+        </InputLabel>
         <Select
+          color="success"
           labelId="physicalChallenge-label"
           id="physicalChallenge"
           name="physicalChallenge"
@@ -294,7 +407,9 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       </FormControl>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="degreeType-label">Degree Type</InputLabel>
+        <InputLabel id="degreeType-label" color="success">
+          Degree Type
+        </InputLabel>
         <Select
           labelId="degreeType-label"
           id="degreeType"
@@ -318,6 +433,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
           }}
           label="Degree Type"
           error={formik.touched.degreeType && Boolean(formik.errors.degreeType)}
+          color="success"
         >
           {degrees &&
             degrees.map((degree: any) => (
@@ -340,7 +456,9 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       </FormControl>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="courses-label">Courses</InputLabel>
+        <InputLabel id="courses-label" color="success">
+          Courses
+        </InputLabel>
         <Select
           labelId="courses-label"
           id="courses"
@@ -360,6 +478,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
           }}
           label="Courses"
           error={formik.touched.courses && Boolean(formik.errors.courses)}
+          color="success"
         >
           {courses &&
             courses.map((course) => (
@@ -731,12 +850,10 @@ const StepForm = () => {
     return activeStep === steps.length - 1;
   };
 
-
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(formik.values);
-  
+
     const requiredFiles = [
       "birthCertificate",
       "firstDegree",
@@ -751,15 +868,15 @@ const StepForm = () => {
       "transcript",
       "nceCertificate",
     ];
-  
+
     // Check if any required file field is null or undefined
     const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
-  
+
     if (activeStep === 3 && missingFiles.length > 0) {
       alert("Please upload all required files.");
       return;
     }
-  
+
     if (isLastStep()) {
       try {
         // Submit the first form data
@@ -783,10 +900,10 @@ const StepForm = () => {
             choiceofCourse: +selectedCourse.id,
           }
         );
-  
+
         const personalId = personalResponse.data.id;
-        console.log(personalId)
-  
+        console.log(personalId);
+
         try {
           // Submit the referee form
           await dispatch(
@@ -803,7 +920,7 @@ const StepForm = () => {
           alert("Failed to submit referee form. Please try again.");
           return;
         }
-  
+
         try {
           // Submit the emergency form
           await dispatch(
@@ -821,31 +938,29 @@ const StepForm = () => {
           // alert("Failed to submit emergency form. Please try again.");
           return;
         }
-  
+
         const formData = new FormData();
-        formData.append('student', personalId);
+        formData.append("student", personalId);
         requiredFiles.forEach((fileKey) => {
           formData.append(fileKey, formik.values[fileKey]);
         });
-  
+
         try {
           // Upload files
           const response = await axiosInstanceUpload.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/student-uploads`,
-            formData,
-          
+            formData
           );
-  
+
           if (response.status !== 200) {
             throw new Error("Failed to upload files");
           }
-  
+
           alert("Form submitted successfully!");
         } catch (fileUploadError) {
           console.error("Error uploading files:", fileUploadError);
           alert("Failed to upload files. Please try again.");
         }
-  
       } catch (personalError) {
         console.error("Error submitting personal information:", personalError);
         alert("Failed to submit personal information. Please try again.");
@@ -856,119 +971,6 @@ const StepForm = () => {
     }
   };
 
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   console.log(formik.values);
-  
-  //   const requiredFiles = [
-  //     "birthCertificate",
-  //     "firstDegree",
-  //     "mastersDegree",
-  //     "studentImage",
-  //     "IdentityImage",
-  //     "studentNysc",
-  //     "otherCertificate",
-  //     "phdProposal",
-  //     "postGraduateDiploma",
-  //     "resume",
-  //     "transcript",
-  //     "nceCertificate",
-  //   ];
-  
-  //   // Check if any required file field is null or undefined
-  //   const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
-  
-  //   if (activeStep === 3 && missingFiles.length > 0) {
-  //     alert("Please upload all required files.");
-  //     return;
-  //   }
-  
-  //   if (isLastStep()) {
-  //     try {
-  //       // Dispatch the first form and wait for it to complete
-  //       await dispatch(
-  //         submitFirstForm({
-  //           firstName: formik.values.firstName,
-  //           surName: formik.values.surname,
-  //           otherNames: formik.values.otherName,
-  //           dateofBirth: formik.values.dateOfBirth.toISOString().split("T")[0],
-  //           gender: formik.values.gender,
-  //           marital_status: formik.values.maritalStatus,
-  //           religion: formik.values.religion,
-  //           nationality: formik.values.nationality,
-  //           state: formik.values.state,
-  //           lga: formik.values.lga,
-  //           contactAddress: formik.values.contactAddress,
-  //           phoneNumber: formik.values.phoneNumber,
-  //           physicalChallenge: formik.values.physicalChallenge,
-  //           applicationType: +selectedDegree.id,
-  //           choiceofCourse: +selectedCourse.id,
-  //         })
-  //       );
-  
-  //       // Wait for the state to update
-  //       await new Promise<void>((resolve) => {
-  //         const checkState = () => {
-  //           if (personal && personal.id) {
-  //             resolve();
-  //           } else {
-  //             setTimeout(checkState, 100); // Check every 100ms
-  //           }
-  //         };
-  //         checkState();
-  //       });
-  
-  //       // Now personal.id should be defined
-  //       await dispatch(
-  //         submitRefereeForm({
-  //           firstname: formik.values.refereeFirstName,
-  //           lastname: formik.values.refereeLastName,
-  //           email: formik.values.refereeEmail,
-  //           contactAddress: formik.values.refereeContactAddress,
-  //           phoneNumber: formik.values.refereePhoneNumber,
-  //         })
-  //       );
-  
-  //       await dispatch(
-  //         submitEmergencyForm({
-  //           firstname: formik.values.emergencyFirstName,
-  //           lastname: formik.values.emergencyLastName,
-  //           email: formik.values.emergencyEmail,
-  //           contactAddress: formik.values.emergencyContactAddress,
-  //           phoneNumber: formik.values.emergencyPhoneNumber,
-  //           student: personal.id,
-  //         })
-  //       );
-  
-  //       const formData = new FormData();
-  //       requiredFiles.forEach((fileKey) => {
-  //         formData.append(fileKey, formik.values[fileKey]);
-  //       });
-  
-  //    console.log(formData)
-  
-  //       const response = await axiosInstance.post(
-  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/student-uploads`,
-  //         formData,
-         
-  //       );
-  
-  //       if (response.status !== 200) {
-  //         throw new Error("Failed to upload files");
-  //       }
-  
-  //       alert("Form submitted successfully!");
-  //     } catch (error) {
-  //       console.error("Error submitting forms:", error);
-  //       // Handle the error appropriately, maybe show an error message to the user
-  //     }
-  //   } else {
-  //     // Move to the next step if it's not the last step
-  //     handleNext();
-  //   }
-  // };
-
- 
   return (
     <Card raised={true}>
       <CardContent>
@@ -1087,13 +1089,22 @@ const StepForm = () => {
           )}
 
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button disabled={activeStep === 0} onClick={handleBack}>
+            <Button
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ color: "#0AB99D" }}
+            >
               Back
             </Button>
             <Button
               type="submit"
               variant="contained"
-              sx={{ bgcolor: "#0AB99D" }}
+              sx={{
+                bgcolor: "#0AB99D",
+                "&:hover": {
+                  bgcolor: "#0AB99D",
+                },
+              }}
             >
               {activeStep === steps.length - 1 ? "Submit" : "Next"}
             </Button>
