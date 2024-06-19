@@ -9,6 +9,7 @@ import  submitRefereeFormReducer from "../Slices/ApplicationSlice/Referee"
 import submitFirstFormReducer from "../Slices/ApplicationSlice/FirstFormSlice"
 import newsFormReducer from "../Slices/ApplicationSlice/News"
 
+import loginAdminReducer from '../Slices/AuthSlice/LoginAdminSlice'
 
 const rootReducer = combineReducers({
   signup: signupReducer,
@@ -18,8 +19,8 @@ const rootReducer = combineReducers({
   emergency: emergencyFormReducer,
   referee: submitRefereeFormReducer,
   personal: submitFirstFormReducer,
-  newsForm: newsFormReducer
-
+  newsForm: newsFormReducer,
+  loginAdmin: loginAdminReducer
 });
 
 export const store = configureStore({

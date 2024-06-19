@@ -86,6 +86,7 @@ export default function SignInArea() {
               alt=""
               width={663}
               height={637}
+              objectFit="contain"
             />
           </div>
           <div className="row">

@@ -8,7 +8,7 @@ import Link from "next/link";
     Img,
     Title,
     publishedDate,
-    commentCount,
+    commentsCount,
     btnClass,
     btnText,
     imgWidth,
@@ -35,7 +35,7 @@ import Link from "next/link";
           </span>
           <span>
             <i className="fa-light fa-messages"></i>
-            Comment ({commentCount ? commentCount : "2"})
+            Comment ({commentsCount ? commentsCount : "2"})
           </span>
         </div>
         <h4 className="it-blog-title">
@@ -46,7 +46,7 @@ import Link from "next/link";
           </Link>
         </h4>
         <Link
-          href={`#`}
+          href={`/blog/${Slug}`}
           className={btnClass ? btnClass : "it-btn sm"}
         >
           <span>

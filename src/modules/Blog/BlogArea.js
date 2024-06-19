@@ -1,7 +1,15 @@
-import SingleBlog from "@/components/Blog";
-import Blogs from "@/data/blogs";
+import SingleBlog from "../../components/Blog";
+// import Blogs from "@/data/blogs";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function BlogArea() {
+  const [Blogs, setBlogs] = useState([])
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/v1/news`)
+      .then((response) => { setBlogs(response.data)})
+  }, [])
+
   return (
     <div className="it-blog-area pt-120 pb-90">
       <div className="container">
@@ -13,7 +21,7 @@ export default function BlogArea() {
                   Slug={blog.slug}
                   Title={blog.title}
                   Img={blog.image}
-                  commentCount={blog.commentCount}
+                  commentsCount={blog.commentsCount}
                   publishedDate={blog.publishedDate}
                   btnText={blog.btnText}
                 />
