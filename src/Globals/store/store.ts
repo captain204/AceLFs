@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import signupReducer from "../Slices/AuthSlice/SignupSlice";
 import loginUserReducer from "../Slices/AuthSlice/LoginUserSlice";
+
 import degreesReducer from "../Slices/Degree/DegreesSlice";
 import coursesReducer from "../Slices/Degree/CoursesSlice";
 import  emergencyFormReducer from "../Slices/ApplicationSlice/Emergency"

@@ -1,14 +1,14 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const axiosInstance = axios.create({
+const axiosInstanceUpload = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   headers: {
-    "Content-Type": "application/json",
+    "Content-Type": "multipart/form-data",
   },
 });
 
-axiosInstance.interceptors.request.use(
+axiosInstanceUpload.interceptors.request.use(
   async (config) => {
     const token = localStorage.getItem('token'); // Retrieve token from localStorage
     if (token) {
@@ -21,7 +21,7 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-axiosInstance.interceptors.response.use(
+axiosInstanceUpload.interceptors.response.use(
   (response) => {
     return response;
   },
@@ -62,4 +62,4 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export default axiosInstance;
+export default axiosInstanceUpload;
