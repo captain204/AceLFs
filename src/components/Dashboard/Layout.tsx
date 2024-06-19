@@ -31,6 +31,8 @@ import Person4Icon from "@mui/icons-material/Person4";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Globals/store/store";
 
 const drawerWidth = 240;
 
@@ -42,6 +44,7 @@ export default function Layout(props: Props) {
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
 
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
@@ -330,7 +333,7 @@ export default function Layout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                Nurudeen
+                {username}
               </Typography>
 
               <Typography
@@ -343,7 +346,7 @@ export default function Layout(props: Props) {
               </Typography>
             </div>
 
-            <Avatar alt="User Name" src="/static/images/avatar/1.jpg" />
+            <Avatar alt={username} src="/static/images/avatar/1.jpg" />
           </Box>
         </Toolbar>
       </AppBar>

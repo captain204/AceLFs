@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
 import axiosInstanceAuth from "../../Interceptor";
+import axios from "axios";
 // import axiosInstanceAuth from "@/Globals/Interceptor";
 
 interface LoginData {
@@ -41,7 +42,7 @@ export const loginUser = createAsyncThunk(
       if (response.status >= 200 && response.status < 300) {
         toast.success(response?.data?.message || "Login successful");
         console.log(response);
-        const token = response.data.token;
+        const token = response.data.key;
         localStorage.setItem("token", token);
         const oneHour = 1 / 24;
         Cookies.set("authToken", token, { expires: oneHour });
@@ -62,6 +63,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
 
 const loginSlice = createSlice({
   name: "login",

@@ -6,6 +6,8 @@ import Typography from "@mui/material/Typography";
 import { Card, CardContent, Menu, MenuItem } from "@mui/material";
 import animationData from "../../../public/img/student.json";
 import Lottie from "react-lottie";
+import { RootState } from "../../Globals/store/store";
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 
@@ -18,6 +20,7 @@ interface Props {
 }
 
 export default function ResponsiveDrawer(props: Props) {
+  const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
   // const currentDateTime = new Date().toLocaleString("en-US", {
   //   year: "numeric",
   //   month: "long",
@@ -87,7 +90,7 @@ export default function ResponsiveDrawer(props: Props) {
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  Welcome back, Nurudeen!
+                  Welcome back, {username}!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   Always stay updated in your student portal
