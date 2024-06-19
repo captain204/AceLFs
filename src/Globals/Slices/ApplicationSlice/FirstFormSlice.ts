@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+<<<<<<< HEAD
 // import axiosInstanceAuth from "../../InterceptorAuth";
+=======
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 import axiosInstance from "../../Interceptor";
 
 interface FirstFormData {
@@ -48,6 +51,7 @@ export const submitFirstForm = createAsyncThunk(
         console.log(response)
         toast.success(response?.data?.message || "Form submitted successfully");
         return response.data;
+<<<<<<< HEAD
        
       }
     } catch (error: any) {
@@ -56,6 +60,36 @@ export const submitFirstForm = createAsyncThunk(
 
         const errorMessages = Object.values(error.response.data);
         errorMessages.forEach((errorMessage:any) => {
+=======
+      }
+    } catch (error: any) {
+      console.log(error);
+      if (error.response?.data) {
+        const errorData = error.response.data;
+
+        // Create an array to hold all error messages
+        const errorMessages: string[] = [];
+
+        // Check and push individual field errors to the array
+        if (errorData.firstName) errorMessages.push(...errorData.firstName);
+        if (errorData.surName) errorMessages.push(...errorData.surName);
+        if (errorData.otherNames) errorMessages.push(...errorData.otherNames);
+        if (errorData.dateofBirth) errorMessages.push(...errorData.dateofBirth);
+        if (errorData.gender) errorMessages.push(...errorData.gender);
+        if (errorData.marital_status) errorMessages.push(...errorData.marital_status);
+        if (errorData.religion) errorMessages.push(...errorData.religion);
+        if (errorData.nationality) errorMessages.push(...errorData.nationality);
+        if (errorData.state) errorMessages.push(...errorData.state);
+        if (errorData.lga) errorMessages.push(...errorData.lga);
+        if (errorData.contactAddress) errorMessages.push(...errorData.contactAddress);
+        if (errorData.phoneNumber) errorMessages.push(...errorData.phoneNumber);
+        if (errorData.physicalChallenge) errorMessages.push(...errorData.physicalChallenge);
+        if (errorData.applicationType) errorMessages.push(...errorData.applicationType);
+        if (errorData.choiceofCourse) errorMessages.push(...errorData.choiceofCourse);
+
+        // Show each error message using toast
+        errorMessages.forEach((errorMessage: string) => {
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           toast.error(errorMessage);
         });
       } else {

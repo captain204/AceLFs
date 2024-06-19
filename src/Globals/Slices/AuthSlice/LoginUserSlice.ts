@@ -3,8 +3,12 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
+<<<<<<< HEAD
 import axiosInstanceAuth from "../../Interceptor";
 import axios from "axios";
+=======
+import axiosInstanceAuth from "../../InterceptorAuth";
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 // import axiosInstanceAuth from "@/Globals/Interceptor";
 
 interface LoginData {
@@ -44,17 +48,20 @@ export const loginUser = createAsyncThunk(
         console.log(response);
         const token = response.data.key;
         localStorage.setItem("token", token);
-        const oneHour = 1 / 24;
-        Cookies.set("authToken", token, { expires: oneHour });
+        // const oneHour = 1 / 24;
+        Cookies.set("authToken", token);
+        console.log(token);
       }
       return response.data;
     } catch (error: any) {
       const nonFieldErrors = error.response.data.non_field_errors;
-        if (Array.isArray(nonFieldErrors)) {
-          nonFieldErrors.forEach((errorMessage) => {
-            toast.error(errorMessage); // Show each error message from the array
-          });
-        } else {
+      if (Array.isArray(nonFieldErrors)) {
+        nonFieldErrors.forEach((errorMessage) => {
+          toast.error(errorMessage); // Show each error message from the array
+        });
+
+        console.log(error);
+      } else {
         toast.error("An error occurred");
       }
       return rejectWithValue(

@@ -10,10 +10,16 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
+<<<<<<< HEAD
     const token = localStorage.getItem('token'); // Get token from local storage
     if (token) {
       // Optionally, check if token is expired (requires token payload to contain exp claim)
       config.headers["Authorization"] = `Bearer ${token}`;
+=======
+    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    if (token) {
+      config.headers["Authorization"] = `Token ${token}`; // Set Authorization header with token
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
     }
     return config;
   },
@@ -31,6 +37,7 @@ axiosInstance.interceptors.response.use(
       const { status } = error.response;
       switch (status) {
         case 401:
+<<<<<<< HEAD
           // toast.info("Unauthorized. Please log in again.", {
           //   position: "top-left",
           // });
@@ -44,17 +51,39 @@ axiosInstance.interceptors.response.use(
           // Optionally handle specific forbidden access case
           break;
         case 404:
+=======
+          // Unauthorized access handling
+          window.location.href = "/login"; // Redirect to login page
+          break;
+        case 403:
+          // Forbidden access handling
+          toast.info("Access forbidden. You do not have permission.", {
+            position: "top-left",
+          });
+          break;
+        case 404:
+          // Not Found handling
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           toast.error("Resource not found.", {
             position: "top-left",
           });
           break;
         case 500:
+<<<<<<< HEAD
+=======
+          // Server error handling
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           toast.error("Server error. Please try again later.", {
             position: "top-left",
           });
           break;
+<<<<<<< HEAD
         // Add more cases as needed
         default:
+=======
+        default:
+          // Default error handling
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           toast.error("An unexpected error occurred.", {
             position: "top-left",
           });
@@ -65,6 +94,7 @@ axiosInstance.interceptors.response.use(
 );
 
 export default axiosInstance;
+<<<<<<< HEAD
 
 
 
@@ -147,3 +177,5 @@ export default axiosInstance;
 // );
 
 // export default axiosInstance;
+=======
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12

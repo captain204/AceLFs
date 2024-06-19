@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+<<<<<<< HEAD
 import { useFormik, Formik, Form } from "formik";
+=======
+import { useFormik } from "formik";
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 import {
   Box,
   TextField,
@@ -26,6 +30,13 @@ import { getAllDegrees } from "../../../Globals/Slices/Degree/DegreesSlice";
 import { submitEmergencyForm } from "../../../Globals/Slices/ApplicationSlice/Emergency";
 import { submitRefereeForm } from "../../../Globals/Slices/ApplicationSlice/Referee";
 import { submitFirstForm } from "../../../Globals/Slices/ApplicationSlice/FirstFormSlice";
+<<<<<<< HEAD
+=======
+import FileUpload from "./FileUpload";
+import axiosInstance from "../../../Globals/Interceptor";
+import axiosInstanceUpload from "../../../Globals/InterceptorUpload";
+import axios from "axios";
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
@@ -55,12 +66,50 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   const dispatch: AppDispatch = useDispatch();
   const degrees = useSelector((state: RootState) => state?.degrees?.degrees);
   const courses = useSelector((state: RootState) => state?.courses?.courses);
+<<<<<<< HEAD
+=======
+  const [states, setStates] = useState([]);
+  const [lgas, setLgas] = useState([]);
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 
   useEffect(() => {
     dispatch(getAllCourses());
     dispatch(getAllDegrees());
+<<<<<<< HEAD
   }, [dispatch]);
 
+=======
+
+    const fetchStates = async () => {
+      try {
+        const response = await axios.get(
+          "https://nga-states-lga.onrender.com/fetch"
+        );
+        console.log(response);
+        setStates(response.data);
+      } catch (error) {
+        console.error("Error fetching states:", error);
+      }
+    };
+
+    fetchStates();
+  }, [dispatch]);
+
+  const handleStateChange = async (event:any) => {
+    const selectedState = event.target.value;
+    formik.setFieldValue("state", selectedState);
+
+    try {
+      const response = await axios.get(
+        `https://nga-states-lga.onrender.com/?state=${selectedState}`
+      );
+      setLgas(response.data);
+    } catch (error) {
+      console.error("Error fetching LGAs:", error);
+    }
+  };
+
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
   return (
     <Box sx={{ "& > :not(style)": { m: 1, width: "25ch" }, marginTop: "2em" }}>
       <TextField
@@ -115,8 +164,16 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       </LocalizationProvider>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
+<<<<<<< HEAD
         <InputLabel id="gender-label">Gender</InputLabel>
         <Select
+=======
+        <InputLabel id="gender-label" color="success">
+          Gender
+        </InputLabel>
+        <Select
+          color="success"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           labelId="gender-label"
           id="gender"
           name="gender"
@@ -141,8 +198,16 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         )}
       </FormControl>
       <FormControl sx={{ m: 1, width: "25ch" }}>
+<<<<<<< HEAD
         <InputLabel id="marital-status-label">Marital Status</InputLabel>
         <Select
+=======
+        <InputLabel id="marital-status-label" color="success">
+          Marital Status
+        </InputLabel>
+        <Select
+          color="success"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           labelId="marital-status-label"
           id="maritalStatus"
           name="maritalStatus"
@@ -172,8 +237,16 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         )}
       </FormControl>
       <FormControl sx={{ m: 1, width: "25ch" }}>
+<<<<<<< HEAD
         <InputLabel id="religion-label">Religion</InputLabel>
         <Select
+=======
+        <InputLabel id="religion-label" color="success">
+          Religion
+        </InputLabel>
+        <Select
+          color="success"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           labelId="religion-label"
           id="religion"
           name="religion"
@@ -210,7 +283,11 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         error={formik.touched.nationality && Boolean(formik.errors.nationality)}
         helperText={formik.touched.nationality && formik.errors.nationality}
       />
+<<<<<<< HEAD
       <TextField
+=======
+      {/* <TextField
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
         id="state"
         name="state"
         label="State"
@@ -219,7 +296,47 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         onChange={formik.handleChange}
         error={formik.touched.state && Boolean(formik.errors.state)}
         helperText={formik.touched.state && formik.errors.state}
+<<<<<<< HEAD
       />
+=======
+      /> */}
+
+      <FormControl sx={{ m: 1, width: "25ch" }}>
+        <InputLabel id="state-label" color="success">
+          State
+        </InputLabel>
+        <Select
+          color="success"
+          labelId="state-label"
+          id="state"
+          name="state"
+          value={formik.values.state}
+          onChange={handleStateChange}
+          label="State"
+          error={formik.touched.state && Boolean(formik.errors.state)}
+        >
+          {states &&
+            states.map((state) => (
+              <MenuItem key={state} value={state}>
+                {state}
+              </MenuItem>
+            ))}
+        </Select>
+        {formik.touched.state && formik.errors.state && (
+          <p
+            style={{
+              color: "#d32f2f",
+              fontSize: "0.75rem",
+              margin: "3px 0 0 14px",
+            }}
+          >
+            {formik.errors.state}
+          </p>
+        )}
+      </FormControl>
+
+      {/* 
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
       <TextField
         id="lga"
         name="lga"
@@ -229,7 +346,46 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         onChange={formik.handleChange}
         error={formik.touched.lga && Boolean(formik.errors.lga)}
         helperText={formik.touched.lga && formik.errors.lga}
+<<<<<<< HEAD
       />
+=======
+      /> */}
+
+      <FormControl sx={{ m: 1, width: "25ch" }}>
+        <InputLabel id="lga-label" color="success">
+          LGA
+        </InputLabel>
+        <Select
+          color="success"
+          labelId="lga-label"
+          id="lga"
+          name="lga"
+          value={formik.values.lga}
+          onChange={formik.handleChange}
+          label="LGA"
+          error={formik.touched.lga && Boolean(formik.errors.lga)}
+        >
+          {lgas &&
+            lgas.map((lga) => (
+              <MenuItem key={lga} value={lga}>
+                {lga}
+              </MenuItem>
+            ))}
+        </Select>
+        {formik.touched.lga && formik.errors.lga && (
+          <p
+            style={{
+              color: "#d32f2f",
+              fontSize: "0.75rem",
+              margin: "3px 0 0 14px",
+            }}
+          >
+            {formik.errors.lga}
+          </p>
+        )}
+      </FormControl>
+
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
       <TextField
         id="contactAddress"
         name="contactAddress"
@@ -245,6 +401,10 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         }
       />
       <TextField
+<<<<<<< HEAD
+=======
+        type="number"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
         id="phoneNumber"
         name="phoneNumber"
         label="Phone Number"
@@ -255,8 +415,16 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
       />
       <FormControl sx={{ m: 1, width: "25ch" }}>
+<<<<<<< HEAD
         <InputLabel id="physicalChallenge-label">Physical Challenge</InputLabel>
         <Select
+=======
+        <InputLabel id="physicalChallenge-label" color="success">
+          Physical Challenge
+        </InputLabel>
+        <Select
+          color="success"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           labelId="physicalChallenge-label"
           id="physicalChallenge"
           name="physicalChallenge"
@@ -289,7 +457,13 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       </FormControl>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
+<<<<<<< HEAD
         <InputLabel id="degreeType-label">Degree Type</InputLabel>
+=======
+        <InputLabel id="degreeType-label" color="success">
+          Degree Type
+        </InputLabel>
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
         <Select
           labelId="degreeType-label"
           id="degreeType"
@@ -313,6 +487,10 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
           }}
           label="Degree Type"
           error={formik.touched.degreeType && Boolean(formik.errors.degreeType)}
+<<<<<<< HEAD
+=======
+          color="success"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
         >
           {degrees &&
             degrees.map((degree: any) => (
@@ -335,7 +513,13 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
       </FormControl>
 
       <FormControl sx={{ m: 1, width: "25ch" }}>
+<<<<<<< HEAD
         <InputLabel id="courses-label">Courses</InputLabel>
+=======
+        <InputLabel id="courses-label" color="success">
+          Courses
+        </InputLabel>
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
         <Select
           labelId="courses-label"
           id="courses"
@@ -355,6 +539,10 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
           }}
           label="Courses"
           error={formik.touched.courses && Boolean(formik.errors.courses)}
+<<<<<<< HEAD
+=======
+          color="success"
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
         >
           {courses &&
             courses.map((course) => (
@@ -530,6 +718,7 @@ const EmergencyContactForm: React.FC<EmergencyFormProps> = ({ formik }) => (
         formik.errors.emergencyPhoneNumber
       }
     />
+<<<<<<< HEAD
     {/* <TextField
       id="student"
       name="student"
@@ -540,17 +729,26 @@ const EmergencyContactForm: React.FC<EmergencyFormProps> = ({ formik }) => (
       error={formik.touched.student && Boolean(formik.errors.student)}
       helperText={formik.touched.student && formik.errors.student}
     /> */}
+=======
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
   </Box>
 );
 
 const StepForm = () => {
+<<<<<<< HEAD
   const loading = useSelector((state: RootState) => state?.loginUser?.loading);
+=======
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
   const personal = useSelector((state: RootState) => state?.personal?.response);
 
   const steps = [
     "Personal Information",
     "Referee Information",
     "Emergency Contact",
+<<<<<<< HEAD
+=======
+    "Files Uploads",
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
   ];
   const [activeStep, setActiveStep] = React.useState(0);
   const dispatch: AppDispatch = useDispatch();
@@ -599,11 +797,30 @@ const StepForm = () => {
       emergencyContactAddress: "",
       emergencyPhoneNumber: "",
       student: "",
+<<<<<<< HEAD
+=======
+      birthCertificate: null,
+      firstDegree: null,
+      mastersDegree: null,
+      studentImage: null,
+      IdentityImage: null,
+      // birthCertificate: pdf,
+      // firstDegree: pdf,
+      // mastersDegree: pdf,
+      studentNysc: null,
+      otherCertificate: null,
+      phdProposal: null,
+      postGraduateDiploma: null,
+      resume: null,
+      transcript: null,
+      nceCertificate: null,
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
     },
 
     validate: (values) => {
       const errors: any = {};
 
+<<<<<<< HEAD
       // Validate personal info form fields
       // if (activeStep === 0) {
       if (!values.firstName) {
@@ -694,12 +911,102 @@ const StepForm = () => {
       // }
 
       // Validate referee info form fields
+=======
+      // Validate fields specific to the current step
+      switch (activeStep) {
+        case 0:
+          // Step 1: Personal Information
+          if (!values.firstName) {
+            errors.firstName = "Required";
+          }
+          if (!values.surname) {
+            errors.surname = "Required";
+          }
+          if (!values.otherName) {
+            errors.otherName = "Required";
+          }
+          if (!values.dateOfBirth) {
+            errors.dateOfBirth = "Required";
+          }
+          if (!values.gender) {
+            errors.gender = "Required";
+          }
+          if (!values.maritalStatus) {
+            errors.maritalStatus = "Required";
+          }
+          if (!values.religion) {
+            errors.religion = "Required";
+          }
+          if (!values.nationality) {
+            errors.nationality = "Required";
+          }
+          if (!values.state) {
+            errors.state = "Required";
+          }
+          if (!values.lga) {
+            errors.lga = "Required";
+          }
+          if (!values.contactAddress) {
+            errors.contactAddress = "Required";
+          }
+          if (!values.phoneNumber) {
+            errors.phoneNumber = "Required";
+          }
+          if (!values.physicalChallenge) {
+            errors.physicalChallenge = "Required";
+          }
+          break;
+        case 1:
+          // Step 2: Referee Information
+          if (!values.refereeFirstName) {
+            errors.refereeFirstName = "Required";
+          }
+          if (!values.refereeLastName) {
+            errors.refereeLastName = "Required";
+          }
+          if (!values.refereeEmail) {
+            errors.refereeEmail = "Required";
+          }
+          if (!values.refereeContactAddress) {
+            errors.refereeContactAddress = "Required";
+          }
+          if (!values.refereePhoneNumber) {
+            errors.refereePhoneNumber = "Required";
+          }
+          break;
+        case 2:
+          // Step 3: Emergency Contact Information
+          if (!values.emergencyFirstName) {
+            errors.emergencyFirstName = "Required";
+          }
+          if (!values.emergencyLastName) {
+            errors.emergencyLastName = "Required";
+          }
+          if (!values.emergencyEmail) {
+            errors.emergencyEmail = "Required";
+          }
+          if (!values.emergencyContactAddress) {
+            errors.emergencyContactAddress = "Required";
+          }
+          if (!values.emergencyPhoneNumber) {
+            errors.emergencyPhoneNumber = "Required";
+          }
+          break;
+        // Add cases for additional steps as needed
+        default:
+          break;
+      }
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 
       return errors;
     },
 
     onSubmit: async (values) => {
       console.log(values);
+<<<<<<< HEAD
+=======
+      // Implement your submit logic here
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
     },
   });
 
@@ -728,6 +1035,7 @@ const StepForm = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+<<<<<<< HEAD
     console.log(formik.values)
 
     if (isLastStep()) {
@@ -743,6 +1051,39 @@ const StepForm = () => {
       try {
         await dispatch(
           submitFirstForm({
+=======
+    console.log(formik.values);
+
+    const requiredFiles = [
+      "birthCertificate",
+      "firstDegree",
+      "mastersDegree",
+      "studentImage",
+      "IdentityImage",
+      "studentNysc",
+      "otherCertificate",
+      "phdProposal",
+      "postGraduateDiploma",
+      "resume",
+      "transcript",
+      "nceCertificate",
+    ];
+
+    // Check if any required file field is null or undefined
+    const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
+
+    if (activeStep === 3 && missingFiles.length > 0) {
+      alert("Please upload all required files.");
+      return;
+    }
+
+    if (isLastStep()) {
+      try {
+        // Submit the first form data
+        const personalResponse = await axiosInstance.post(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students`,
+          {
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
             firstName: formik.values.firstName,
             surName: formik.values.surname,
             otherNames: formik.values.otherName,
@@ -758,6 +1099,7 @@ const StepForm = () => {
             physicalChallenge: formik.values.physicalChallenge,
             applicationType: +selectedDegree.id,
             choiceofCourse: +selectedCourse.id,
+<<<<<<< HEAD
           })
         );
 
@@ -786,6 +1128,74 @@ const StepForm = () => {
       } catch (error) {
         console.error("Error submitting forms:", error);
         // Handle the error appropriately, maybe show an error message to the user
+=======
+          }
+        );
+
+        const personalId = personalResponse.data.id;
+        console.log(personalId);
+
+        try {
+          // Submit the referee form
+          await dispatch(
+            submitRefereeForm({
+              firstname: formik.values.refereeFirstName,
+              lastname: formik.values.refereeLastName,
+              email: formik.values.refereeEmail,
+              contactAddress: formik.values.refereeContactAddress,
+              phoneNumber: formik.values.refereePhoneNumber,
+            })
+          );
+        } catch (refereeError) {
+          console.error("Error submitting referee form:", refereeError);
+          alert("Failed to submit referee form. Please try again.");
+          return;
+        }
+
+        try {
+          // Submit the emergency form
+          await dispatch(
+            submitEmergencyForm({
+              firstname: formik.values.emergencyFirstName,
+              lastname: formik.values.emergencyLastName,
+              email: formik.values.emergencyEmail,
+              contactAddress: formik.values.emergencyContactAddress,
+              phoneNumber: formik.values.emergencyPhoneNumber,
+              student: personalId,
+            })
+          );
+        } catch (emergencyError) {
+          console.error("Error submitting emergency form:", emergencyError);
+          // alert("Failed to submit emergency form. Please try again.");
+          return;
+        }
+
+        const formData = new FormData();
+        formData.append("student", personalId);
+        requiredFiles.forEach((fileKey) => {
+          formData.append(fileKey, formik.values[fileKey]);
+        });
+
+        try {
+          // Upload files
+          const response = await axiosInstanceUpload.post(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/student-uploads`,
+            formData
+          );
+
+          if (response.status !== 200) {
+            throw new Error("Failed to upload files");
+          }
+
+          alert("Form submitted successfully!");
+        } catch (fileUploadError) {
+          console.error("Error uploading files:", fileUploadError);
+          alert("Failed to upload files. Please try again.");
+        }
+      } catch (personalError) {
+        console.error("Error submitting personal information:", personalError);
+        alert("Failed to submit personal information. Please try again.");
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
       }
     } else {
       // Move to the next step if it's not the last step
@@ -793,6 +1203,7 @@ const StepForm = () => {
     }
   };
 
+<<<<<<< HEAD
   // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();
 
@@ -876,6 +1287,8 @@ const StepForm = () => {
   //   }
   // };
 
+=======
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
   return (
     <Card raised={true}>
       <CardContent>
@@ -885,6 +1298,7 @@ const StepForm = () => {
         <Stepper
           activeStep={activeStep}
           alternativeLabel
+<<<<<<< HEAD
           // sx={{
           // "& .MuiStepConnector-line": {
           //   borderTopWidth: "2px",
@@ -897,6 +1311,8 @@ const StepForm = () => {
           //   },
           // }}
 
+=======
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           sx={{
             "& .MuiStepConnector-line": {
               borderTopWidth: "2px",
@@ -943,14 +1359,94 @@ const StepForm = () => {
           )}
           {activeStep === 1 && <RefereeForm formik={formik} />}
           {activeStep === 2 && <EmergencyContactForm formik={formik} />}
+<<<<<<< HEAD
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
             <Button disabled={activeStep === 0} onClick={handleBack}>
+=======
+          {activeStep === 3 && (
+            <>
+              <FileUpload
+                fieldName="studentImage"
+                accept=".jpg, .jpeg, .png"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="birthCertificate"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="firstDegree"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="mastersDegree"
+                accept=".pdf"
+                formik={formik}
+              />
+
+              <FileUpload
+                fieldName="IdentityImage"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="studentNysc"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="otherCertificate"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="phdProposal"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="postGraduateDiploma"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload fieldName="resume" accept=".pdf" formik={formik} />
+              <FileUpload
+                fieldName="transcript"
+                accept=".pdf"
+                formik={formik}
+              />
+              <FileUpload
+                fieldName="nceCertificate"
+                accept=".pdf"
+                formik={formik}
+              />
+            </>
+          )}
+
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <Button
+              disabled={activeStep === 0}
+              onClick={handleBack}
+              sx={{ color: "#0AB99D" }}
+            >
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
               Back
             </Button>
             <Button
               type="submit"
               variant="contained"
+<<<<<<< HEAD
               sx={{ bgcolor: "#0AB99D" }}
+=======
+              sx={{
+                bgcolor: "#0AB99D",
+                "&:hover": {
+                  bgcolor: "#0AB99D",
+                },
+              }}
+>>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
             >
               {activeStep === steps.length - 1 ? "Submit" : "Next"}
             </Button>
