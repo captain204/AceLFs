@@ -15,6 +15,7 @@ import {
   StepLabel,
   Typography,
 } from "@mui/material";
+import Modal from "@mui/material/Modal";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -25,11 +26,13 @@ import { getAllCourses } from "../../../Globals/Slices/Degree/CoursesSlice";
 import { getAllDegrees } from "../../../Globals/Slices/Degree/DegreesSlice";
 import { submitEmergencyForm } from "../../../Globals/Slices/ApplicationSlice/Emergency";
 import { submitRefereeForm } from "../../../Globals/Slices/ApplicationSlice/Referee";
-import { submitFirstForm } from "../../../Globals/Slices/ApplicationSlice/FirstFormSlice";
 import FileUpload from "./FileUpload";
 import axiosInstance from "../../../Globals/Interceptor";
 import axiosInstanceUpload from "../../../Globals/InterceptorUpload";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+import animationData from "../../../../public/img/success.json";
+import Lottie from "react-lottie";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
@@ -81,7 +84,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
     fetchStates();
   }, [dispatch]);
 
-  const handleStateChange = async (event:any) => {
+  const handleStateChange = async (event: any) => {
     const selectedState = event.target.value;
     formik.setFieldValue("state", selectedState);
 
@@ -535,6 +538,7 @@ const RefereeForm: React.FC<RefereeFormProps> = ({ formik }) => (
       }
     />
     <TextField
+      type="email"
       id="refereeEmail"
       name="refereeEmail"
       label="Referee Email"
@@ -561,6 +565,7 @@ const RefereeForm: React.FC<RefereeFormProps> = ({ formik }) => (
       }
     />
     <TextField
+      type="number"
       id="refereePhoneNumber"
       name="refereePhoneNumber"
       label="Referee Phone Number"
@@ -611,6 +616,7 @@ const EmergencyContactForm: React.FC<EmergencyFormProps> = ({ formik }) => (
       }
     />
     <TextField
+      type="email"
       id="emergencyEmail"
       name="emergencyEmail"
       label="Email"
@@ -639,6 +645,7 @@ const EmergencyContactForm: React.FC<EmergencyFormProps> = ({ formik }) => (
       }
     />
     <TextField
+      type="number"
       id="emergencyPhoneNumber"
       name="emergencyPhoneNumber"
       label="Phone Number"
@@ -658,7 +665,14 @@ const EmergencyContactForm: React.FC<EmergencyFormProps> = ({ formik }) => (
 );
 
 const StepForm = () => {
-  const personal = useSelector((state: RootState) => state?.personal?.response);
+  const [personalResponseError, setPersonalResponseError] = useState<
+    string | null
+  >(null);
+  const [fileUploadError, setFileUploadError] = useState<string | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const steps = [
     "Personal Information",
@@ -852,7 +866,8 @@ const StepForm = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(formik.values);
+    setLoading(true);
+    // console.log(formik.values);
 
     const requiredFiles = [
       "birthCertificate",
@@ -874,6 +889,7 @@ const StepForm = () => {
 
     if (activeStep === 3 && missingFiles.length > 0) {
       alert("Please upload all required files.");
+      setLoading(false);
       return;
     }
 
@@ -952,23 +968,56 @@ const StepForm = () => {
             formData
           );
 
-          if (response.status !== 200) {
-            throw new Error("Failed to upload files");
+          if (
+            response.status === 201 ||
+            (response.status >= 200 && response.status <= 204)
+          ) {
+            setModalOpen(true); // Open modal for success message
+            setTimeout(() => {
+              setModalOpen(false); // Close modal after 3 seconds
+              setTimeout(() => {
+                router.push("/dashboard"); // Redirect to /dashboard after 5 seconds
+              }, 1000);
+            }, 3000);
           }
 
-          alert("Form submitted successfully!");
+          if (response.status == 200) {
+            setModalOpen(true);
+          }
+
+          // alert("Form submitted successfully!");
         } catch (fileUploadError) {
           console.error("Error uploading files:", fileUploadError);
-          alert("Failed to upload files. Please try again.");
+          // alert("Failed to upload files. Please try again.");
+          setFileUploadError("Failed to upload files. Please try again.");
         }
       } catch (personalError) {
         console.error("Error submitting personal information:", personalError);
-        alert("Failed to submit personal information. Please try again.");
+        // alert("Failed to submit personal information. Please try again.");
+        setPersonalResponseError(
+          "Failed to submit personal information. Please try again."
+        );
       }
     } else {
       // Move to the next step if it's not the last step
+
       handleNext();
     }
+    setLoading(false);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    router.push("/dashboard"); // Redirect to dashboard after closing modal
+  };
+
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
 
   return (
@@ -1016,18 +1065,28 @@ const StepForm = () => {
         </Stepper>
         <form onSubmit={handleSubmit}>
           {activeStep === 0 && (
-            <PersonalInfoForm
-              formik={formik}
-              selectedDegree={selectedDegree}
-              setSelectedDegree={setSelectedDegree}
-              selectedCourse={selectedCourse}
-              setSelectedCourse={setSelectedCourse}
-            />
+            <div style={{ marginTop: "20px" }}>
+              <PersonalInfoForm
+                formik={formik}
+                selectedDegree={selectedDegree}
+                setSelectedDegree={setSelectedDegree}
+                selectedCourse={selectedCourse}
+                setSelectedCourse={setSelectedCourse}
+              />
+            </div>
           )}
-          {activeStep === 1 && <RefereeForm formik={formik} />}
-          {activeStep === 2 && <EmergencyContactForm formik={formik} />}
+          {activeStep === 1 && (
+            <div style={{ marginTop: "20px" }}>
+              <RefereeForm formik={formik} />
+            </div>
+          )}
+          {activeStep === 2 && (
+            <div style={{ marginTop: "20px" }}>
+              <EmergencyContactForm formik={formik} />
+            </div>
+          )}
           {activeStep === 3 && (
-            <>
+            <div style={{ marginTop: "20px" }}>
               <FileUpload
                 fieldName="studentImage"
                 accept=".jpg, .jpeg, .png"
@@ -1085,7 +1144,7 @@ const StepForm = () => {
                 accept=".pdf"
                 formik={formik}
               />
-            </>
+            </div>
           )}
 
           <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
@@ -1096,7 +1155,7 @@ const StepForm = () => {
             >
               Back
             </Button>
-            <Button
+            {/* <Button
               type="submit"
               variant="contained"
               sx={{
@@ -1107,10 +1166,57 @@ const StepForm = () => {
               }}
             >
               {activeStep === steps.length - 1 ? "Submit" : "Next"}
+            </Button> */}
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                bgcolor: "#0AB99D",
+                "&:hover": {
+                  bgcolor: "#0AB99D",
+                },
+              }}
+              disabled={loading} // Disable button while loading
+            >
+              {loading
+                ? "Loading..."
+                : activeStep === steps.length - 1
+                  ? "Submit"
+                  : "Next"}
             </Button>
           </Box>
         </form>
       </CardContent>
+
+      <Modal open={modalOpen} onClose={handleCloseModal}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+            textAlign: "center",
+          }}
+        >
+          <Lottie options={defaultOptions} height={200} width={200} />
+          <Typography variant="h6" gutterBottom>
+            Form submitted successfully!
+          </Typography>
+
+          <Button
+            onClick={handleCloseModal}
+            variant="contained"
+            sx={{ bgcolor: "#0AB99D", color: "white", mt: 2 }}
+          >
+            Close
+          </Button>
+        </Box>
+      </Modal>
     </Card>
   );
 };
