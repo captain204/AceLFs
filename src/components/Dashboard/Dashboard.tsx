@@ -7,14 +7,12 @@ import { Card, CardContent} from "@mui/material";
 import animationData from "../../../public/img/student3.json";
 import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
-<<<<<<< HEAD
 import { useSelector } from "react-redux";
-=======
 import { useDispatch } from "react-redux";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
+
 import { useEffect } from "react";
 import { newsFormAction } from "../../Globals/Slices/ApplicationSlice/News";
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 
 const drawerWidth = 240;
 
@@ -29,11 +27,8 @@ interface Props {
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function ResponsiveDrawer(props: Props) {
-<<<<<<< HEAD
   const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
-=======
   const dispatch: AppDispatch = useDispatch();
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
   // const currentDateTime = new Date().toLocaleString("en-US", {
   //   year: "numeric",
   //   month: "long",

@@ -38,10 +38,10 @@ export const submitEmergencyForm = createAsyncThunk(
         "/api/v1/admissions/emergency-contacts",
         formData
       );
-      if (response.status >= 200 && response.status < 300) {
-        toast.success(response?.data?.message || "Form submitted successfully");
-        return response.data;
-      }
+      // if (response.status >= 200 && response.status < 300) {
+      //   toast.success(response?.data?.message || "Form submitted successfully");
+      //   return response.data;
+      // }
     } catch (error: any) {
 <<<<<<< HEAD
         console.log(error)
@@ -62,12 +62,13 @@ export const submitEmergencyForm = createAsyncThunk(
         if (errorData.firstname) errorMessages.push(...errorData.firstname);
         if (errorData.lastname) errorMessages.push(...errorData.lastname);
         if (errorData.email) errorMessages.push(...errorData.email);
-        if (errorData.contactAddress) errorMessages.push(...errorData.contactAddress);
+        if (errorData.contactAddress)
+          errorMessages.push(...errorData.contactAddress);
         if (errorData.phoneNumber) errorMessages.push(...errorData.phoneNumber);
         if (errorData.student) errorMessages.push(...errorData.student);
 
         // Concatenate all error messages into a single string
-        const errorMessageString = errorMessages.join(' ');
+        const errorMessageString = errorMessages.join(" ");
 
         // Show the concatenated error message using toast
         toast.error(errorMessageString);
