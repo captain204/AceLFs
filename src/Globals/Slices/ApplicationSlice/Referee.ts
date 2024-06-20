@@ -34,16 +34,16 @@ export const submitRefereeForm = createAsyncThunk(
         "/api/v1/admissions/referee",
         formData
       );
-      if (response.status >= 200 && response.status < 300) {
-        toast.success("referee submitted successfully");
-        console.log(response)
-        return response.data;
-      }
+      // if (response.status >= 200 && response.status < 300) {
+      //   toast.success("referee submitted successfully");
+      //   console.log(response)
+      //   return response.data;
+      // }
     } catch (error: any) {
-        console.log(error)
+      console.log(error);
       if (error.response?.data) {
         const errorMessages = Object.values(error.response.data);
-        errorMessages.forEach((errorMessage:any) => {
+        errorMessages.forEach((errorMessage: any) => {
           toast.error(errorMessage);
         });
       } else {

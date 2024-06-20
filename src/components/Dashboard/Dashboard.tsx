@@ -9,8 +9,7 @@ import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-import { useEffect } from "react";
-import { newsFormAction } from "../../Globals/Slices/ApplicationSlice/News";
+
 
 const drawerWidth = 240;
 
