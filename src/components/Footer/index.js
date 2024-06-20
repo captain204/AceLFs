@@ -115,63 +115,63 @@ export default function Footer(props) {
                 <h4 className="it-footer-title">Gallery</h4>
                 <div className="it-footer-gallery-box">
                   <div className="row gx-0">
-                    <div className="col-md-4 col-4">
+                    <div className="col-md-6 col-6">
                       <div className="it-footer-thumb mb-10">
                         <Image
                           src="/img/footer/ACEDARS-ABOUT.jpg"
                           alt=""
-                          width={80}
-                          height={80}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>
-                    <div className="col-md-4 col-4">
+                    <div className="col-md-6 col-6">
                       <div className="it-footer-thumb mb-10">
                         <Image
                           src="/img/footer/Acedars-news-2.jpg"
                           alt=""
-                          width={80}
-                          height={80}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>
-                    <div className="col-md-4 col-4 mb-10">
+                    <div className="col-md-6 col-6 mb-10">
                       <div className="it-footer-thumb">
                         <Image
                           src="/img/footer/ACEDARS-News-3.png"
                           alt=""
-                          width={80}
-                          height={80}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>
-                    <div className="col-md-4 col-4">
+                    <div className="col-md-6 col-6">
                       <div className="it-footer-thumb">
                         <Image
                           src="/img/footer/Acedar-Video-Background.jpeg"
                           alt=""
-                          width={80}
-                          height={80}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>
-                    <div className="col-md-4 col-4">
+                    <div className="col-md-6 col-6">
                       <div className="it-footer-thumb">
                         <Image
                           src="/img/footer/Acedar-Video-Background.jpeg"
                           alt=""
-                          width={80}
-                          height={80}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>
-                    <div className="col-md-4 col-4">
+                    <div className="col-md-6 col-6">
                       <div className="it-footer-thumb">
                         <Image
                           src="/img/footer/ACEDHAR-Gallery.jpeg"
                           alt=""
-                          width={80}
-                          height={80}
+                          width={100}
+                          height={100}
                         />
                       </div>
                     </div>

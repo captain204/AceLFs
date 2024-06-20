@@ -1,8 +1,16 @@
 import SingleBlog from "../../components/Blog";
 import Link from "next/link";
-import Blogs from "../../data/blogs.json";
+// import Blogs from "../../data/blogs.json";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Blog() {
+
+  const [Blogs, setBlogs] = useState([])
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/v1/news`)
+      .then((response) => { setBlogs(response.data)})
+  }, [])
   return (
     <div id="it-blog" className="it-blog-area pt-90 pb-90">
       <div className="container">
@@ -12,7 +20,7 @@ export default function Blog() {
               <div className="it-blog-title-box">
                 <span className="it-section-subtitle">News</span>
                 <h4 className="it-section-title">
-                  Popular 
+                  Popular
                   <span className="p-relative z-index">
                     {" "}
                     News.
@@ -37,7 +45,7 @@ export default function Blog() {
             </div>
             <div className="col-xl-4 col-lg-4 col-md-4">
               <div className="it-blog-button text-start text-md-end">
-                <Link className="it-btn" href="#">
+                <Link className="it-btn" href="/blog">
                   <span>
                     Recent News
                     <svg
