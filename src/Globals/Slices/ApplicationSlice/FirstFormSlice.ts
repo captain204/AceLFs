@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-<<<<<<< HEAD
-// import axiosInstanceAuth from "../../InterceptorAuth";
-=======
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 import axiosInstance from "../../Interceptor";
 
 interface FirstFormData {
@@ -51,16 +47,6 @@ export const submitFirstForm = createAsyncThunk(
         console.log(response)
         toast.success(response?.data?.message || "Form submitted successfully");
         return response.data;
-<<<<<<< HEAD
-       
-      }
-    } catch (error: any) {
-        console.log(error)
-      if (error.response?.data) {
-
-        const errorMessages = Object.values(error.response.data);
-        errorMessages.forEach((errorMessage:any) => {
-=======
       }
     } catch (error: any) {
       console.log(error);
@@ -89,7 +75,6 @@ export const submitFirstForm = createAsyncThunk(
 
         // Show each error message using toast
         errorMessages.forEach((errorMessage: string) => {
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
           toast.error(errorMessage);
         });
       } else {

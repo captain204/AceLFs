@@ -3,12 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-<<<<<<< HEAD
-import axiosInstanceAuth from "../../Interceptor";
-import axios from "axios";
-=======
 import axiosInstanceAuth from "../../InterceptorAuth";
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 // import axiosInstanceAuth from "@/Globals/Interceptor";
 
 interface LoginData {

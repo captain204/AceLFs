@@ -1,0 +1,19 @@
+
+.personalinforow{
+    width: 80%;
+    margin: auto;
+    margin-top: 50px;
+}
+.personalinforow tr{
+    justify-content: space-between;
+}
+.personalinforow tr th{
+    font-size: 0.8rem;
+}
+
+.personalinforow tr th, .personalinforow tr td{
+    /* text-align: center; */
+}
+.modulesinfo{
+    margin-top: 5%;
+}

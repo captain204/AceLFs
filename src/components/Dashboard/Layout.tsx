@@ -31,12 +31,9 @@ import Person4Icon from "@mui/icons-material/Person4";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Link from "next/link";
 import { useRouter } from "next/router";
-<<<<<<< HEAD
 import { useSelector } from "react-redux";
 import { RootState } from "../../Globals/store/store";
-=======
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 
 const drawerWidth = 240;
 

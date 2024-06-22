@@ -1,10 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-<<<<<<< HEAD
-import axiosInstanceAuth from "../../InterceptorAuth";
-=======
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
 import axiosInstance from "../../Interceptor";
 
 interface EmergencyFormData {
@@ -43,14 +39,6 @@ export const submitEmergencyForm = createAsyncThunk(
       //   return response.data;
       // }
     } catch (error: any) {
-<<<<<<< HEAD
-        console.log(error)
-      if (error.response?.data) {
-        const errorMessages = Object.values(error.response.data);
-        errorMessages.forEach((errorMessage:any) => {
-          toast.error(errorMessage);
-        });
-=======
       console.log(error);
       if (error.response?.data) {
         const errorData = error.response.data;
@@ -72,7 +60,6 @@ export const submitEmergencyForm = createAsyncThunk(
 
         // Show the concatenated error message using toast
         toast.error(errorMessageString);
->>>>>>> 0ef7533ff447b892104031a82b6ce3dffd294f12
       } else {
         toast.error("An error occurred");
       }

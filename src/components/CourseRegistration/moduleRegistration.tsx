@@ -6,20 +6,15 @@ import {
   MenuItem,
   FormControl,
   Select,
-  Dialog,
-  DialogContent,
-  DialogActions,
-  DialogContentText,
-  Button,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { RootState } from "../../Globals/store/store";
 import { AppDispatch } from "../../Globals/store/store";
 import { getAllCourses } from "../../Globals/Slices/Degree/CoursesSlice";
-import { getAllDegrees } from "../../Globals/Slices/Degree/DegreesSlice";
 import { Add, Remove } from "@mui/icons-material";
+import axiosInstance from "../../Globals/Interceptor";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 // type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 interface ModuleRegister {
@@ -33,9 +28,6 @@ export default function CoursesForm() {
   const [registeredModules, setRegisteredModules] = useState([]);
   const [modules, setModules] = useState([]);
   const [course, setCourse] = useState([]);
-  const [semester, setSemester] = useState();
-  const [student, setStudent] = useState([]);
-  const [authorization, setAuthorization] = useState({});
   // stores data returned from course module register
   const [courseRegisterList, setCourseRegisterList] = useState([]);
   const [moduleregister, setModuleRegister] = useState<ModuleRegister>({
@@ -46,23 +38,15 @@ export default function CoursesForm() {
   });
   const [showModules, setShowModules] = useState(false);
   const [semesters, setSemesters] = useState([]);
-
-  useEffect(() => {
-    const authToken = localStorage.getItem("token");
-    setAuthorization({
-      headers: {
-        Authorization: `token ${authToken}`,
-      },
-    });
-  }, []);
+  const router = useRouter()
 
   useEffect(() => {
     dispatch(getAllCourses());
   }, [dispatch]);
 
   const getModules = async () => {
-    await axios
-      .get("http://localhost:8000/api/v1/coursemodule", authorization)
+    await axiosInstance
+      .get("http://localhost:8000/api/v1/coursemodule")
       .then((response) => {
         // course modules for the selected degree
         const modules = response.data;
@@ -75,16 +59,15 @@ export default function CoursesForm() {
       .catch((error) => console.error(error.response.data));
   };
   const getSemesters = async () => {
-    await axios
-      .get("http://localhost:8000/api/v1/useradmin/semesters", authorization)
+    await axiosInstance
+      .get("http://localhost:8000/api/v1/useradmin/semesters")
       .then((response) => setSemesters(response.data))
       .catch((error) => console.log(error));
   };
   const getUser = async () => {
-    await axios
+    await axiosInstance
       .get(
         "http://localhost:8000/api/v1/admissions/students/me/",
-        authorization
       )
       .then(({ data }) => {
         setModuleRegister({ ...moduleregister, student: data.id });
@@ -99,11 +82,10 @@ export default function CoursesForm() {
       course: id,
     };
     if (data.course !== null) {
-      await axios
+      await axiosInstance
         .post(
           "http://localhost:8000/api/v1/coursemoduleregister",
           data,
-          authorization
         )
         .then((response) => {
           // setModules(modules.filter((mod) => mod.id !== response.data.course));
@@ -118,8 +100,8 @@ export default function CoursesForm() {
   };
 
   const getRegisteredModules = async () => {
-    await axios
-      .get("http://localhost:8000/api/v1/coursemoduleregister", authorization)
+    await axiosInstance
+      .get("http://localhost:8000/api/v1/coursemoduleregister")
       .then(({ data }) => {
         // ids of courses the student has registered for
         const courseIds = data.map((course) => course.course);
@@ -137,10 +119,9 @@ export default function CoursesForm() {
   const unRegister = async (module) => {
     // get the course registered with that module id
    const id =  courseRegisterList.find((value) => value.course === module.id)?.id
-    await axios
+    await axiosInstance
       .delete(
         `http://localhost:8000/api/v1/coursemoduleregister${id}`,
-        authorization
       )
       .then((response) => {
         getModules()
@@ -154,7 +135,7 @@ export default function CoursesForm() {
 
   useEffect(() => {
     getUser();
-  }, [authorization]);
+  }, []);
   useEffect(() => {
     getSemesters();
   }, [moduleregister.student]);
@@ -250,7 +231,7 @@ export default function CoursesForm() {
             </div>
           )}
         </div>
-        <button className="it-btn">
+        <button onClick={() => router.push('courses/courseregistrationform')} className="it-btn">
           Show Registration Form
         </button>
       </CardContent>
