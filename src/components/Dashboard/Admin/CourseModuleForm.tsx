@@ -70,20 +70,21 @@ export default function CourseModuleForm({
     formState(false);
   };
   return (
-    <Card className="p-5" style={{ marginBottom: 40 }}>
+    <Card className="p-5 text-center m-auto" style={{ marginBottom: 40, border: '1px solid green', width: 'max-content'}}>
+
       <TextField
         id="moduleName"
         name="moduleName"
         label="Module name"
         color="success"
-        className="mb-4 col-6 col-md-6"
+        className="mb-4 col-12 col-md-6 w-100"
         value={moduleData?.name || ""} 
         contentEditable={false}
         onChange={(event) =>
           setModuleData({ ...moduleData, name: event.target.value })
         }
       />
-      <div className="d-flex">
+      <div className="d-flex justify-content-center">
         <TextField
           type="number"
           required
@@ -109,14 +110,16 @@ export default function CourseModuleForm({
           }
         />
       </div>
-        <button
-          className="it-btn large"
+      <div className="text-center">   
+      <button
+          className="it-btn-yellow-sm"
           onClick={() => {
             edit ? editModule() : addModule();
           }}
         >
-          {edit ? "Edit" : "Add"}
+          Submit
         </button>
+      </div>
     </Card>
   );
 }

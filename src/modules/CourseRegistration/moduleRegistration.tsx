@@ -23,6 +23,19 @@ interface ModuleRegister {
   course: number;
   semester: number;
 }
+const CoursesTable = ({ children }) => {
+  return (
+    <table className={`w-100 justify-content-center text-center px-5 mx-auto`}>
+      <tr className="border-bottom border-5 h-100 ">
+        <th className="h5">Course</th>
+        <th className="h5">Code</th>
+        <th className="h5">Units</th>
+        <th>Register</th>
+      </tr>
+      {children}
+    </table>
+  );
+};
 export default function CoursesForm() {
   const dispatch: AppDispatch = useDispatch();
   const [registeredModules, setRegisteredModules] = useState([]);
@@ -38,7 +51,7 @@ export default function CoursesForm() {
   });
   const [showModules, setShowModules] = useState(false);
   const [semesters, setSemesters] = useState([]);
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(getAllCourses());
@@ -66,9 +79,7 @@ export default function CoursesForm() {
   };
   const getUser = async () => {
     await axiosInstance
-      .get(
-        "http://localhost:8000/api/v1/admissions/students/me/",
-      )
+      .get("http://localhost:8000/api/v1/admissions/students/me/")
       .then(({ data }) => {
         setModuleRegister({ ...moduleregister, student: data.id });
         setCourse(data.choiceofCourse);
@@ -83,14 +94,12 @@ export default function CoursesForm() {
     };
     if (data.course !== null) {
       await axiosInstance
-        .post(
-          "http://localhost:8000/api/v1/coursemoduleregister",
-          data,
-        )
+        .post("http://localhost:8000/api/v1/coursemoduleregister", data)
         .then((response) => {
           // setModules(modules.filter((mod) => mod.id !== response.data.course));
           // setRegisteredModules([...registeredModules, module]);
-          getRegisteredModules()
+          getRegisteredModules();
+          console.log('registered', module.name)
         })
         .catch((error) => {
           toast.error("Error with course registration");
@@ -118,14 +127,13 @@ export default function CoursesForm() {
 
   const unRegister = async (module) => {
     // get the course registered with that module id
-   const id =  courseRegisterList.find((value) => value.course === module.id)?.id
+    const id = courseRegisterList.find((value) => value.course === module.id)
+      ?.id;
     await axiosInstance
-      .delete(
-        `http://localhost:8000/api/v1/coursemoduleregister${id}`,
-      )
+      .delete(`http://localhost:8000/api/v1/coursemoduleregister${id}`)
       .then((response) => {
-        getModules()
-        getRegisteredModules()
+        getModules();
+        getRegisteredModules();
       })
       .catch((error) => {
         toast.error("Error unregistering module");
@@ -148,8 +156,20 @@ export default function CoursesForm() {
 
   return (
     <Card raised={true}>
+      <button
+        onClick={() => router.push("courses/courseregistrationform")}
+        className="it-btn-white end-0 position-absolute"
+      >
+        Download Registration Form
+      </button>
+      <h4 className="text-center" style={{ paddingTop: 50 }}>
+        Register Courses
+      </h4>
       <CardContent>
-        <FormControl sx={{ m: 1, width: "25ch" }} className="d-flex flex-row">
+        <FormControl
+          sx={{ m: "auto" }}
+          className="d-flex flex-row col-lg-8 col-sm-12 col-md-12"
+        >
           <InputLabel id="degreeType-label">Select Semester</InputLabel>
           <Select
             labelId="semester-label"
@@ -175,65 +195,62 @@ export default function CoursesForm() {
           </Select>
         </FormControl>
       </CardContent>
-      {showModules == true && (
-        <CardContent>
+      {showModules == true && modules.length > 0 && (
+        <CoursesTable>
           {modules.map((module) => {
             const { name, courseCode, courseUnits, id } = module;
             return (
-              <div
-                key={id}
-                className="mb-4 d-flex flex-wrap w-75 justify-content-between align-items-center"
-              >
-                <p className="me-2 mb-0">{name}</p>
-                <p className="me-2 mb-0">{courseCode}</p>
-                <p className="me-2 mb-0">{courseUnits} units</p>
-                <button
-                  className="it-btn text-align-center"
-                  onClick={() => {
-                    registerModule(module);
-                  }}
-                >
-                  <Add />
-                </button>
-              </div>
+              <tr key={id}>
+                <td>{name}</td>
+                <td>{courseCode}</td>
+                <td>{courseUnits}</td>
+                <td>
+                  <button
+                    className="it-btn text-align-center"
+                    onClick={() => {
+                      registerModule(module);
+                    }}
+                  >
+                    <Add />
+                  </button>
+                </td>
+              </tr>
             );
           })}
-        </CardContent>
+        </CoursesTable>
       )}
-      <CardContent>
-        <h5>Registered Modules</h5>
+      <CardContent style={{ marginTop: 20 }}>
+        <h4 className="text-center">Registered Courses</h4>
         <div>
           {registeredModules.length > 0 ? (
-            <div>
+            <table className="w-100 justify-content-center text-center px-5 mx-auto">
               {registeredModules.map((module) => {
                 const { name, courseCode, courseUnits, id } = module;
                 return (
-                  <div
-                    key={id}
-                    className="mb-4 d-flex flex-wrap w-75 justify-content-between align-items-center"
-                  >
-                    <p className="me-2 mb-0">{name}</p>
-                    <p className="me-2 mb-0">{courseCode}</p>
-                    <p className="me-2 mb-0">{courseUnits} units</p>
-                    <button
-                      className="it-btn text-align-center"
-                      onClick={() => {unRegister(module)} }
-                    >
-                      <Remove />
-                    </button>
-                  </div>
+                  <tr key={id} className="">
+                    <td className="">{name}</td>
+                    <td className="">{courseCode}</td>
+                    <td className="">{courseUnits} units</td>
+                    <td>
+                      <button
+                        className="it-btn"
+                        onClick={() => {
+                          unRegister(module);
+                        }}
+                      >
+                        <Remove />
+                      </button>
+                    </td>
+                  </tr>
                 );
               })}
-            </div>
+            </table>
           ) : (
             <div>
-              <p>No registered courses</p>
+              <p className="text-center">No registered courses</p>
             </div>
           )}
         </div>
-        <button onClick={() => router.push('courses/courseregistrationform')} className="it-btn">
-          Show Registration Form
-        </button>
       </CardContent>
     </Card>
   );

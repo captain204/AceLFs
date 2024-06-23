@@ -1,5 +1,5 @@
 import React from "react";
-import CourseRegForm from "../../../src/components/CourseRegistration/courseRegForm";
+import CourseRegForm from "../../../src/modules/CourseRegistration/courseRegForm";
 
 const index = () => {
   return (
