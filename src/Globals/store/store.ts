@@ -22,7 +22,6 @@ const rootReducer = combineReducers({
   referee: submitRefereeFormReducer,
   personal: submitFirstFormReducer,
   newsForm: newsFormReducer
-
 });
 
 export const store = configureStore({

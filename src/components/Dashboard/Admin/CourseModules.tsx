@@ -23,15 +23,7 @@ import { toast } from "react-toastify";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
-interface PersonalInfoFormProps {
-  formik: any; // Adjust the type if needed
-  selectedDegree: any;
-  setSelectedDegree: React.Dispatch<React.SetStateAction<any>>;
-  selectedCourse: any;
-  setSelectedCourse: React.Dispatch<React.SetStateAction<any>>;
-}
-
-const DegreesForm: React.FC<PersonalInfoFormProps> = () => {
+const DegreesForm = () => {
   const dispatch: AppDispatch = useDispatch();
   const [selectedDegree, setSelectedDegree] = useState<number>();
   const [selectedCourse, setSelectedCourse] = useState();

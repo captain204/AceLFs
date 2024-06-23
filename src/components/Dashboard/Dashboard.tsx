@@ -7,9 +7,12 @@ import { Card, CardContent} from "@mui/material";
 import animationData from "../../../public/img/student3.json";
 import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 
+import { useEffect } from "react";
+import { newsFormAction } from "../../Globals/Slices/ApplicationSlice/News";
 
 const drawerWidth = 240;
 
@@ -24,6 +27,7 @@ interface Props {
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function ResponsiveDrawer(props: Props) {
+  const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
   const dispatch: AppDispatch = useDispatch();
   // const currentDateTime = new Date().toLocaleString("en-US", {
   //   year: "numeric",
@@ -111,7 +115,7 @@ export default function ResponsiveDrawer(props: Props) {
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  Welcome back, Nurudeen!
+                  Welcome back, {username}!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   Always stay updated in your student portal
