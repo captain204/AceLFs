@@ -29,23 +29,21 @@ import SchoolIcon from "@mui/icons-material/School";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import Person4Icon from "@mui/icons-material/Person4";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import PaymentIcon from '@mui/icons-material/Payment';
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Globals/store/store";
-import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
 
 const drawerWidth = 240;
 
 interface Props {
   children: React.ReactNode;
+  username: string
 }
 
-export default function Layout(props: Props) {
-  const { children } = props;
+export default function AdminLayout(props: Props) {
+  const { children, username } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
 
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
@@ -145,25 +143,6 @@ export default function Layout(props: Props) {
                 <DashboardIcon />
               </ListItemIcon>
               <ListItemText sx={{ fontWeight: "bold" }} primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-
-        <Link href="/application" passHref>
-          <ListItem disablePadding>
-            <ListItemButton
-              className={router.pathname === "/application" ? "active" : ""}
-              sx={{
-                "&.active": {
-                  bgcolor: "rgba(255, 255, 255, 0.25)",
-                },
-                color: "white",
-              }}
-            >
-              <ListItemIcon sx={{ color: "white" }}>
-                <AppRegistrationIcon />
-              </ListItemIcon>
-              <ListItemText sx={{ fontWeight: "bold" }} primary="Application" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -279,10 +258,10 @@ export default function Layout(props: Props) {
           </Collapse>
         </List>
 
-        <Link href="/courses" passHref>
+        <Link href="/admin/coursemodules" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/courses" ? "active" : ""}
+              className={router.pathname === "/admin/coursemodules" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -294,6 +273,24 @@ export default function Layout(props: Props) {
                 <LibraryBooksIcon />
               </ListItemIcon>
               <ListItemText sx={{ color: "white" }} primary="Courses" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link href="/" passHref>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={router.pathname === "#" ? "active" : ""}
+              sx={{
+                "&.active": {
+                  bgcolor: "rgba(255, 255, 255, 0.25)",
+                },
+                color: "white",
+              }}
+            >
+              <ListItemIcon sx={{ color: "white" }}>
+                <PaymentIcon/>
+              </ListItemIcon>
+              <ListItemText sx={{ color: "white" }} primary="Verify Fees Payment" />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -362,7 +359,7 @@ export default function Layout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                3rd year
+                Admin
               </Typography>
             </div>
 
@@ -416,7 +413,6 @@ export default function Layout(props: Props) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          overflow: "auto",
         }}
       >
         <Toolbar />

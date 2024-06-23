@@ -3,16 +3,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Card, CardContent} from "@mui/material";
-import animationData from "../../../public/img/student3.json";
+import { Card, CardContent, Menu, MenuItem } from "@mui/material";
+import animationData from "../../../../public/img/student.json";
 import Lottie from "react-lottie";
-import { RootState } from "../../Globals/store/store";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
-import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-
-import { useEffect } from "react";
-import { newsFormAction } from "../../Globals/Slices/ApplicationSlice/News";
 
 const drawerWidth = 240;
 
@@ -22,13 +15,11 @@ interface Props {
    * Remove this when copying and pasting into your project.
    */
   window?: () => Window;
+  username: string
 }
 
-
-type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function ResponsiveDrawer(props: Props) {
-  const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
-  const dispatch: AppDispatch = useDispatch();
+    const {username} = props
   // const currentDateTime = new Date().toLocaleString("en-US", {
   //   year: "numeric",
   //   month: "long",
@@ -36,23 +27,6 @@ export default function ResponsiveDrawer(props: Props) {
   //   hour: "2-digit",
   //   minute: "2-digit",
   // });
-
-  // useEffect(() => {
-  //   dispatch(newsFormAction ({
-  //     slug:  "1",
-  //     title: "hey",
-  //     content:  "go",
-  //     image:  "hey.png",
-  //     detailsImage: "God",
-  //     category: "beans",
-  //     commentsCount:  2147483647,
-  //     publishedDate: "2024-06-12"
-  //   }));
-  
-  // }, []);
-
-
-
 
   const defaultOptions = {
     loop: true,
@@ -62,6 +36,7 @@ export default function ResponsiveDrawer(props: Props) {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -122,7 +97,7 @@ export default function ResponsiveDrawer(props: Props) {
                 </Typography>
               </Box>
               <Box sx={{ marginLeft: "auto" }}>
-                <Lottie options={defaultOptions} height={120} width={120} />
+                <Lottie options={defaultOptions} height={100} width={100} />
               </Box>
             </CardContent>
           </Card>
