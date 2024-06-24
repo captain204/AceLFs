@@ -29,7 +29,7 @@ import SchoolIcon from "@mui/icons-material/School";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import Person4Icon from "@mui/icons-material/Person4";
 import BarChartIcon from "@mui/icons-material/BarChart";
-import PaymentIcon from '@mui/icons-material/Payment';
+import PaymentIcon from "@mui/icons-material/Payment";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -37,11 +37,11 @@ const drawerWidth = 240;
 
 interface Props {
   children: React.ReactNode;
-  username: string
+  // username: string;
 }
 
 export default function AdminLayout(props: Props) {
-  const { children, username } = props;
+  const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
 
@@ -55,6 +55,10 @@ export default function AdminLayout(props: Props) {
   const handleDrawerClose = () => {
     setIsClosing(true);
     setMobileOpen(false);
+  };
+
+  const applicantsNavigation = () => {
+    router.push("/admin/applicants");
   };
 
   const handleDrawerTransitionEnd = () => {
@@ -128,10 +132,10 @@ export default function AdminLayout(props: Props) {
       </div>
 
       <List>
-        <Link href="/dashboard" passHref>
+        <Link href="/admin/dashboard" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/dashboard" ? "active" : ""}
+              className={router.pathname === "/admin/dashboard" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -152,9 +156,11 @@ export default function AdminLayout(props: Props) {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
+          {/* <Link href="/admin/applicants" passHref> */}
           <ListItemButton
-            onClick={handleClick}
-            // className={router.pathname.startsWith('/admissions') ? 'active' : ''}
+            className={
+              router.pathname.startsWith("/admin/applicants") ? "active" : ""
+            }
             sx={{
               "&.active": {
                 bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -162,23 +168,33 @@ export default function AdminLayout(props: Props) {
               color: "white",
             }}
           >
-            <ListItemIcon sx={{ color: "white" }}>
+            <ListItemIcon
+              sx={{ color: "white" }}
+              onClick={applicantsNavigation}
+            >
               <GroupAddIcon />
             </ListItemIcon>
-            <ListItemText sx={{ color: "white" }} primary="Admissions" />
+            <ListItemText
+              sx={{ color: "white" }}
+              primary="Applicants"
+              onClick={applicantsNavigation}
+            />
+
             {open ? (
-              <ExpandLess sx={{ color: "white" }} />
+              <ExpandLess sx={{ color: "white" }} onClick={handleClick} />
             ) : (
-              <ExpandMore sx={{ color: "white" }} />
+              <ExpandMore sx={{ color: "white" }} onClick={handleClick} />
             )}
           </ListItemButton>
 
+          {/* </Link> */}
+
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link href="/admissions/msc" passHref>
+              <Link href="/admin/msc-applicants" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/msc" ? "active" : ""
+                    router.pathname === "/admin/msc-applicants" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -195,10 +211,12 @@ export default function AdminLayout(props: Props) {
                 </ListItemButton>
               </Link>
 
-              <Link href="/admissions/mphil" passHref>
+              <Link href="/admin/mphil-applicants" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/mphil" ? "active" : ""
+                    router.pathname === "/admin/mphil-applicants"
+                      ? "active"
+                      : ""
                   }
                   sx={{
                     "&.active": {
@@ -215,10 +233,10 @@ export default function AdminLayout(props: Props) {
                 </ListItemButton>
               </Link>
 
-              <Link href="/admissions/phd" passHref>
+              <Link href="/admin/phd-applicants" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/phd" ? "active" : ""
+                    router.pathname === "/admin/phd-applicants" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -235,10 +253,10 @@ export default function AdminLayout(props: Props) {
                 </ListItemButton>
               </Link>
 
-              <Link href="/admissions/statistics" passHref>
+              <Link href="/" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/statistics" ? "active" : ""
+                    router.pathname === "/" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -288,9 +306,12 @@ export default function AdminLayout(props: Props) {
               }}
             >
               <ListItemIcon sx={{ color: "white" }}>
-                <PaymentIcon/>
+                <PaymentIcon />
               </ListItemIcon>
-              <ListItemText sx={{ color: "white" }} primary="Verify Fees Payment" />
+              <ListItemText
+                sx={{ color: "white" }}
+                primary="Verify Fees Payment"
+              />
             </ListItemButton>
           </ListItem>
         </Link>
@@ -350,7 +371,7 @@ export default function AdminLayout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                {username}
+                {/* {username} */} Austine
               </Typography>
 
               <Typography
@@ -363,7 +384,7 @@ export default function AdminLayout(props: Props) {
               </Typography>
             </div>
 
-            <Avatar alt={username} src="/static/images/avatar/1.jpg" />
+            <Avatar alt="Austine Blaise" src="/static/images/avatar/1.jpg" />
           </Box>
         </Toolbar>
       </AppBar>
@@ -413,6 +434,7 @@ export default function AdminLayout(props: Props) {
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          overflowX: "auto",
         }}
       >
         <Toolbar />

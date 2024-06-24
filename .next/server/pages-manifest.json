@@ -1,20 +1,10 @@
 {
-  "/_error": "pages/_error.js",
   "/_app": "pages/_app.js",
-<<<<<<< HEAD
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/application": "pages/application.js",
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/admin/applicants": "pages/admin/applicants.js",
+  "/admin/msc-applicants": "pages/admin/msc-applicants.js",
+  "/admin/mphil-applicants": "pages/admin/mphil-applicants.js",
   "/404": "pages/404.js"
-=======
-  "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/dashboard": "pages/dashboard.js",
-<<<<<<< HEAD
-  "/application": "pages/application.js",
-  "/404": "pages/404.js"
-=======
-  "/application": "pages/application.js"
->>>>>>> 0cf2e318e7f4ab689d7c727b65357761c22d21f4
->>>>>>> main
 }

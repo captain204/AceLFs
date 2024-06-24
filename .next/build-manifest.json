@@ -27,10 +27,20 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/application": [
+    "/admin/applicants": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/application.js"
+      "static/chunks/pages/admin/applicants.js"
+    ],
+    "/admin/mphil-applicants": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/mphil-applicants.js"
+    ],
+    "/admin/msc-applicants": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/msc-applicants.js"
     ]
   },
   "ampFirstPages": []

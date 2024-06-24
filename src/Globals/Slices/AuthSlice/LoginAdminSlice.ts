@@ -3,9 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "js-cookie";
-import axiosInstanceAuth from "../../Interceptor";
-// import axiosInstanceAuth from "@/Globals/Interceptor";
-import axios from "axios";
+import axiosInstanceAuth from "../../InterceptorAuth";
 
 interface AdminLoginData {
   username: any;
@@ -30,7 +28,8 @@ const initialState: LoginState = {
   token: null,
 };
 
-export const loginAdmin = createAsyncThunk( "login/admin",
+export const loginAdmin = createAsyncThunk(
+  "login/admin",
   async (loginData: AdminLoginData, { rejectWithValue }) => {
     try {
       const response = await axiosInstanceAuth.post(
@@ -41,19 +40,19 @@ export const loginAdmin = createAsyncThunk( "login/admin",
         toast.success(response?.data?.message || "Login successful");
         console.log(response);
         const token = response.data.token;
-        localStorage.setItem("token", token);
-        const oneHour = 1 / 24;
-        Cookies.set("authToken", token, { expires: oneHour });
+        localStorage.setItem("adminToken", token);
+
+        Cookies.set("adminToken", token);
       }
       return response.data;
     } catch (error: any) {
       const nonFieldErrors = error.response.data.non_field_errors;
-        if (Array.isArray(nonFieldErrors)) {
-          nonFieldErrors.forEach((errorMessage) => {
-            toast.error(errorMessage); // Show each error message from the array
-          });
-        } else {
-        toast.error("An error occurred");
+      if (Array.isArray(nonFieldErrors)) {
+        nonFieldErrors.forEach((errorMessage) => {
+          toast.error(errorMessage); // Show each error message from the array
+        });
+      } else {
+        console.log("An error occurred");
       }
       return rejectWithValue(
         error.response?.data?.error || "An error occurred"
@@ -61,7 +60,6 @@ export const loginAdmin = createAsyncThunk( "login/admin",
     }
   }
 );
-
 
 const loginAdminSlice = createSlice({
   name: "login",

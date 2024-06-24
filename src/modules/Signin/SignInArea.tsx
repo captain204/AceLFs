@@ -48,18 +48,13 @@ export default function SignInArea() {
         email,
       })
     );
-  
   };
-
 
   useEffect(() => {
     if (success) {
-      router.push("/dashboard");
+      router.push("applicant/dashboard");
     }
   }, [success]);
-
-
-  
 
   const handleUsernameChange = (e: any) => {
     setUsername(e.target.value);
@@ -174,7 +169,8 @@ export default function SignInArea() {
 
                   <div className="it-signup-text">
                     <span>
-                      Don't have an account? <Link href="/signup">Sign Up</Link>
+                      Don't have an account?{" "}
+                      <Link href="applicant/signup">Sign Up</Link>
                     </span>
                   </div>
                 </div>
