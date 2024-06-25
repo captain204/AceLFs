@@ -1034,6 +1034,20 @@ eval("\nmodule.exports = __webpack_require__(/*! ../../module.compiled */ \"./no
 /*!************************************************************************************************!*\
   !*** ./node_modules/next/dist/server/future/route-modules/pages/vendored/contexts/loadable.js ***!
   \************************************************************************************************/
+<<<<<<< HEAD
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+eval("\nmodule.exports = __webpack_require__(/*! ../../module.compiled */ \"./node_modules/next/dist/server/future/route-modules/pages/module.compiled.js\").vendored.contexts.Loadable;\n\n//# sourceMappingURL=loadable.js.map//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9ub2RlX21vZHVsZXMvbmV4dC9kaXN0L3NlcnZlci9mdXR1cmUvcm91dGUtbW9kdWxlcy9wYWdlcy92ZW5kb3JlZC9jb250ZXh0cy9sb2FkYWJsZS5qcyIsIm1hcHBpbmdzIjoiQUFBYTtBQUNiLDZLQUErRTs7QUFFL0UiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9lZHVjYXRlLy4vbm9kZV9tb2R1bGVzL25leHQvZGlzdC9zZXJ2ZXIvZnV0dXJlL3JvdXRlLW1vZHVsZXMvcGFnZXMvdmVuZG9yZWQvY29udGV4dHMvbG9hZGFibGUuanM/N2JjMSJdLCJzb3VyY2VzQ29udGVudCI6WyJcInVzZSBzdHJpY3RcIjtcbm1vZHVsZS5leHBvcnRzID0gcmVxdWlyZShcIi4uLy4uL21vZHVsZS5jb21waWxlZFwiKS52ZW5kb3JlZFtcImNvbnRleHRzXCJdLkxvYWRhYmxlO1xuXG4vLyMgc291cmNlTWFwcGluZ1VSTD1sb2FkYWJsZS5qcy5tYXAiXSwibmFtZXMiOltdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./node_modules/next/dist/server/future/route-modules/pages/vendored/contexts/loadable.js\n");
+
+/***/ }),
+
+/***/ "./node_modules/next/dist/server/future/route-modules/pages/vendored/contexts/router-context.js":
+/*!******************************************************************************************************!*\
+  !*** ./node_modules/next/dist/server/future/route-modules/pages/vendored/contexts/router-context.js ***!
+  \******************************************************************************************************/
+=======
+>>>>>>> 1a773322d4179ea2a42d5e97c7c0bd953fef62f0
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
