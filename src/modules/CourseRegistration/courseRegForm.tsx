@@ -2,79 +2,28 @@ import { useEffect, useState } from "react";
 import axiosInstance from "../../Globals/Interceptor";
 import styles from "./courseRegForm.module.css";
 
-interface Student {
-  applicantID: string;
-  uuid: string;
-  firstName: string;
-  surName: string;
-  otherNames: string;
-  dateofBirth: string;
-  gender: string;
-  marital_status: string;
-  religion: string;
-  nationality: string;
-  state: string;
-  lga: string;
-  contactAddress: string;
-  phoneNumber: string;
-  physicalChallenge: string;
-  regNumber: string;
-  user: number;
-  applicationType: number;
-  choiceofCourse: number;
-}
-interface Course {
-  courseName: string;
+
+interface Program {
+  programName: string;
   degree: string;
 }
-const CourseRegForm = () => {
-  const [student, setStudent] = useState<Student>({
-    applicantID: "",
-    uuid: "",
-    firstName: "",
-    surName: "",
-    otherNames: "",
-    dateofBirth: "",
-    gender: "",
-    marital_status: "",
-    religion: "",
-    nationality: "",
-    state: "",
-    lga: "",
-    contactAddress: "",
-    phoneNumber: "",
-    physicalChallenge: "",
-    regNumber: "",
-    user: null,
-    applicationType: null,
-    choiceofCourse: null,
-  });
-  const [course, setCourse] = useState<Course>();
-
-  const getUser = async () => {
-    await axiosInstance
-      .get("http://localhost:8000/api/v1/admissions/students/me/")
-      .then(({ data }) => setStudent(data))
-      .catch((error) => console.error(error));
-  };
+const CourseRegForm = ({student, courses}) => {
+  const [course, setCourse] = useState<Program>()
 
   const getCourse = async (id) => {
     await axiosInstance
       .get(`http://localhost:8000/api/v1/program/degreecourse/${id}`)
       .then(({ data }) =>
         setCourse({
-          courseName: data?.CourseName,
+          programName: data?.CourseName,
           degree: data?.degreeType?.name,
         })
       )
-      .then(() => console.log(course));
+      .catch((error) => console.error(error));
   };
   useEffect(() => {
-    getUser();
-  }, []);
-  useEffect(() => {
-    getCourse(student.choiceofCourse);
-  }, [student]);
+    getCourse(student.choiceofCourse)
+  }, [])
   return (
     <>
       <div className="py-2">
@@ -90,7 +39,7 @@ const CourseRegForm = () => {
                 {student.firstName} {student.otherNames} {student.surName}
               </td>
               <td>{student.applicantID}</td>
-              <td>{course.degree} </td>
+              <td>{course?.programName} </td>
             </tr>
             <tr>
               <th>Course</th>
@@ -99,7 +48,7 @@ const CourseRegForm = () => {
             </tr>
             <tr>
             <td>
-                {course.courseName}
+                {course?.programName}
               </td>
               <td>{student.phoneNumber}</td>
               <td>{student.contactAddress},{student.lga},{student.state}</td>
@@ -111,14 +60,19 @@ const CourseRegForm = () => {
         <table className="w-100 justify-content-between">
           <tr>
             <th>Course</th>
-            <th>Course Title</th>
+            <th>Course Code</th>
             <th>Credits</th>
           </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+          {
+            courses.map(({name, courseUnits, courseCode}) => (
+              <tr>
+              <td>{name}</td>
+              <td>{courseCode}</td>
+              <td>{courseUnits}</td>
+            </tr>
+            ))
+          }
+
         </table>
       </div>
     </>
