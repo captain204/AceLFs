@@ -10,24 +10,11 @@ import Lottie from "react-lottie";
 const drawerWidth = 240;
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
   window?: () => Window;
-  username: string
+  username: string;
 }
 
-export default function ResponsiveDrawer(props: Props) {
-    const {username} = props
-  // const currentDateTime = new Date().toLocaleString("en-US", {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  // });
-
+export default function ResponsiveDrawer() {
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -36,7 +23,6 @@ export default function ResponsiveDrawer(props: Props) {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -48,18 +34,6 @@ export default function ResponsiveDrawer(props: Props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        {/* <Toolbar /> */}
-
-        {/* <motion.div
-        variants={fadeInVariants}
-        initial="hide"
-        whileInView="show"
-        exit="hide"
-        viewport={{
-          once: true,
-        }}
-      > */}
-
         <Box sx={{ width: "100%" }}>
           <Card
             sx={{
@@ -90,7 +64,7 @@ export default function ResponsiveDrawer(props: Props) {
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  Welcome back, {username}!
+                  Welcome back, Austine Blaise!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   Always stay updated in your student portal

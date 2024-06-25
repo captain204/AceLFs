@@ -22,6 +22,7 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+<<<<<<< HEAD
     "/courses": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -36,6 +37,22 @@
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/dashboard.js"
+=======
+    "/admin/applicants": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/applicants.js"
+    ],
+    "/admin/mphil-applicants": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/mphil-applicants.js"
+    ],
+    "/admin/msc-applicants": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/msc-applicants.js"
+>>>>>>> 1a773322d4179ea2a42d5e97c7c0bd953fef62f0
     ]
   },
   "ampFirstPages": []
