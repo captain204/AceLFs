@@ -1,17 +1,1 @@
-{
-  "/_app": "pages/_app.js",
-  "/_error": "pages/_error.js",
-  "/_document": "pages/_document.js",
-<<<<<<< HEAD
-  "/signin": "pages/signin.js",
-  "/dashboard": "pages/dashboard.js",
-  "/courses": "pages/courses.js",
-  "/courses/courseregistrationform": "pages/courses/courseregistrationform.js"
-=======
-  "/admin/dashboard": "pages/admin/dashboard.js",
-  "/admin/applicants": "pages/admin/applicants.js",
-  "/admin/msc-applicants": "pages/admin/msc-applicants.js",
-  "/admin/mphil-applicants": "pages/admin/mphil-applicants.js",
-  "/404": "pages/404.js"
->>>>>>> 1a773322d4179ea2a42d5e97c7c0bd953fef62f0
-}
+{}
