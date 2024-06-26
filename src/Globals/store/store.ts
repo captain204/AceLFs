@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import signupReducer from "../Slices/AuthSlice/SignupSlice";
 import loginUserReducer from "../Slices/AuthSlice/LoginUserSlice";
+
 import degreesReducer from "../Slices/Degree/DegreesSlice";
 import coursesReducer from "../Slices/Degree/CoursesSlice";
 import emergencyFormReducer from "../Slices/ApplicationSlice/Emergency";
@@ -13,16 +14,17 @@ import applicantsReducer from "../Slices/AdminSlices/ApplicantsSlice";
 import ApproveadmissionReducer from "../Slices/AdminSlices/ApproveAdmission";
 import degreeTypeApplicantsReducer from "../Slices/AdminSlices/DegreeTypeApplicants"
 
+
 const rootReducer = combineReducers({
   signup: signupReducer,
   loginUser: loginUserReducer,
+  loginAdmin: loginAdminReducer,
   degrees: degreesReducer,
   courses: coursesReducer,
   emergency: emergencyFormReducer,
   referee: submitRefereeFormReducer,
   personal: submitFirstFormReducer,
   newsForm: newsFormReducer,
-  loginAdmin: loginAdminReducer,
   applicants: applicantsReducer,
   approve: ApproveadmissionReducer,
   degreetypeapplicants: degreeTypeApplicantsReducer
