@@ -130,10 +130,10 @@ export default function Layout(props: Props) {
       </div>
 
       <List>
-        <Link href="/dashboard" passHref>
+        <Link href="/applicant/dashboard" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/dashboard" ? "active" : ""}
+              className={router.pathname === "/applicant/dashboard" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -149,10 +149,10 @@ export default function Layout(props: Props) {
           </ListItem>
         </Link>
 
-        <Link href="/application" passHref>
+        <Link href="/applicant/application" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/application" ? "active" : ""}
+              className={router.pathname === "/applicant/application" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -196,10 +196,10 @@ export default function Layout(props: Props) {
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <Link href="/admissions/msc" passHref>
+              <Link href="/applicant/admissions/msc" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/msc" ? "active" : ""
+                    router.pathname === "/applicant/admissions/msc" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -216,10 +216,10 @@ export default function Layout(props: Props) {
                 </ListItemButton>
               </Link>
 
-              <Link href="/admissions/mphil" passHref>
+              <Link href="/applicant/admissions/mphil" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/mphil" ? "active" : ""
+                    router.pathname === "/applicant/admissions/mphil" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -239,7 +239,7 @@ export default function Layout(props: Props) {
               <Link href="/admissions/phd" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/phd" ? "active" : ""
+                    router.pathname === "/applicant/admissions/phd" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -259,7 +259,7 @@ export default function Layout(props: Props) {
               <Link href="/admissions/statistics" passHref>
                 <ListItemButton
                   className={
-                    router.pathname === "/admissions/statistics" ? "active" : ""
+                    router.pathname === "/applicant/admissions/statistics" ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -279,7 +279,7 @@ export default function Layout(props: Props) {
           </Collapse>
         </List>
 
-        <Link href="/courses" passHref>
+        <Link href="/applicant/courses" passHref>
           <ListItem disablePadding>
             <ListItemButton
               className={router.pathname === "/courses" ? "active" : ""}

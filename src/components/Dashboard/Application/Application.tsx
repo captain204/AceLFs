@@ -827,7 +827,7 @@ const StepForm = () => {
             errors.emergencyPhoneNumber = "Required";
           }
           break;
-        // Add cases for additional steps as needed
+
         default:
           break;
       }
@@ -837,7 +837,6 @@ const StepForm = () => {
 
     onSubmit: async (values) => {
       console.log(values);
-      // Implement your submit logic here
     },
   });
 
@@ -976,7 +975,7 @@ const StepForm = () => {
             setTimeout(() => {
               setModalOpen(false); // Close modal after 3 seconds
               setTimeout(() => {
-                router.push("/dashboard"); // Redirect to /dashboard after 5 seconds
+                router.push("/applicant/dashboard"); // Redirect to /dashboard after 5 seconds
               }, 1000);
             }, 3000);
           }
@@ -1008,7 +1007,7 @@ const StepForm = () => {
 
   const handleCloseModal = () => {
     setModalOpen(false);
-    router.push("/dashboard"); // Redirect to dashboard after closing modal
+    router.push("/applicant/dashboard");
   };
 
   const defaultOptions = {
@@ -1177,7 +1176,7 @@ const StepForm = () => {
                   bgcolor: "#0AB99D",
                 },
               }}
-              disabled={loading} // Disable button while loading
+              disabled={loading} 
             >
               {loading
                 ? "Loading..."

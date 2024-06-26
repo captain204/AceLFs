@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axiosInstanceAuth from "../../InterceptorAuth";
 import axiosInstance from "../../Interceptor";
 
 interface RefereeFormData {
