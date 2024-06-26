@@ -1,5 +1,5 @@
 import React from "react";
-import AdminLayout from "../../../src/components/Dashboard/AdminLayout";
+import AdminLayout from "../../../src/components/Dashboard/Admin/AdminLayout";
 import MphilApplicantsTable from "../../../src/modules/Admin/ApplicantsMphil/MphilApplicantsTable";
 
 const index = () => {

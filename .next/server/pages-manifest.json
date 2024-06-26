@@ -2,8 +2,8 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/admin/applicants": "pages/admin/applicants.js",
-  "/admin/coursemodules": "pages/admin/coursemodules.js",
+  "/404": "pages/404.js",
+  "/": "pages/index.js",
   "/applicant/signin": "pages/applicant/signin.js",
-  "/404": "pages/404.js"
+  "/applicant/signup": "pages/applicant/signup.js"
 }
