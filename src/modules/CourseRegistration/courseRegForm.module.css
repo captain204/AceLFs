@@ -1,19 +1,37 @@
 
-.personalinforow{
-    width: 80%;
+.personalinfotable{
     margin: auto;
     margin-top: 50px;
 }
-.personalinforow tr{
+.personalinfotable tr{
     justify-content: space-between;
 }
-.personalinforow tr th{
+.personalinfotable tr th{
+    text-align: center;
     font-size: 0.8rem;
 }
 
-.personalinforow tr th, .personalinforow tr td{
-    /* text-align: center; */
+.personalinfotable tr th, .personalinfotable tr td{
+    padding: 5px;
+    width: 350px;
+}
+.personalinfotable tr td{
+    border: 1px solid black;
 }
 .modulesinfo{
     margin-top: 5%;
+    height: 500px;
+}
+.modulesinfo table{
+    margin-top: 8%;
+}
+.signatures{
+    margin-top: 10%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.signatures p{
+    font-size: 0.8rem;
+    width: 200px;
 }

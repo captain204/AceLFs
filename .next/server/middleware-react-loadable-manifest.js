@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST="{\"index.js -> ../src/modules/HomeOne\":{\"id\":\"index.js -> ../src/modules/HomeOne\",\"files\":[\"static/chunks/src_modules_HomeOne_index_js.js\"]}}"

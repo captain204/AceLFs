@@ -44,7 +44,7 @@ export const loginUser = createAsyncThunk(
         const token = response.data.key;
         localStorage.setItem("token", token);
         // const oneHour = 1 / 24;
-        Cookies.set("authToken", token);
+        Cookies.set("token", token);
         console.log(token);
       }
       return response.data;

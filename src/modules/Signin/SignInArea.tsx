@@ -49,12 +49,11 @@ export default function SignInArea() {
       })
     );
   };
-
   useEffect(() => {
     if (success) {
-      router.push("applicant/dashboard");
+      router.push("/applicant/dashboard");
     }
-  }, [success]);
+  }, [success,router]);
 
   const handleUsernameChange = (e: any) => {
     setUsername(e.target.value);

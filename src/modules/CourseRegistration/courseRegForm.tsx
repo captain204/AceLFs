@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axiosInstance from "../../Globals/Interceptor";
 import styles from "./courseRegForm.module.css";
 
@@ -7,7 +7,8 @@ interface Program {
   programName: string;
   degree: string;
 }
-const CourseRegForm = ({student, courses}) => {
+const CourseRegForm = ({student, courses, semester, componentRef}) => {
+  const {firstName, surName, otherNames, applicantID, phoneNumber, contactAddress, lga, state} = student
   const [course, setCourse] = useState<Program>()
 
   const getCourse = async (id) => {
@@ -25,10 +26,13 @@ const CourseRegForm = ({student, courses}) => {
     getCourse(student.choiceofCourse)
   }, [])
   return (
-    <>
+    <div ref={componentRef}>
       <div className="py-2">
-        <h4 className="text-center">Course Registration</h4>
-          <table className={`${styles.personalinforow}`}>
+        <div className="header m-2">
+          <img src="/img/logo/acf-logo.png"/>
+        </div>
+        <h4 className="text-center">Course Registration Form</h4>
+          <table className={`w-75 ${styles.personalinfotable}`}>
             <tr>
               <th>Name</th>
               <th>ID</th>
@@ -36,7 +40,7 @@ const CourseRegForm = ({student, courses}) => {
             </tr>
             <tr>
               <td>
-                {student.firstName} {student.otherNames} {student.surName}
+                {firstName} {otherNames} {surName}
               </td>
               <td>{student.applicantID}</td>
               <td>{course?.programName} </td>
@@ -50,32 +54,46 @@ const CourseRegForm = ({student, courses}) => {
             <td>
                 {course?.programName}
               </td>
-              <td>{student.phoneNumber}</td>
-              <td>{student.contactAddress},{student.lga},{student.state}</td>
+              <td>{phoneNumber}</td>
+              <td>{contactAddress},{lga},{state}</td>
             </tr>
           </table>
       </div>
-      <div className={`mx-5 ${styles.modulesinfo}`}>
-      <h5>Semester: 3</h5>
-        <table className="w-100 justify-content-between">
-          <tr>
-            <th>Course</th>
-            <th>Course Code</th>
-            <th>Credits</th>
+      <div className={`${styles.modulesinfo}`}>
+      <h4 className="text-center">Semester: {semester} </h4>
+        <table className="table w- justify-content-center text-center px-5">
+          <thead>
+          <tr className="border-bottom border-5 h-100 ">
+            <th className="h5">Course</th>
+            <th className="h5">Course Code</th>
+            <th className="h5">Credits</th>
           </tr>
+          </thead>
+          <tbody>
           {
-            courses.map(({name, courseUnits, courseCode}) => (
-              <tr>
+            courses.map(({name, courseUnits, courseCode}, idx) => (
+              <tr key={idx} className="border-bottom">
               <td>{name}</td>
               <td>{courseCode}</td>
               <td>{courseUnits}</td>
             </tr>
             ))
           }
-
+          </tbody>
         </table>
       </div>
-    </>
+
+      <div className={styles.signatures}>
+        <div>
+            <p className=" text-center w-100 border-top border-1 border-dark">Student signature</p>
+            <p className="text-center">Date</p>
+        </div>
+        <div>
+            <p className=" text-center w-100 border-top border-1 border-dark">Course Advisor</p>
+            <p  className="text-center">Date</p>
+        </div>
+      </div>
+    </div>
   );
 };
 
