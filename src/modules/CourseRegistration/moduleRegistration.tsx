@@ -9,23 +9,15 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-useMediaQuery,
-  Dialog,
-  useTheme
+  Dialog
 } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import { AppDispatch } from "../../Globals/store/store";
-import { getAllCourses } from "../../Globals/Slices/Degree/CoursesSlice";
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Remove, Close, Download, Balance } from "@mui/icons-material";
 import axiosInstance from "../../Globals/Interceptor";
-import { useRouter } from "next/router";
-import Link from "next/link";
 import CourseRegForm from "./courseRegForm";
 import jsPDF from "jspdf";
-import html2canvas from 'html2canvas'
+import html2canvas from "html2canvas";
 
-// type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 interface ModuleRegister {
   slug: string;
   student: number;
@@ -61,7 +53,7 @@ export default function CoursesForm() {
   const [courseRegs, setCourseRegs] = useState<ModuleRegister[]>();
   const [registeredModules, setRegisteredModules] = useState([]);
   const [unregisteredModules, setUnregisteredModules] = useState([]);
-  const componentRef = useRef()
+  const componentRef = useRef();
   const [openForm, setOpenForm] = useState(false);
   const [moduleRegister, setModuleRegister] = useState<ModuleRegister>({
     slug: "ACEDHARS COURSE FORM",
@@ -138,21 +130,21 @@ export default function CoursesForm() {
         toast.error("Error unregistering course");
       });
   };
-  // const theme = useTheme()
-  // const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
   const downloadForm = () => {
     const input = componentRef.current;
     html2canvas(input)
       .then((canvas) => {
-        const imgData = canvas.toDataURL('form/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        pdf.addImage(imgData, 'PNG', 0, 0, 210, 297);
-        pdf.save('ACEDHARS Course Form.pdf');
+        const imgData = canvas.toDataURL("form/png");
+        const pdf = new jsPDF("p", "mm", "a4");
+        const pdfwidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        pdf.addImage(imgData, "PNG", 0, 0, pdfwidth, pdfHeight);
+        pdf.save("ACEDHARS Course Form.pdf");
       })
       .catch((err) => {
-        console.error('Error generating PDF:', err);
+        console.error("Error generating PDF:", err);
       });
-  }
+  };
   // getSemesters();
   useEffect(() => {
     getSemesters();
@@ -177,9 +169,14 @@ export default function CoursesForm() {
   return (
     <Card raised={true}>
       <div>
-      {showModules && <button onClick={() => setOpenForm(true)} className="it-btn-yellow m-4">
-          Download Course Form
-        </button>}
+        {showModules && (
+          <button
+            onClick={() => setOpenForm(true)}
+            className="it-btn-yellow m-4"
+          >
+            Download Course Form
+          </button>
+        )}
       </div>
       <h3 className="text-center">Register Course</h3>
       <CardContent sx={{ marginBottom: 10 }}>
@@ -215,7 +212,7 @@ export default function CoursesForm() {
       {showModules && (
         <CardContent>
           <div>
-          <p style={{ paddingBottom: 60 }} className="text-center h5">
+            <p style={{ paddingBottom: 60 }} className="text-center h5">
               <u>Courses</u>
             </p>
             <table
@@ -280,26 +277,25 @@ export default function CoursesForm() {
               </tbody>
             </table>
           </div>
-          <Dialog
-          maxWidth
-            open={openForm}
-          >
-            <AppBar sx={{ position: "relative" }}>
-              <Toolbar>
-                <IconButton
-                  edge="start"
-                  color="inherit"
+          <CourseRegForm
+            student={student}
+            courses={registeredModules}
+            semester={moduleRegister.semester}
+            componentRef={componentRef}
+          />
+          <Dialog maxWidth open={openForm}>
+            <AppBar sx={{ position: "relative", backgroundColor: 'black' }}>
+              <Toolbar className="justify-content-between">
+                <button
+                  onClick={() => downloadForm()}
+                >
+                  <Download/>
+                </button>
+                <button
                   onClick={() => setOpenForm(false)}
                   aria-label="close"
                 >
-                  X
-                </IconButton>
-                <button
-                  autoFocus
-                  color="inherit"
-                  onClick={() =>downloadForm()}
-                >
-                  Download
+                  <Close/>
                 </button>
               </Toolbar>
             </AppBar>

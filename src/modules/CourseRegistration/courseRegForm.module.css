@@ -1,4 +1,15 @@
 
+.regformheader{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+.regformheader img{
+    width: 60px;
+    height: 60px;
+}
+.regformheader h4{
+    padding-top: 50px;
+}
 .personalinfotable{
     margin: auto;
     margin-top: 50px;
