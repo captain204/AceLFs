@@ -68,7 +68,7 @@ const CourseRegForm = ({student, courses, semester, componentRef}) => {
           <tr className="border-bottom border-5 h-100 ">
             <th className="h5 border-1 border">SN</th>
             <th className="h5">Course Code</th>
-            <th className="h5">Course</th>
+            <th className="h5">Title</th>
             <th className="h5">Credits</th>
           </tr>
           </thead>
