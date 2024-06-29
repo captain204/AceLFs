@@ -8,11 +8,10 @@ import {
   Select,
   AppBar,
   Toolbar,
-  IconButton,
   Dialog
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { Add, Remove, Close, Download, Balance } from "@mui/icons-material";
+import { Add, Remove, Close, Download } from "@mui/icons-material";
 import axiosInstance from "../../Globals/Interceptor";
 import CourseRegForm from "./courseRegForm";
 import jsPDF from "jspdf";
@@ -136,9 +135,7 @@ export default function CoursesForm() {
       .then((canvas) => {
         const imgData = canvas.toDataURL("form/png");
         const pdf = new jsPDF("p", "mm", "a4");
-        const pdfwidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        pdf.addImage(imgData, "PNG", 0, 0, pdfwidth, pdfHeight);
+        pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
         pdf.save("ACEDHARS Course Form.pdf");
       })
       .catch((err) => {
@@ -283,10 +280,11 @@ export default function CoursesForm() {
             semester={moduleRegister.semester}
             componentRef={componentRef}
           />
-          <Dialog maxWidth open={openForm}>
-            <AppBar sx={{ position: "relative", backgroundColor: 'black' }}>
-              <Toolbar className="justify-content-between">
+          <Dialog fullScreen open={openForm}>
+            <AppBar sx={{ position: "relative", backgroundColor: 'black'}}>
+              <Toolbar>
                 <button
+                style={{marginRight: 10}}
                   onClick={() => downloadForm()}
                 >
                   <Download/>

@@ -27,7 +27,7 @@ const CourseRegForm = ({student, courses, semester, componentRef}) => {
     getCourse(student.choiceofCourse)
   }, [])
   return (
-    <div ref={componentRef}>
+    <div ref={componentRef} className={styles.courseregform}>
       <div className="py-2">
         <div className={`${styles.regformheader} d-flex p-5`}>
           <img src="/img/logo/acf-logo.png"/>
@@ -63,10 +63,10 @@ const CourseRegForm = ({student, courses, semester, componentRef}) => {
       </div>
       <div className={`${styles.modulesinfo}`}>
       <h4 className="text-center">Semester: {semester} </h4>
-        <table className="table justify-content-center text-center">
+        <table className="table justify-content-center text-center border">
           <thead>
           <tr className="border-bottom border-5 h-100 ">
-            <th className="h5"></th>
+            <th className="h5 border-1 border">SN</th>
             <th className="h5">Course Code</th>
             <th className="h5">Course</th>
             <th className="h5">Credits</th>

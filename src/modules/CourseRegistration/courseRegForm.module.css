@@ -1,4 +1,9 @@
-
+.courseregform{
+    width: 210mm;
+    height: 297mm;
+   margin: 0 auto;
+   font-size: 0.4cm;
+}
 .regformheader{
     margin-top: 10px;
     margin-bottom: 20px;
@@ -19,7 +24,7 @@
 }
 .personalinfotable tr th{
     text-align: center;
-    font-size: 0.8rem;
+    font-size: 0.3cm;
 }
 
 .personalinfotable tr th, .personalinfotable tr td{
@@ -35,14 +40,16 @@
 }
 .modulesinfo table{
     margin-top: 8%;
+    width: 90%;
+    margin: auto;
 }
 .signatures{
-    margin-top: 10%;
+    /* margin-top: 10%; */
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
 }
 .signatures p{
-    font-size: 0.8rem;
+    font-size: 0.3cm;
     width: 200px;
 }
