@@ -17,12 +17,6 @@ import CourseRegForm from "./courseRegForm";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 
-interface ModuleRegister {
-  slug: string;
-  student: number;
-  course: number;
-  semester: number;
-}
 interface Student {
   applicantID: string;
   uuid: string;
@@ -44,17 +38,17 @@ interface Student {
   applicationType: number;
   choiceofCourse: number;
 }
-export default function CoursesForm() {
+export default function ModuleRegistration() {
   const [program, setProgram] = useState<number>();
   const [semesters, setSemesters] = useState(null);
   const [modules, setModules] = useState([]);
   const [showModules, setShowModules] = useState(false);
-  const [courseRegs, setCourseRegs] = useState<ModuleRegister[]>();
+  const [courseRegs, setCourseRegs] = useState([]);
   const [registeredModules, setRegisteredModules] = useState([]);
   const [unregisteredModules, setUnregisteredModules] = useState([]);
   const componentRef = useRef();
   const [openForm, setOpenForm] = useState(false);
-  const [moduleRegister, setModuleRegister] = useState<ModuleRegister>({
+  const [moduleRegister, setModuleRegister] = useState({
     slug: "ACEDHARS COURSE FORM",
     student: null,
     course: null,
@@ -65,9 +59,10 @@ export default function CoursesForm() {
     await axiosInstance
       .get("http://localhost:8000/api/v1/admissions/students/me/")
       .then(({ data }) => {
-        setModuleRegister({ ...moduleRegister, student: data.id });
-        setProgram(data.choiceofCourse);
-        setStudent(data);
+        const response = data[0]
+        setModuleRegister({ ...moduleRegister, student: response.id });
+        setProgram(response.choiceofCourse);
+        setStudent(response);
       })
       .catch((error) => console.error(error));
   };
@@ -90,7 +85,7 @@ export default function CoursesForm() {
     await axiosInstance
       .get("http://localhost:8000/api/v1/coursemodule")
       .then(({ data }) =>
-        setModules(data.filter((module) => module.course === program))
+   {setModules(data.filter((module) => module.course === program))}
       )
       .catch((error) => console.error(error));
   };
@@ -142,7 +137,6 @@ export default function CoursesForm() {
         console.error("Error generating PDF:", err);
       });
   };
-  // getSemesters();
   useEffect(() => {
     getSemesters();
     getUser();
@@ -152,6 +146,7 @@ export default function CoursesForm() {
     getModules();
     getCourseRegs();
   }, [program]);
+
   useEffect(() => {
     const registered = modules.filter((module) =>
       courseRegs.some((reg) => module.id === reg.course)
@@ -164,17 +159,7 @@ export default function CoursesForm() {
   }, [courseRegs, modules]);
 
   return (
-    <Card raised={true}>
-      <div>
-        {showModules && (
-          <button
-            onClick={() => setOpenForm(true)}
-            className="it-btn-yellow m-4"
-          >
-            Download Course Form
-          </button>
-        )}
-      </div>
+    <Card raised={true} className="pt-4">
       <h3 className="text-center">Register Course</h3>
       <CardContent sx={{ marginBottom: 10 }}>
         <FormControl
@@ -274,12 +259,6 @@ export default function CoursesForm() {
               </tbody>
             </table>
           </div>
-          <CourseRegForm
-            student={student}
-            courses={registeredModules}
-            semester={moduleRegister.semester}
-            componentRef={componentRef}
-          />
           <Dialog fullScreen open={openForm}>
             <AppBar sx={{ position: "relative", backgroundColor: 'black'}}>
               <Toolbar>
