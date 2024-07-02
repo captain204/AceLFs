@@ -3,17 +3,15 @@
     height: 297mm;
    margin: 0 auto;
    font-size: 0.4cm;
+   padding-bottom: 20px;
 }
-.regformheader{
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
+
 .regformheader img{
     width: 60px;
     height: 60px;
 }
 .regformheader h4{
-    padding-top: 50px;
+    padding-top: 20px;
 }
 .personalinfotable{
     margin: auto;
@@ -33,6 +31,13 @@
 }
 .personalinfotable tr td{
     border: 1px solid black;
+    font-size: 0.35cm;
+}
+.modulesinfo th{
+    font-size: 0.39cm;
+}
+.modulesinfo td{
+    font-size: 0.4cm;
 }
 .modulesinfo{
     margin-top: 5%;

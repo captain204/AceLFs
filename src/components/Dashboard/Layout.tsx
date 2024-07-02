@@ -32,9 +32,10 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { RootState } from "../../Globals/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../Globals/store/store";
 import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { getCurrentUser } from "../../Globals/Slices/AuthSlice/CurrentUserSlice";
 
 const drawerWidth = 240;
 
@@ -43,11 +44,15 @@ interface Props {
 }
 
 export default function Layout(props: Props) {
+  const dispatch: AppDispatch = useDispatch()
+  React.useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [])
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-  const { username } =
-    useSelector((state: RootState) => state.loginUser.signupData) || {};
+  const { firstName } =
+    useSelector((state: RootState) => state.currentUser.currentUser) || {};
   const [openAdmissions, setOpenAdmissions] = React.useState(true);
   const [openCoursesDropdown, setOpenCoursesDropdown] = React.useState(true);
   const handleAdmissionsClick = () => {
@@ -430,7 +435,7 @@ export default function Layout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                {username}
+                {firstName}
               </Typography>
 
               <Typography
@@ -443,7 +448,7 @@ export default function Layout(props: Props) {
               </Typography>
             </div>
 
-            <Avatar alt={username} src="/static/images/avatar/1.jpg" />
+            <Avatar alt={firstName} src="/static/images/avatar/1.jpg" />
           </Box>
         </Toolbar>
       </AppBar>

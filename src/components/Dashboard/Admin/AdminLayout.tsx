@@ -32,15 +32,22 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PaymentIcon from "@mui/icons-material/Payment";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { AppDispatch, RootState } from "../../../Globals/store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { getCurrentUser } from "../../../Globals/Slices/AuthSlice/CurrentUserSlice";
 
 const drawerWidth = 240;
 
 interface Props {
   children: React.ReactNode;
-  // username: string;
 }
 
 export default function AdminLayout(props: Props) {
+  const dispatch: AppDispatch = useDispatch()
+  React.useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [])
+  const {firstName} = useSelector((state: RootState) => state.currentUser.currentUser)
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);

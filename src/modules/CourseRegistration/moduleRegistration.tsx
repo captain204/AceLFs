@@ -1,43 +1,16 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
   InputLabel,
   MenuItem,
   FormControl,
-  Select,
-  AppBar,
-  Toolbar,
-  Dialog
+  Select
 } from "@mui/material";
 import { toast } from "react-toastify";
-import { Add, Remove, Close, Download } from "@mui/icons-material";
+import { Add, Remove } from "@mui/icons-material";
 import axiosInstance from "../../Globals/Interceptor";
-import CourseRegForm from "./courseRegForm";
-import jsPDF from "jspdf";
-import html2canvas from "html2canvas";
 
-interface Student {
-  applicantID: string;
-  uuid: string;
-  firstName: string;
-  surName: string;
-  otherNames: string;
-  dateofBirth: string;
-  gender: string;
-  marital_status: string;
-  religion: string;
-  nationality: string;
-  state: string;
-  lga: string;
-  contactAddress: string;
-  phoneNumber: string;
-  physicalChallenge: string;
-  regNumber: string;
-  user: number;
-  applicationType: number;
-  choiceofCourse: number;
-}
 export default function ModuleRegistration() {
   const [program, setProgram] = useState<number>();
   const [semesters, setSemesters] = useState(null);
@@ -45,16 +18,14 @@ export default function ModuleRegistration() {
   const [showModules, setShowModules] = useState(false);
   const [courseRegs, setCourseRegs] = useState([]);
   const [registeredModules, setRegisteredModules] = useState([]);
-  const [unregisteredModules, setUnregisteredModules] = useState([]);
-  const componentRef = useRef();
-  const [openForm, setOpenForm] = useState(false);
+  const [unregisteredModules, setUnregisteredModules] = useState([]); 
+
   const [moduleRegister, setModuleRegister] = useState({
     slug: "ACEDHARS COURSE FORM",
     student: null,
     course: null,
     semester: null,
   });
-  const [student, setStudent] = useState<Student>();
   const getUser = async () => {
     await axiosInstance
       .get("http://localhost:8000/api/v1/admissions/students/me/")
@@ -62,7 +33,6 @@ export default function ModuleRegistration() {
         const response = data[0]
         setModuleRegister({ ...moduleRegister, student: response.id });
         setProgram(response.choiceofCourse);
-        setStudent(response);
       })
       .catch((error) => console.error(error));
   };
@@ -124,19 +94,7 @@ export default function ModuleRegistration() {
         toast.error("Error unregistering course");
       });
   };
-  const downloadForm = () => {
-    const input = componentRef.current;
-    html2canvas(input)
-      .then((canvas) => {
-        const imgData = canvas.toDataURL("form/png");
-        const pdf = new jsPDF("p", "mm", "a4");
-        pdf.addImage(imgData, "PNG", 0, 0, 210, 297);
-        pdf.save("ACEDHARS Course Form.pdf");
-      })
-      .catch((err) => {
-        console.error("Error generating PDF:", err);
-      });
-  };
+
   useEffect(() => {
     getSemesters();
     getUser();
@@ -259,30 +217,6 @@ export default function ModuleRegistration() {
               </tbody>
             </table>
           </div>
-          <Dialog fullScreen open={openForm}>
-            <AppBar sx={{ position: "relative", backgroundColor: 'black'}}>
-              <Toolbar>
-                <button
-                style={{marginRight: 10}}
-                  onClick={() => downloadForm()}
-                >
-                  <Download/>
-                </button>
-                <button
-                  onClick={() => setOpenForm(false)}
-                  aria-label="close"
-                >
-                  <Close/>
-                </button>
-              </Toolbar>
-            </AppBar>
-            <CourseRegForm
-              student={student}
-              courses={registeredModules}
-              semester={moduleRegister.semester}
-              componentRef={componentRef}
-            />
-          </Dialog>
         </CardContent>
       )}
     </Card>
