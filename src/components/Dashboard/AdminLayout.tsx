@@ -156,38 +156,37 @@ export default function AdminLayout(props: Props) {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          {/* <Link href="/admin/applicants" passHref> */}
-          <ListItemButton
-            className={
-              router.pathname.startsWith("/admin/applicants") ? "active" : ""
-            }
-            sx={{
-              "&.active": {
-                bgcolor: "rgba(255, 255, 255, 0.25)",
-              },
-              color: "white",
-            }}
-          >
-            <ListItemIcon
-              sx={{ color: "white" }}
-              onClick={applicantsNavigation}
+          <Link href="/admin/applicants" passHref>
+            <ListItemButton
+              className={
+                router.pathname.startsWith("/admin/applicants") ? "active" : ""
+              }
+              sx={{
+                "&.active": {
+                  bgcolor: "rgba(255, 255, 255, 0.25)",
+                },
+                color: "white",
+              }}
             >
-              <GroupAddIcon />
-            </ListItemIcon>
-            <ListItemText
-              sx={{ color: "white" }}
-              primary="Applicants"
-              onClick={applicantsNavigation}
-            />
+              <ListItemIcon
+                sx={{ color: "white" }}
+                onClick={applicantsNavigation}
+              >
+                <GroupAddIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ color: "white" }}
+                primary="Applicants"
+                onClick={applicantsNavigation}
+              />
 
-            {open ? (
-              <ExpandLess sx={{ color: "white" }} onClick={handleClick} />
-            ) : (
-              <ExpandMore sx={{ color: "white" }} onClick={handleClick} />
-            )}
-          </ListItemButton>
-
-          {/* </Link> */}
+              {open ? (
+                <ExpandLess sx={{ color: "white" }} onClick={handleClick} />
+              ) : (
+                <ExpandMore sx={{ color: "white" }} onClick={handleClick} />
+              )}
+            </ListItemButton>
+          </Link>
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
@@ -215,8 +214,7 @@ export default function AdminLayout(props: Props) {
                 <ListItemButton
                   className={
                     router.pathname === "/admin/mphil-applicants"
-                      ? "active"
-                      : ""
+                      ? "active" : ""
                   }
                   sx={{
                     "&.active": {
@@ -255,9 +253,7 @@ export default function AdminLayout(props: Props) {
 
               <Link href="/" passHref>
                 <ListItemButton
-                  className={
-                    router.pathname === "/" ? "active" : ""
-                  }
+                  className={router.pathname === "/" ? "active" : ""}
                   sx={{
                     "&.active": {
                       bgcolor: "rgba(255, 255, 255, 0.25)",

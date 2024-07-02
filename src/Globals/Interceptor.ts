@@ -10,9 +10,9 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    const token = localStorage.getItem("token");
     if (token) {
-      config.headers["Authorization"] = `Token ${token}`; // Set Authorization header with token
+      config.headers["Authorization"] = `Token ${token}`;
     }
     return config;
   },
@@ -30,8 +30,7 @@ axiosInstance.interceptors.response.use(
       const { status } = error.response;
       switch (status) {
         case 401:
-          // Unauthorized access handling
-          window.location.href = "/login"; // Redirect to login page
+          window.location.href = "/login";
           break;
         case 403:
           // Forbidden access handling
@@ -41,9 +40,10 @@ axiosInstance.interceptors.response.use(
           break;
         case 404:
           // Not Found handling
-          toast.error("Resource not found.", {
-            position: "top-left",
-          });
+          console.log("Resource not found.");
+          // toast.error("Resource not found.", {
+          //   position: "top-left",
+          // });
           break;
         case 500:
           // Server error handling

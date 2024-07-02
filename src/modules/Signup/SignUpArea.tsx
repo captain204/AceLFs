@@ -10,7 +10,7 @@ import { UnknownAction, ThunkDispatch } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
-import { signupUser } from "../../Globals/Slices/AuthSlice/SignupSlice";
+import { signupUser } from "../../Globals/Slices/ApplicantsSlices/AuthSlice/SignupSlice";
 import LoaderSpinner from "../../components/Spinner";
 import { RootState } from "../../Globals/store/store";
 
@@ -86,20 +86,21 @@ export default function SignUpArea() {
 
   useEffect(() => {
     if (success) {
-      router.push("/signin");
+      router.push("/applicant/signin");
     }
   }, [success]);
 
   return (
     <div className="it-signup-area pt-120 pb-120">
       <div className="container">
-        <div className="it-signup-bg p-relative">
+        <div className="bg-light p-relative">
           <div className="it-signup-thumb d-none d-lg-block">
-            <Image
-              src="/img/contact/signup.jpg"
+            <img
+            src="https://img.freepik.com/free-photo/group-five-african-college-students-spending-time-together-campus-university-yard-black-afro-friends-studying-education-theme_627829-6007.jpg"
               alt=""
               width={663}
               height={637}
+              style={{ objectFit: 'contain' }}
             />
           </div>
           <div className="row">
@@ -108,9 +109,10 @@ export default function SignUpArea() {
                 <div className="it-signup-wrap">
                   <h4 className="it-signup-title">Sign Up</h4>
                   <div className="it-signup-input-wrap mb-40">
-                    <div className="it-signup-input mb-20">
+                    <div className=" mb-20">
                       <input
                         type="text"
+                         className="form-control"
                         placeholder="Username *"
                         {...register("username")}
                         value={username}
@@ -123,8 +125,9 @@ export default function SignUpArea() {
                       )}
                     </div>
 
-                    <div className="it-signup-input mb-20">
+                    <div className=" mb-20">
                       <input
+                       className="form-control"
                         type="email"
                         placeholder="Email *"
                         {...register("email")}
@@ -135,9 +138,10 @@ export default function SignUpArea() {
                         <p style={{ color: "red" }}>{errors.email.message}</p>
                       )}
                     </div>
-                    <div className="it-signup-input mb-20">
+                    <div className=" mb-20">
                       <input
                         type="password"
+                         className="form-control"
                         placeholder="Password *"
                         {...register("password")}
                         value={password}

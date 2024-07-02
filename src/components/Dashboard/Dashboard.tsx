@@ -3,52 +3,42 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Card, CardContent} from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import animationData from "../../../public/img/student3.json";
 import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-
+import { format } from "date-fns";
 
 const drawerWidth = 240;
 
-interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * Remove this when copying and pasting into your project.
-   */
-  window?: () => Window;
-}
+// type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
+
+export default function ResponsiveDrawer() {
+  const eachstudent = useSelector(
+    (state: RootState) => state?.applicantStatus?.status
+  );
+
+  const user = useSelector((state: RootState) => state?.loggedInUser?.user);
+  const currentDate = format(new Date(), "do MMMM, yyyy");
 
 
-type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
-export default function ResponsiveDrawer(props: Props) {
-  const dispatch: AppDispatch = useDispatch();
-  // const currentDateTime = new Date().toLocaleString("en-US", {
-  //   year: "numeric",
-  //   month: "long",
-  //   day: "numeric",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  // });
+  const applicantstatus: any = useSelector(
+    (state: RootState) => state?.applicantStatus?.status
+  );
 
-  // useEffect(() => {
-  //   dispatch(newsFormAction ({
-  //     slug:  "1",
-  //     title: "hey",
-  //     content:  "go",
-  //     image:  "hey.png",
-  //     detailsImage: "God",
-  //     category: "beans",
-  //     commentsCount:  2147483647,
-  //     publishedDate: "2024-06-12"
-  //   }));
-  
-  // }, []);
+  // const applicantstatusdisplay: any = useSelector((state: RootState) =>
+  //   Array.isArray(state?.applicantStatus?.status)
+  //     ? state.applicantStatus.status[0]
+  //     : state.applicantStatus.status
+  // );
 
-
-
+  // const uploads: any = useSelector((state: RootState) =>
+  //   Array.isArray(state?.studentUploadsApplicant?.uploads)
+  //     ? state.studentUploadsApplicant?.uploads[0]
+  //     : state.studentUploadsApplicant?.uploads
+  // );
 
   const defaultOptions = {
     loop: true,
@@ -69,18 +59,6 @@ export default function ResponsiveDrawer(props: Props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        {/* <Toolbar /> */}
-
-        {/* <motion.div
-        variants={fadeInVariants}
-        initial="hide"
-        whileInView="show"
-        exit="hide"
-        viewport={{
-          once: true,
-        }}
-      > */}
-
         <Box sx={{ width: "100%" }}>
           <Card
             sx={{
@@ -102,16 +80,18 @@ export default function ResponsiveDrawer(props: Props) {
                 <Typography
                   variant="h6"
                   component="div"
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "18px" }}
                 >
-                  6th october, 2024
+                  {currentDate}
                 </Typography>
                 <Typography
                   variant="h5"
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  Welcome back, Nurudeen!
+                  {applicantstatus != null ? " Welcome back" : "Welcome Onboard"}{" "}
+                  {""}  
+                { user?.username.toUpperCase()}!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   Always stay updated in your student portal

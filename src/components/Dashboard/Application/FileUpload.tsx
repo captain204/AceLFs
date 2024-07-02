@@ -7,6 +7,7 @@ interface FileUploadProps {
   fieldName: string;
   accept: string;
   formik: any;
+  required?: boolean;
 }
 
 const formatFieldName = (fieldName: string) => {
@@ -17,6 +18,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   fieldName,
   accept,
   formik,
+  required = false,
 }) => {
   const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
@@ -47,7 +49,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       >
         <input {...getInputProps()} />
         <Typography variant="body1">
-          Drag 'n' drop <span style={{ color: '#0AB99D' }}>{formatFieldName(fieldName)}</span> file here, or click to select file
+          Drag 'n' drop <span style={{ color: '#0AB99D' }}>{formatFieldName(fieldName)}</span> file here, or click to select file {required && <span style={{ color: 'red' }}>(required)</span>}
         </Typography>
       </Box>
       {formik.touched[fieldName] && formik.errors[fieldName] ? (
@@ -102,13 +104,6 @@ export default FileUpload;
 
 
 
-
-
-
-
-
-
-
 // import React from "react";
 // import { Box, Typography, Paper, IconButton } from "@mui/material";
 // import { useDropzone } from "react-dropzone";
@@ -119,6 +114,10 @@ export default FileUpload;
 //   accept: string;
 //   formik: any;
 // }
+
+// const formatFieldName = (fieldName: string) => {
+//   return fieldName.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase()).toUpperCase();
+// };
 
 // const FileUpload: React.FC<FileUploadProps> = ({
 //   fieldName,
@@ -142,7 +141,7 @@ export default FileUpload;
 //   };
 
 //   return (
-//     <Paper variant="outlined" sx={{ p: 2, textAlign: "center",  }}>
+//     <Paper variant="outlined" sx={{ p: 2, textAlign: "center" }}>
 //       <Box
 //         {...getRootProps({ className: "dropzone" })}
 //         sx={{
@@ -150,12 +149,11 @@ export default FileUpload;
 //           border: "2px dashed #0AB99D",
 //           borderRadius: "4px",
 //           cursor: "pointer",
-          
 //         }}
 //       >
 //         <input {...getInputProps()} />
 //         <Typography variant="body1">
-//           Drag 'n' drop {fieldName} file here, or click to select file
+//           Drag 'n' drop <span style={{ color: '#0AB99D' }}>{formatFieldName(fieldName)}</span> file here, or click to select file
 //         </Typography>
 //       </Box>
 //       {formik.touched[fieldName] && formik.errors[fieldName] ? (
@@ -187,4 +185,33 @@ export default FileUpload;
 // };
 
 // export default FileUpload;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

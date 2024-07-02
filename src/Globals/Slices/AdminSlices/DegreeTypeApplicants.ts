@@ -22,7 +22,7 @@ export const getDegreeTypeApplicants = createAsyncThunk(
   async (applicationType_slug: string) => {
     try {
       const response = await axiosInstanceAdmin.get(
-        `/api/v1/admissions/program-type/${applicationType_slug}/`
+        `/api/v1/admissions/program/${applicationType_slug}/`
       );
       console.log(response.data);
       return response.data;

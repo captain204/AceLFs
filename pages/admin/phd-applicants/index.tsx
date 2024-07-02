@@ -5,7 +5,8 @@ import PHDApplicantsTable from "../../../src/modules/Admin/ApplicantsPhd/PhdAppl
 const index = () => {
   return (
     <AdminLayout>
-      <PHDApplicantsTable />
+      {/* <PHDApplicantsTable /> */}
+      phd yet
     </AdminLayout>
   );
 };

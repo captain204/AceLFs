@@ -6647,14 +6647,14 @@ input[type="color"] {
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .it-signup-input input::placeholder {
   color: #0e2a46;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
 }
 .it-signup-text span {
   color: #4d5756;

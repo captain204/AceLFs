@@ -16,6 +16,13 @@ import {
   DialogContentText,
   DialogActions,
   Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Box,
+  useMediaQuery,
 } from "@mui/material";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 import { RootState } from "../../../Globals/store/store";
@@ -23,8 +30,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllApplicants } from "../../../Globals/Slices/AdminSlices/ApplicantsSlice";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { approveAdmission } from "../../../Globals/Slices/AdminSlices/ApproveAdmission";
 import DownloadIcon from "@mui/icons-material/Download";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import { approveAdmission } from "../../../Globals/Slices/AdminSlices/ApproveAdmission";
+import { getStudentUploads } from "../../../Globals/Slices/ApplicantsSlices/ApplicantsMoreDetail/StudentUpload";
+import { getReferee } from "../../../Globals/Slices/ApplicantsSlices/ApplicantsMoreDetail/Refeeree";
+import { getApplicantInformation } from "../../../Globals/Slices/ApplicantsSlices/ApplicantsMoreDetail/personal";
+import { getEmergencyContact } from "../../../Globals/Slices/ApplicantsSlices/ApplicantsMoreDetail/EmmergencySlice";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 const NoSSRTable = dynamic(() => Promise.resolve(ClientSideTable), {
@@ -33,7 +45,8 @@ const NoSSRTable = dynamic(() => Promise.resolve(ClientSideTable), {
 
 function ClientSideTable() {
   const [isClient, setIsClient] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openApproveModal, setOpenApproveModal] = useState(false);
+  const [openDetailsModal, setOpenDetailsModal] = useState(false);
   const [currentApplicant, setCurrentApplicant] = useState<any>({
     id: null,
     fullName: "",
@@ -44,6 +57,19 @@ function ClientSideTable() {
   const applicants =
     useSelector((state: RootState) => state?.applicants?.applicants) || [];
 
+  const applicantdetailinfo =
+    useSelector((state: RootState) => state?.applicantPersonal?.personal) || [];
+
+  const applicantreferee =
+    useSelector((state: RootState) => state?.applicantReferee?.referee) || [];
+
+  const applicantemergency =
+    useSelector((state: RootState) => state?.applicantEmmergency?.econtact) ||
+    [];
+
+  const applicantuploads =
+    useSelector((state: RootState) => state?.applicantUploads?.uploads) || [];
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -53,28 +79,52 @@ function ClientSideTable() {
     await dispatch(approveAdmission({ applicantId: id, is_admitted }));
   };
 
-  const handleCloseModal = () => {
-    setOpen(false);
+  const handleCloseApproveModal = () => {
+    setOpenApproveModal(false);
     setCurrentApplicant({
       id: null,
       fullName: "",
       is_admitted: false,
-    }); // Reset currentApplicant state when closing modal
+    });
+  };
+
+  const handleCloseDetailsModal = () => {
+    setOpenDetailsModal(false);
+  };
+
+  const handleOpenDetailsModal = (applicant: any) => {
+    const fullName = `${applicant.firstName} ${applicant.surName} ${applicant.otherNames}`;
+    setCurrentApplicant({ ...applicant, fullName });
+
+    Promise.all([
+      dispatch(getApplicantInformation(applicant.id)),
+      dispatch(getEmergencyContact(applicant.id)),
+      dispatch(getReferee(applicant.id)),
+      dispatch(getStudentUploads(applicant.id)),
+    ]).then(() => {
+      setOpenDetailsModal(true);
+    });
   };
 
   const handleConfirm = async () => {
     if (currentApplicant.id !== null) {
       await handleApprove(currentApplicant.id, currentApplicant.is_admitted);
     }
-    handleCloseModal();
+    handleCloseApproveModal();
     dispatch(getAllApplicants());
   };
 
-  const handleOpenModal = (applicant: any) => {
+  const handleOpenApproveModal = (applicant: any) => {
     const fullName = `${applicant.firstName} ${applicant.surName} ${applicant.otherNames}`;
     setCurrentApplicant({ ...applicant, fullName });
-    setOpen(true);
+    setOpenApproveModal(true);
   };
+
+  // const handleOpenDetailsModal = (applicant: any) => {
+  //   const fullName = `${applicant.firstName} ${applicant.surName} ${applicant.otherNames}`;
+  //   setCurrentApplicant({ ...applicant, fullName });
+  //   setOpenDetailsModal(true);
+  // };
 
   const columns = [
     {
@@ -91,7 +141,7 @@ function ClientSideTable() {
             <IconButton
               style={{ color: "#0AB99D" }}
               aria-label="approved"
-              // onClick={() => handleOpenModal(row)}
+              // onClick={() => handleOpenApproveModal(row)}
             >
               <CheckCircleOutlineIcon />
             </IconButton>
@@ -101,13 +151,29 @@ function ClientSideTable() {
             <IconButton
               style={{ color: "red" }}
               aria-label="not-approved"
-              onClick={() => handleOpenModal(row)}
+              onClick={() => handleOpenApproveModal(row)}
             >
               <HighlightOffIcon />
             </IconButton>
           </Tooltip>
         ),
-      button: true,
+      // button: true,
+    },
+
+    {
+      name: "View",
+      cell: (row: any) => (
+        <Tooltip title="View Details" placement="top">
+          <IconButton
+            style={{ color: "#0AB99D" }}
+            aria-label="view"
+            onClick={() => handleOpenDetailsModal(row)}
+          >
+            <VisibilityIcon />
+          </IconButton>
+        </Tooltip>
+      ),
+      // button: true,
     },
     {
       name: "Full Name",
@@ -116,7 +182,6 @@ function ClientSideTable() {
       sortable: true,
       width: "220px",
     },
-
     {
       name: "Reg Number",
       selector: (row: any) => row?.regNumber,
@@ -140,35 +205,11 @@ function ClientSideTable() {
       selector: (row: any) => row?.gender_display,
       sortable: true,
     },
-    // {
-    //   name: "Nationality",
-    //   selector: (row: any) => row?.nationality,
-    //   sortable: true,
-    // },
     {
       name: "State",
       selector: (row: any) => row?.state,
       sortable: true,
     },
-    // {
-    //   name: "LGA",
-    //   selector: (row: any) => row?.lga,
-    //   sortable: true,
-    //   width: "150px",
-    // },
-    // {
-    //   name: "Phone Number",
-    //   selector: (row: any) => row?.phoneNumber,
-    //   sortable: true,
-    //   width: "150px",
-    // },
-
-    // {
-    //   name: "Date of Birth",
-    //   selector: (row: any) => row?.dateofBirth,
-    //   sortable: true,
-    //   width: "150px",
-    // },
   ];
 
   const [data, setData] = useState(applicants);
@@ -180,7 +221,7 @@ function ClientSideTable() {
 
   const handleSearch = (e: any) => {
     setSearchTerm(e.target.value);
-    const filteredData = applicants.filter((applicant:any) =>
+    const filteredData = applicants.filter((applicant: any) =>
       Object.values(applicant).some(
         (value) =>
           typeof value === "string" &&
@@ -189,6 +230,8 @@ function ClientSideTable() {
     );
     setData(filteredData);
   };
+
+  const isMobile = useMediaQuery("(max-width:600px)");
 
   const exportPDF = () => {
     const doc = new jsPDF();
@@ -257,8 +300,8 @@ function ClientSideTable() {
       </CardContent>
 
       <Dialog
-        open={open}
-        onClose={handleCloseModal}
+        open={openApproveModal}
+        onClose={handleCloseApproveModal}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -293,7 +336,7 @@ function ClientSideTable() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseModal} style={{ color: "red" }}>
+          <Button onClick={handleCloseApproveModal} style={{ color: "red" }}>
             Cancel
           </Button>
           <Button
@@ -303,6 +346,365 @@ function ClientSideTable() {
             style={{ color: "#0AB99D" }}
           >
             Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog
+        open={openDetailsModal}
+        onClose={handleCloseDetailsModal}
+        aria-labelledby="applicant-details-title"
+        aria-describedby="applicant-details-description"
+        maxWidth="md"
+        fullWidth
+      >
+        <DialogTitle
+          id="applicant-details-title"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            // color: "#5Ac88e",
+          }}
+        >
+          {currentApplicant.fullName}
+        </DialogTitle>
+        <DialogContent>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+              marginBottom: "1rem",
+            }}
+          >
+            <img
+              src={applicantuploads?.studentImage}
+              alt="Student"
+              style={{
+                width: "150px",
+                height: "150px",
+                border: "5px solid #0AB99D",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
+              gap: "16px",
+            }}
+          >
+            <Box
+              sx={{
+                border: "1px solid #0AB99D",
+                borderRadius: "8px",
+                padding: "16px",
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                style={{ color: "#0AB99D" }}
+              >
+                Referee Information
+              </Typography>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Referee Name</TableCell>
+                    <TableCell>
+                      {applicantreferee?.firstname} {applicantreferee?.lastname}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Referee Email</TableCell>
+                    <TableCell>{applicantreferee?.email}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>contact Address</TableCell>
+                    <TableCell>{applicantreferee?.contactAddress}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Referee Phone</TableCell>
+                    <TableCell>{applicantreferee?.phoneNumber}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+
+            <Box
+              sx={{
+                border: "1px solid #0AB99D",
+                borderRadius: "8px",
+                padding: "16px",
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                style={{ color: "#0AB99D" }}
+              >
+                Emergency Contact
+              </Typography>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Contact Name</TableCell>
+                    <TableCell>
+                      {applicantemergency?.firstname}{" "}
+                      {applicantemergency?.lastname}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Contact Phone</TableCell>
+                    <TableCell>{applicantemergency?.phoneNumber}</TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Email</TableCell>
+                    <TableCell>{applicantemergency?.email}</TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Contact Address</TableCell>
+                    <TableCell>{applicantemergency?.contactAddress}</TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+
+            <Box
+              sx={{
+                border: "1px solid #0AB99D",
+                borderRadius: "8px",
+                padding: "16px",
+              }}
+            >
+              <Typography
+                variant="subtitle1"
+                gutterBottom
+                style={{ color: "#0AB99D" }}
+              >
+                Personal Information
+              </Typography>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>Gender</TableCell>
+                    <TableCell>{applicantdetailinfo?.gender_display}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>State</TableCell>
+                    <TableCell>{applicantdetailinfo?.state}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Reg Number</TableCell>
+                    <TableCell>{applicantdetailinfo?.regNumber}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Degree</TableCell>
+                    <TableCell>
+                      {applicantdetailinfo?.applicationType?.name}
+                    </TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Course</TableCell>
+                    <TableCell>
+                      {applicantdetailinfo?.choiceofCourse?.CourseName}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Religion</TableCell>
+                    <TableCell>
+                      {applicantdetailinfo?.religion_display}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Phone Number</TableCell>
+                    <TableCell> {applicantdetailinfo?.phoneNumber} </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Contact Address</TableCell>
+                    <TableCell>
+                      {" "}
+                      {applicantdetailinfo?.contactAddress}{" "}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Marita Status</TableCell>
+                    <TableCell>
+                      {applicantdetailinfo?.marital_status_display}
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell>Physical Challenge</TableCell>
+                    <TableCell>
+                      {applicantdetailinfo?.physicalChallenge_display}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+
+            <Box
+              sx={{
+                border: "1px solid #0AB99D",
+                borderRadius: "8px",
+                padding: "16px",
+              }}
+            >
+              <Typography variant="subtitle1" gutterBottom>
+                Downloads
+              </Typography>
+
+
+
+               <a
+    href={applicantuploads?.IdentityImage}
+    download
+    style={{ textDecoration: "none" }}
+  >
+    <Button
+      variant="contained"
+      color="success"
+      startIcon={<DownloadIcon />}
+      style={{ marginBottom: "8px" }}
+    >
+      Download Identity Image
+    </Button>
+  </a>
+
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download Birth Certificate
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download First Degree
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download Masters Degree
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download Nysc
+                {/* studentNysc */}
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download Other Certificate
+                {/* otherCertificate*/}
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download PHD Proposal
+                {/* otherCertificate*/}
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download Post Graduate Diploma
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download Resume
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download transcript
+              </Button>
+
+              <Button
+                variant="contained"
+                color="success"
+                startIcon={<DownloadIcon />}
+                style={{ marginBottom: "8px" }}
+              >
+                Download NCE Certificate
+              </Button>
+            </Box>
+          </div>
+        </DialogContent>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "16px",
+          }}
+        >
+          {!currentApplicant.is_admitted ? (
+            <Button
+              variant="contained"
+              color="success"
+              onClick={() => handleOpenApproveModal(currentApplicant)}
+            >
+              Approve Admission
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              color="error"
+              onClick={() => handleOpenApproveModal(currentApplicant)}
+            >
+              Unapprove Admission
+            </Button>
+          )}
+        </Box>
+
+        <DialogActions>
+          <Button onClick={handleCloseDetailsModal} color="primary">
+            Close
           </Button>
         </DialogActions>
       </Dialog>

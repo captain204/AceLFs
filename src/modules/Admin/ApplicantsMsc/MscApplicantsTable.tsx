@@ -22,7 +22,7 @@ import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { approveAdmission } from "../../../Globals/Slices/AdminSlices/ApproveAdmission";
 import { getDegreeTypeApplicants } from "../../../Globals/Slices/AdminSlices/DegreeTypeApplicants";
-import { getAllDegrees } from "../../../Globals/Slices/Degree/DegreesSlice";
+import { getAllDegrees } from "../../../Globals/Slices/ApplicantsSlices/Degree/DegreesSlice";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import DownloadIcon from "@mui/icons-material/Download";
