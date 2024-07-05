@@ -13,6 +13,7 @@ import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 
 import { useEffect } from "react";
 import { newsFormAction } from "../../Globals/Slices/ApplicationSlice/News";
+import { getCurrentUser } from "../../Globals/Slices/AuthSlice/CurrentUserSlice";
 
 const drawerWidth = 240;
 
@@ -29,6 +30,11 @@ type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function ResponsiveDrawer(props: Props) {
   const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
   const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [])
+  
   // const currentDateTime = new Date().toLocaleString("en-US", {
   //   year: "numeric",
   //   month: "long",

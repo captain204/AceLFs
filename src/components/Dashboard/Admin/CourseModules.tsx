@@ -26,7 +26,7 @@ type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 const DegreesForm = () => {
   const dispatch: AppDispatch = useDispatch();
   const [selectedDegree, setSelectedDegree] = useState<number>();
-  const [selectedCourse, setSelectedCourse] = useState();
+  const [selectedCourse, setSelectedCourse] = useState<number>();
   const [degreeCourses, setDegreeCourses] = useState([]);
   const [courseModules, setCourseModules] = useState([]);
   const [authToken, setauthToken] = useState<string>();
@@ -105,9 +105,15 @@ const DegreesForm = () => {
   return (
     <Card raised={true}>
       <CardContent>
-        <form>
-          <FormControl sx={{ m: 1, width: "25ch" }} className="d-flex flex-row">
-            <InputLabel id="degreeType-label">Degree Type</InputLabel>
+        <h3 className="text-center" style={{ paddingTop: "20px" }}>
+          Add Courses
+        </h3>
+        <form style={{ marginTop: "30px" }}>
+          <FormControl
+            sx={{ m: "auto" }}
+            className="d-flex flex-row col-lg-8 col-sm-12 col-md-12"
+          >
+            <InputLabel id="degreeType-label">Select Degree in View</InputLabel>
             <Select
               labelId="degreeType-label"
               id="degreeType"
@@ -126,8 +132,11 @@ const DegreesForm = () => {
                 ))}
             </Select>
           </FormControl>
-          <FormControl sx={{ m: 1, width: "25ch" }} className="d-flex flex-row">
-            <InputLabel id="degreeType-label">Course</InputLabel>
+          <FormControl
+            sx={{ mx: "auto", my: 3 }}
+            className="d-flex flex-row col-lg-8 col-sm-12 col-md-12"
+          >
+            <InputLabel id="degreeType-label">Select Program</InputLabel>
             <Select
               labelId="courseType-label"
               id="courseType"
@@ -147,20 +156,22 @@ const DegreesForm = () => {
             </Select>
           </FormControl>
         </form>
+        {selectedCourse && (
+          <div className="text-center mt-5">
+            <button
+              className="it-btn"
+              type="submit"
+              onClick={() => {
+                setFormData(null);
+                setShowCourseModuleForm(!showCourseModuleForm);
+              }}
+            >
+              {showCourseModuleForm ? "Close" : "Add Module"}
+            </button>
+          </div>
+        )}
       </CardContent>
-      {selectedCourse && (
-        <button
-          className="it-btn px-2 m-2"
-          type="submit"
-          onClick={() => {
-            setFormData(null);
-            setShowCourseModuleForm(!showCourseModuleForm);
-          }}
-        >
-          {showCourseModuleForm ? "Close" : "Add Module"}
-        </button>
-      )}
-      <CardContent>
+      <div>
         {showCourseModuleForm && (
           <CourseModuleForm
             formState={setShowCourseModuleForm}
@@ -172,15 +183,23 @@ const DegreesForm = () => {
             getModules={getCourseModules}
           />
         )}
-        {courseModules.map((module) => (
-          <div>
-            <div className="mb-4 px-1 d-flex flex-wrap justify-content-evenly align-items-center">
-              <p className="me-2 mb-0 me-md-5">{module.name}</p>
-              <p className="me-2 mb-0 me-md-3">{module.courseCode}</p>
-              <p className="me-2 mb-0 me-md-3">{module.courseUnits} units</p>
-              <div className="d-flex ms-auto mt-2 mt-md-0">
+      </div>
+      <CardContent style={{ marginTop: "30px" }}>
+        <table className={`w-100 justify-content-center text-center px-5 mx-auto`}>
+          <tr className="border-bottom border-5 h-100 ">
+            <th className="h5">Course</th>
+            <th className="h5">Code</th>
+            <th className="h5">Units</th>
+            <th></th>
+          </tr>
+          {courseModules.map((module) => (
+          <tr className="border-bottom">
+              <td>{module.name}</td>
+              <td className="">{module.courseCode}</td>
+              <td className="">{module.courseUnits}</td>
+              <td >
                 <button
-                  className="it-btn me-2"
+                  className={`it-btn-white`}
                   onClick={() => {
                     setFormData(module);
                     setShowCourseModuleForm((prev) => !prev);
@@ -188,14 +207,20 @@ const DegreesForm = () => {
                 >
                   Edit
                 </button>
-                <button className="it-btn" onClick={() => setOpenDialog(true)}>
+                <button
+                  className={`it-btn-white text-danger`}
+                  onClick={() => setOpenDialog(true)}
+                >
                   Delete
                 </button>
-              </div>
-            </div>
+              </td>
+            </tr>
+          ))}
+        </table>
+        {courseModules.map((module) => (
+          <div>
             <Dialog
               open={openDialog}
-              // TransitionComponent={Transition}
               keepMounted
               aria-describedby="alert-dialog-slide-description"
             >

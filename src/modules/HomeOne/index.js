@@ -20,7 +20,7 @@ export default function HomeOneModules() {
       <About />
       <Video />
       <Service />
-      <Team />
+      {/* <Team /> */}
       <Blog />
       <Newsletter />
       <ScrollTop />

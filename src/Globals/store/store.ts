@@ -4,6 +4,7 @@ import signupReducer from "../Slices/AuthSlice/SignupSlice";
 import loginUserReducer from "../Slices/AuthSlice/LoginUserSlice";
 
 import degreesReducer from "../Slices/Degree/DegreesSlice";
+import currentUserReducer from "../Slices/AuthSlice/CurrentUserSlice";
 import coursesReducer from "../Slices/Degree/CoursesSlice";
 import emergencyFormReducer from "../Slices/ApplicationSlice/Emergency";
 import submitRefereeFormReducer from "../Slices/ApplicationSlice/Referee";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   loginAdmin: loginAdminReducer,
   degrees: degreesReducer,
   courses: coursesReducer,
+  currentUser: currentUserReducer,
   emergency: emergencyFormReducer,
   referee: submitRefereeFormReducer,
   personal: submitFirstFormReducer,
