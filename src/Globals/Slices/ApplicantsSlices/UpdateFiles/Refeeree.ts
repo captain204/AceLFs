@@ -22,7 +22,7 @@ export const getRefereeApplicant = createAsyncThunk(
   async (id: string) => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/admissions/referee/${id}`
+        `/api/v1/admissions/referees/student/${id}`
       );
       console.log(response.data);
       return response.data;

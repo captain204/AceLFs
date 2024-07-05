@@ -23,6 +23,7 @@ import applicantPersonalInformatReducer from "../Slices/ApplicantsSlices/UpdateF
 import ApplicantGetEmergencyContactReducer from "../Slices/ApplicantsSlices/UpdateFiles/EmmergencySlice";
 import refereeApplicantReducer from "../Slices/ApplicantsSlices/UpdateFiles/Refeeree";
 import studentUploadsApplicantReducer from "../Slices/ApplicantsSlices/UpdateFiles/StudentUpload";
+import loggedInAdminReducer from "../Slices/AdminSlices/GetLoggedInAdmin"
 
 const rootReducer = combineReducers({
   signup: signupReducer,
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
   getEmergencyContactForApplicant: ApplicantGetEmergencyContactReducer,
   refereeForApplicant: refereeApplicantReducer,
   studentUploadsApplicant: studentUploadsApplicantReducer,
+  loggedInAdmin: loggedInAdminReducer
 });
 
 export const store = configureStore({

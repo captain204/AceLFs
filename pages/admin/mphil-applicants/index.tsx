@@ -6,8 +6,8 @@ import MphilApplicantsTable from "../../../src/modules/Admin/ApplicantsMphil/Mph
 const index = () => {
   return (
     <AdminLayout>
-      {/* <MphilApplicantsTable /> */}
-      mphil yet
+      <MphilApplicantsTable />
+      
     </AdminLayout>
   );
 };

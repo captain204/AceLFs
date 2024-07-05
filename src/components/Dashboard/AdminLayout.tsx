@@ -32,6 +32,11 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PaymentIcon from "@mui/icons-material/Payment";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../Globals/store/store";
+import { useEffect } from "react";
+import { getLoggedInAdmin } from "../../Globals/Slices/AdminSlices/GetLoggedInAdmin";
+import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 
 const drawerWidth = 240;
 
@@ -40,15 +45,22 @@ interface Props {
   // username: string;
 }
 
+type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function AdminLayout(props: Props) {
+  const dispatch: AppDispatch = useDispatch();
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const admin = useSelector((state: RootState) => state?.loggedInAdmin?.admin);
 
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    dispatch(getLoggedInAdmin());
+  }, [dispatch]);
 
   const router = useRouter();
 
@@ -92,7 +104,6 @@ export default function AdminLayout(props: Props) {
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
       width: "auto",
     },
   }));
@@ -121,7 +132,7 @@ export default function AdminLayout(props: Props) {
         }}
       >
         <Avatar
-          src="/broken-image.jpg"
+          src="https://marketplace.canva.com/EAGA2vs-oD4/1/0/1600w/canva-navy-white-university-elegant-logo-SXgxVbQ1u70.jpg"
           sx={{
             width: 70,
             height: 70,
@@ -214,7 +225,8 @@ export default function AdminLayout(props: Props) {
                 <ListItemButton
                   className={
                     router.pathname === "/admin/mphil-applicants"
-                      ? "active" : ""
+                      ? "active"
+                      : ""
                   }
                   sx={{
                     "&.active": {
@@ -367,20 +379,11 @@ export default function AdminLayout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                {/* {username} */} Austine
-              </Typography>
-
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ mr: 2 }}
-                style={{ fontSize: "12px" }}
-              >
-                Admin
+                {/* {username} */} {admin?.username}
               </Typography>
             </div>
 
-            <Avatar alt="Austine Blaise" src="/static/images/avatar/1.jpg" />
+            <Avatar alt={admin?.username.toUpperCase()} src="/static/images/avatar/1.jpg" />
           </Box>
         </Toolbar>
       </AppBar>

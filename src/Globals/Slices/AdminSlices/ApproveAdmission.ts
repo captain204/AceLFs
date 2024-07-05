@@ -28,7 +28,7 @@ export const approveAdmission = createAsyncThunk(
       try {
         const response = await axiosInstanceAdmin.patch(
           `/api/v1/admissions/applicants/${applicantId}/approve_admission/`,
-          { is_admitted: !is_admitted } // Flip the status
+          { is_admitted: !is_admitted } 
         );
         if (response.status >= 200 && response.status < 300) {
           toast.success(`Admission ${!is_admitted ? 'approved' : 'unapproved'} successfully`);

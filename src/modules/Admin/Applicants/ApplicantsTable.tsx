@@ -562,116 +562,214 @@ function ClientSideTable() {
                 Downloads
               </Typography>
 
+              {applicantuploads?.IdentityImage && (
+                <a
+                  href={applicantuploads?.IdentityImage}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Download Identity Image
+                  </Button>
+                </a>
+              )}
 
+              {applicantuploads?.birthCertificate && (
+                <a
+                  href={applicantuploads?.birthCertificate}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Birth Certificate
+                  </Button>
+                </a>
+              )}
 
-               <a
-    href={applicantuploads?.IdentityImage}
-    download
-    style={{ textDecoration: "none" }}
-  >
-    <Button
-      variant="contained"
-      color="success"
-      startIcon={<DownloadIcon />}
-      style={{ marginBottom: "8px" }}
-    >
-      Download Identity Image
-    </Button>
-  </a>
+              {applicantuploads?.firstDegree && (
+                <a
+                  href={applicantuploads?.firstDegree}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    First Degree
+                  </Button>
+                </a>
+              )}
 
+              {applicantuploads?.mastersDegree && (
+                <a
+                  href={applicantuploads?.mastersDegree}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Master Degree
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download Birth Certificate
-              </Button>
+              {applicantuploads?.studentNysc && (
+                <a
+                  href={applicantuploads?.studentNysc}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    NYSC Certificate
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download First Degree
-              </Button>
+              {applicantuploads?.otherCertificate && (
+                <a
+                  href={applicantuploads?.otherCertificate}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Other Certificate
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download Masters Degree
-              </Button>
+              {applicantuploads?.phdProposal && (
+                <a
+                  href={applicantuploads?.phdProposal}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    PHD Proposal
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download Nysc
-                {/* studentNysc */}
-              </Button>
+              {applicantuploads?.postGraduateDiploma && (
+                <a
+                  href={applicantuploads?.postGraduateDiploma}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    PostGraduate Diploma
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download Other Certificate
-                {/* otherCertificate*/}
-              </Button>
+              {applicantuploads?.resume && (
+                <a
+                  href={applicantuploads?.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Resume
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download PHD Proposal
-                {/* otherCertificate*/}
-              </Button>
+              {applicantuploads?.transcript && (
+                <a
+                  href={applicantuploads?.transcript}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    Transcript
+                  </Button>
+                </a>
+              )}
 
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download Post Graduate Diploma
-              </Button>
-
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download Resume
-              </Button>
-
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download transcript
-              </Button>
-
-              <Button
-                variant="contained"
-                color="success"
-                startIcon={<DownloadIcon />}
-                style={{ marginBottom: "8px" }}
-              >
-                Download NCE Certificate
-              </Button>
+              {applicantuploads?.nceCertificate && (
+                <a
+                  href={applicantuploads?.nceCertificate}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  download
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button
+                    variant="contained"
+                    color="success"
+                    startIcon={<DownloadIcon />}
+                    style={{ marginBottom: "8px" }}
+                  >
+                    NCE Certificate
+                  </Button>
+                </a>
+              )}
             </Box>
           </div>
         </DialogContent>

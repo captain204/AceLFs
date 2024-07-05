@@ -72,7 +72,7 @@ export default function PersonalInfo({ onValidate, formRef }: PersonalInfoProps)
   useEffect(() => {
     dispatch(getAllCourses());
     dispatch( getAllDegrees())
-  }, []);
+  }, [dispatch]);
 
 
  

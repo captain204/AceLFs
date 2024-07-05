@@ -1,6 +1,7 @@
 import React from "react";
 import Dash from "../../../src/components/Dashboard/AdminDashboard";
 import AdminLayout from "../../../src/components/Dashboard/AdminLayout";
+import Dashboard from "../../../src/components/Dashboard/AdminDashboard";
 
 const index = () => {
   //   to retrieve username
@@ -8,7 +9,7 @@ const index = () => {
 
   return (
     <AdminLayout>
-      <Dash />
+      <Dashboard />
     </AdminLayout>
   );
 };

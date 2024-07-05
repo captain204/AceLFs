@@ -12,11 +12,6 @@
   ],
   "rootMainFiles": [],
   "pages": {
-    "/404": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/404.js"
-    ],
     "/_app": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
@@ -27,15 +22,25 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
+    "/admin/applicants": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/admin/applicants.js"
+    ],
+    "/applicant/admissions/admission-status": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/applicant/admissions/admission-status.js"
+    ],
+    "/applicant/admissions/download-admission": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/applicant/admissions/download-admission.js"
+    ],
     "/applicant/dashboard": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
       "static/chunks/pages/applicant/dashboard.js"
-    ],
-    "/applicant/signin": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/applicant/signin.js"
     ]
   },
   "ampFirstPages": []

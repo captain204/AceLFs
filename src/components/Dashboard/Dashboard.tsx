@@ -8,37 +8,17 @@ import animationData from "../../../public/img/student3.json";
 import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
 import { useSelector } from "react-redux";
-import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 import { format } from "date-fns";
 
 const drawerWidth = 240;
 
-// type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
-
-export default function ResponsiveDrawer() {
-  const eachstudent = useSelector(
-    (state: RootState) => state?.applicantStatus?.status
-  );
-
+export default function Dashboard() {
   const user = useSelector((state: RootState) => state?.loggedInUser?.user);
   const currentDate = format(new Date(), "do MMMM, yyyy");
-
 
   const applicantstatus: any = useSelector(
     (state: RootState) => state?.applicantStatus?.status
   );
-
-  // const applicantstatusdisplay: any = useSelector((state: RootState) =>
-  //   Array.isArray(state?.applicantStatus?.status)
-  //     ? state.applicantStatus.status[0]
-  //     : state.applicantStatus.status
-  // );
-
-  // const uploads: any = useSelector((state: RootState) =>
-  //   Array.isArray(state?.studentUploadsApplicant?.uploads)
-  //     ? state.studentUploadsApplicant?.uploads[0]
-  //     : state.studentUploadsApplicant?.uploads
-  // );
 
   const defaultOptions = {
     loop: true,
@@ -89,9 +69,11 @@ export default function ResponsiveDrawer() {
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  {applicantstatus != null ? " Welcome back" : "Welcome Onboard"}{" "}
-                  {""}  
-                { user?.username.toUpperCase()}!
+                  {applicantstatus != null
+                    ? " Welcome back"
+                    : "Welcome Onboard"}{" "}
+                  {""}
+                  {user?.username.toUpperCase()}!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   Always stay updated in your student portal

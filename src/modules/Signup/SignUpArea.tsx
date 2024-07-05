@@ -96,11 +96,11 @@ export default function SignUpArea() {
         <div className="bg-light p-relative">
           <div className="it-signup-thumb d-none d-lg-block">
             <img
-            src="https://img.freepik.com/free-photo/group-five-african-college-students-spending-time-together-campus-university-yard-black-afro-friends-studying-education-theme_627829-6007.jpg"
+              src="https://img.freepik.com/free-photo/group-five-african-college-students-spending-time-together-campus-university-yard-black-afro-friends-studying-education-theme_627829-6007.jpg"
               alt=""
               width={663}
               height={637}
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: "contain" }}
             />
           </div>
           <div className="row">
@@ -112,7 +112,7 @@ export default function SignUpArea() {
                     <div className=" mb-20">
                       <input
                         type="text"
-                         className="form-control"
+                        className="form-control"
                         placeholder="Username *"
                         {...register("username")}
                         value={username}
@@ -127,7 +127,7 @@ export default function SignUpArea() {
 
                     <div className=" mb-20">
                       <input
-                       className="form-control"
+                        className="form-control"
                         type="email"
                         placeholder="Email *"
                         {...register("email")}
@@ -141,7 +141,7 @@ export default function SignUpArea() {
                     <div className=" mb-20">
                       <input
                         type="password"
-                         className="form-control"
+                        className="form-control"
                         placeholder="Password *"
                         {...register("password")}
                         value={password}
@@ -154,8 +154,9 @@ export default function SignUpArea() {
                       )}
                     </div>
 
-                    <div className="it-signup-input mb-20">
+                    <div className=" mb-20">
                       <input
+                        className="form-control"
                         type="password"
                         placeholder="Confirm Password *"
                         {...register("confirmPassword")}

@@ -10,6 +10,7 @@ interface RefereeFormData {
   email: string;
   contactAddress: string;
   phoneNumber: string;
+  student: any
 }
 
 interface RefereeFormState {

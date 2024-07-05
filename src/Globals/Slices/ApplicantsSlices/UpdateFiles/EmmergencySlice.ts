@@ -23,7 +23,7 @@ export const ApplicantGetEmergencyContact= createAsyncThunk(
   async (id: string) => {
     try {
       const response = await axiosInstance.get(
-        `/api/v1/admissions/emergency-contacts/${id}`
+        `/api/v1/admissions/emergency-contacts/student/${id}`
       );
       console.log(response.data);
       return response.data;

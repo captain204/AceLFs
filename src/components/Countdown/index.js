@@ -11,7 +11,7 @@ const Countdown = ({ targetDate }) => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [calculateTimeRemaining]);
 
   function calculateTimeRemaining() {
     const now = new Date().getTime();

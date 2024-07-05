@@ -24,8 +24,6 @@ import { RootState } from "../../../Globals/store/store";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 import { getAllCourses } from "../../../Globals/Slices/ApplicantsSlices/Degree/CoursesSlice";
 import { getAllDegrees } from "../../../Globals/Slices/ApplicantsSlices/Degree/DegreesSlice";
-
-import FileUpload from "./FileUpload";
 import axiosInstance from "../../../Globals/Interceptor";
 import axiosInstanceUpload from "../../../Globals/InterceptorUpload";
 import axios from "axios";
@@ -33,6 +31,8 @@ import { useRouter } from "next/navigation";
 import animationData from "../../../../public/img/success.json";
 import Lottie from "react-lottie";
 import dayjs from "dayjs";
+import FileUploadUpdate from "./FileUploadUpdate";
+import LinearLoader from "../../Loader";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
@@ -69,13 +69,35 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
     (state: RootState) => state?.EachStudent?.student
   );
 
-  const referee: any = useSelector(
-    (state: RootState) => state?.refereeForApplicant?.referee
+  const eachstudentloading: any = useSelector(
+    (state: RootState) => state?.EachStudent?.loading
   );
 
-  const emergency: any = useSelector(
-    (state: RootState) => state?.getEmergencyContactForApplicant?.econtact
+  const referee: any = useSelector((state: RootState) =>
+    Array.isArray(state?.refereeForApplicant?.referee)
+      ? state.refereeForApplicant?.referee[0]
+      : state.refereeForApplicant?.referee
   );
+
+  // const referee: any = useSelector(
+  //   (state: RootState) => state?.refereeForApplicant?.referee
+  // );
+
+  const emergency: any = useSelector((state: RootState) =>
+    Array.isArray(state?.getEmergencyContactForApplicant?.econtact)
+      ? state.getEmergencyContactForApplicant?.econtact[0]
+      : state.getEmergencyContactForApplicant?.econtact
+  );
+
+  const uploads: any = useSelector((state: RootState) =>
+    Array.isArray(state?.studentUploadsApplicant?.uploads)
+      ? state.studentUploadsApplicant?.uploads[0]
+      : state.studentUploadsApplicant?.uploads
+  );
+
+  // const emergency: any = useSelector(
+  //   (state: RootState) => state?.getEmergencyContactForApplicant?.econtact
+  // );
 
   useEffect(() => {
     if (eachstudent) {
@@ -98,6 +120,29 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         physicalChallenge: eachstudent.physicalChallenge || "",
         degreeType: eachstudent.applicationType?.id || "",
         courses: eachstudent.choiceofCourse?.id || "",
+        refereeFirstName: referee?.firstname || "",
+        refereeLastName: referee?.lastname || "",
+        refereeEmail: referee?.email || "",
+        refereeContactAddress: referee?.contactAddress || "",
+        refereePhoneNumber: referee?.phoneNumber || "",
+        emergencyFirstName: emergency?.firstname || "",
+        emergencyLastName: emergency?.lastname || "",
+        emergencyEmail: emergency?.email || "",
+        emergencyContactAddress: emergency?.contactAddress || "",
+        emergencyPhoneNumber: emergency?.phoneNumber || "",
+        student: "",
+        birthCertificate: null,
+        firstDegree: null,
+        mastersDegree: null,
+        studentImage: null,
+        IdentityImage: null,
+        studentNysc: null,
+        otherCertificate: null,
+        phdProposal: null,
+        postGraduateDiploma: null,
+        resume: null,
+        transcript: null,
+        nceCertificate: null,
       });
     }
   }, [eachstudent, formik.setValues]);
@@ -182,414 +227,421 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
   };
 
   return (
-    <Box sx={{ "& > :not(style)": { m: 1, width: "25ch" }, marginTop: "2em" }}>
-      <TextField
-        id="firstName"
-        name="firstName"
-        label="First Name"
-        color="success"
-        value={formik.values.firstName}
-        onChange={formik.handleChange}
-        error={formik.touched.firstName && Boolean(formik.errors.firstName)}
-        helperText={formik.touched.firstName && formik.errors.firstName}
-      />
-
-      <TextField
-        id="surname"
-        name="surname"
-        label="Surname"
-        color="success"
-        value={formik.values.surname}
-        onChange={formik.handleChange}
-        error={formik.touched.surname && Boolean(formik.errors.surname)}
-        helperText={formik.touched.surname && formik.errors.surname}
-      />
-      <TextField
-        id="otherName"
-        name="otherName"
-        label="Other Name"
-        color="success"
-        value={formik.values.otherName}
-        onChange={formik.handleChange}
-        error={formik.touched.otherName && Boolean(formik.errors.otherName)}
-        helperText={formik.touched.otherName && formik.errors.otherName}
-      />
-
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DatePicker
-          value={formik.values.dateOfBirth}
-          onChange={(value) => formik.setFieldValue("dateOfBirth", value)}
-          slotProps={{
-            textField: {
-              id: "dateOfBirth",
-              name: "dateOfBirth",
-              label: "Date of Birth",
-              color: "success",
-              error:
-                formik.touched.dateOfBirth &&
-                Boolean(formik.errors.dateOfBirth),
-              helperText:
-                formik.touched.dateOfBirth && formik.errors.dateOfBirth,
-            },
-          }}
-        />
-      </LocalizationProvider>
-
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="gender-label" color="success">
-          Gender
-        </InputLabel>
-        <Select
-          color="success"
-          labelId="gender-label"
-          id="gender"
-          name="gender"
-          value={formik.values.gender}
-          onChange={formik.handleChange}
-          label="Gender"
-          error={formik.touched.gender && Boolean(formik.errors.gender)}
+    <div>
+      {eachstudentloading ? (
+        <LinearLoader />
+      ) : (
+        <Box
+          sx={{ "& > :not(style)": { m: 1, width: "25ch" }, marginTop: "2em" }}
         >
-          <MenuItem value="M">Male</MenuItem>
-          <MenuItem value="F">Female</MenuItem>
-        </Select>
-        {formik.touched.gender && formik.errors.gender && (
-          <p
-            style={{
-              color: "#d32f2f",
-              fontSize: "0.75rem",
-              margin: "3px 0 0 14px",
-            }}
-          >
-            {formik.errors.gender}
-          </p>
-        )}
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="marital-status-label" color="success">
-          Marital Status
-        </InputLabel>
-        <Select
-          color="success"
-          labelId="marital-status-label"
-          id="maritalStatus"
-          name="maritalStatus"
-          value={formik.values.maritalStatus}
-          onChange={formik.handleChange}
-          label="Marital Status"
-          error={
-            formik.touched.maritalStatus && Boolean(formik.errors.maritalStatus)
-          }
-        >
-          <MenuItem value="S">Single</MenuItem>
-          <MenuItem value="M">Married</MenuItem>
-          <MenuItem value="D">Divorced</MenuItem>
-          <MenuItem value="W">Widowed</MenuItem>
-          <MenuItem value="P">Prefer Not to Say</MenuItem>
-        </Select>
-        {formik.touched.maritalStatus && formik.errors.maritalStatus && (
-          <p
-            style={{
-              color: "#d32f2f",
-              fontSize: "0.75rem",
-              margin: "3px 0 0 14px",
-            }}
-          >
-            {formik.errors.maritalStatus}
-          </p>
-        )}
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="religion-label" color="success">
-          Religion
-        </InputLabel>
-        <Select
-          color="success"
-          labelId="religion-label"
-          id="religion"
-          name="religion"
-          value={formik.values.religion}
-          onChange={formik.handleChange}
-          label="Religion"
-          error={formik.touched.religion && Boolean(formik.errors.religion)}
-        >
-          <MenuItem value="C">Christianity</MenuItem>
-          <MenuItem value="I">Islam</MenuItem>
-          <MenuItem value="O">Other</MenuItem>
-          <MenuItem value="N">No Religion</MenuItem>
-          <MenuItem value="P">Prefer Not to Say</MenuItem>
-        </Select>
-        {formik.touched.religion && formik.errors.religion && (
-          <p
-            style={{
-              color: "#d32f2f",
-              fontSize: "0.75rem",
-              margin: "3px 0 0 14px",
-            }}
-          >
-            {formik.errors.religion}
-          </p>
-        )}
-      </FormControl>
-      <TextField
-        id="nationality"
-        name="nationality"
-        label="Nationality"
-        color="success"
-        value={formik.values.nationality}
-        onChange={formik.handleChange}
-        error={formik.touched.nationality && Boolean(formik.errors.nationality)}
-        helperText={formik.touched.nationality && formik.errors.nationality}
-      />
-      {/* <TextField
-        id="state"
-        name="state"
-        label="State"
-        color="success"
-        value={formik.values.state}
-        onChange={formik.handleChange}
-        error={formik.touched.state && Boolean(formik.errors.state)}
-        helperText={formik.touched.state && formik.errors.state}
-      /> */}
-
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="state-label" color="success">
-          State
-        </InputLabel>
-        <Select
-          color="success"
-          labelId="state-label"
-          id="state"
-          name="state"
-          value={formik.values.state}
-          onChange={handleStateChange}
-          label="State"
-          error={formik.touched.state && Boolean(formik.errors.state)}
-        >
-          {states &&
-            states.map((state) => (
-              <MenuItem key={state} value={state}>
-                {state}
-              </MenuItem>
-            ))}
-        </Select>
-        {formik.touched.state && formik.errors.state && (
-          <p
-            style={{
-              color: "#d32f2f",
-              fontSize: "0.75rem",
-              margin: "3px 0 0 14px",
-            }}
-          >
-            {formik.errors.state}
-          </p>
-        )}
-      </FormControl>
-
-      {/* 
-      <TextField
-        id="lga"
-        name="lga"
-        label="LGA"
-        color="success"
-        value={formik.values.lga}
-        onChange={formik.handleChange}
-        error={formik.touched.lga && Boolean(formik.errors.lga)}
-        helperText={formik.touched.lga && formik.errors.lga}
-      /> */}
-
-<FormControl sx={{ m: 1, width: "25ch" }}>
-  <InputLabel id="lga-label" color="success">
-    LGA
-  </InputLabel>
-  <Select
-    color="success"
-    labelId="lga-label"
-    id="lga"
-    name="lga"
-    value={formik.values.lga}
-    onChange={formik.handleChange}
-    label="LGA"
-    error={formik.touched.lga && Boolean(formik.errors.lga)}
-  >
-    {Array.isArray(lgas) && lgas.length > 0 ? (
-      lgas.map((lga: any) => (
-        <MenuItem key={lga} value={lga}>
-          {lga}
-        </MenuItem>
-      ))
-    ) : (
-      <MenuItem disabled>No LGAs available</MenuItem>
-    )}
-  </Select>
-  {formik.touched.lga && formik.errors.lga && (
-    <p
-      style={{
-        color: "#d32f2f",
-        fontSize: "0.75rem",
-        margin: "3px 0 0 14px",
-      }}
-    >
-      {formik.errors.lga}
-    </p>
-  )}
-</FormControl>
-
-      <TextField
-        id="contactAddress"
-        name="contactAddress"
-        label="Contact Address"
-        color="success"
-        value={formik.values.contactAddress}
-        onChange={formik.handleChange}
-        error={
-          formik.touched.contactAddress && Boolean(formik.errors.contactAddress)
-        }
-        helperText={
-          formik.touched.contactAddress && formik.errors.contactAddress
-        }
-      />
-      <TextField
-        type="number"
-        id="phoneNumber"
-        name="phoneNumber"
-        label="Phone Number"
-        color="success"
-        value={formik.values.phoneNumber}
-        onChange={formik.handleChange}
-        error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-        helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-      />
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="physicalChallenge-label" color="success">
-          Physical Challenge
-        </InputLabel>
-        <Select
-          color="success"
-          labelId="physicalChallenge-label"
-          id="physicalChallenge"
-          name="physicalChallenge"
-          value={formik.values.physicalChallenge}
-          onChange={formik.handleChange}
-          label="Physical Challenge"
-          error={
-            formik.touched.physicalChallenge &&
-            Boolean(formik.errors.physicalChallenge)
-          }
-        >
-          <MenuItem value="VI">Visually Impaired</MenuItem>
-          <MenuItem value="HI">Hearing Impaired</MenuItem>
-          <MenuItem value="MI">Mobility Impaired</MenuItem>
-          <MenuItem value="OI">Other</MenuItem>
-          <MenuItem value="NA">None</MenuItem>
-        </Select>
-        {formik.touched.physicalChallenge &&
-          formik.errors.physicalChallenge && (
-            <p
-              style={{
-                color: "#d32f2f",
-                fontSize: "0.75rem",
-                margin: "3px 0 0 14px",
-              }}
-            >
-              {formik.errors.physicalChallenge}
-            </p>
-          )}
-      </FormControl>
-
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="degreeType-label" color="success">
-          Degree Type
-        </InputLabel>
-        <Select
-          labelId="degreeType-label"
-          id="degreeType"
-          name="degreeType"
-          value={formik.values.degreeType}
-          onChange={(event) => {
-            const selectedId = event.target.value;
-            formik.handleChange(event);
-            const degree = degrees.find((d: any) => d.id === selectedId);
-            if (degree) {
-              setSelectedDegree({
-                name: degree.name,
-                slug: degree.slug,
-                category: degree.category,
-                description: degree.description,
-                coursesCount: degree.coursesCount,
-                duration: degree.duration,
-                id: degree.id,
-              });
-            }
-          }}
-          label="Degree Type"
-          error={formik.touched.degreeType && Boolean(formik.errors.degreeType)}
-          color="success"
-        >
-          {degrees &&
-            degrees.map((degree: any) => (
-              <MenuItem key={degree.id} value={degree.id}>
-                {degree.name}
-              </MenuItem>
-            ))}
-        </Select>
-        {formik.touched.degreeType && formik.errors.degreeType && (
-          <p
-            style={{
-              color: "#d32f2f",
-              fontSize: "0.75rem",
-              margin: "3px 0 0 14px",
-            }}
-          >
-            {formik.errors.degreeType}
-          </p>
-        )}
-      </FormControl>
-
-      <FormControl sx={{ m: 1, width: "25ch" }}>
-        <InputLabel id="courses-label" color="success">
-          Courses
-        </InputLabel>
-        <Select
-          labelId="courses-label"
-          id="courses"
-          name="courses"
-          value={formik.values.courses}
-          onChange={(event) => {
-            const selectedId = event.target.value;
-            formik.handleChange(event);
-            const course = courses.find((c: any) => c.id === selectedId);
-            if (course) {
-              setSelectedCourse({
-                CourseName: course.CourseName,
-                description: course.description,
-                id: course.id,
-              });
-            }
-          }}
-          label="Courses"
-          error={formik.touched.courses && Boolean(formik.errors.courses)}
-          color="success"
-        >
-          {courses &&
-            courses.map((course) => (
-              <MenuItem key={course.id} value={course.id}>
-                {course.CourseName}
-              </MenuItem>
-            ))}
-        </Select>
-        {formik.touched.courses && formik.errors.courses && (
-          <p
-            style={{
-              color: "#d32f2f",
-              fontSize: "0.75rem",
-              margin: "3px 0 0 14px",
-            }}
-          >
-            {formik.errors.courses}
-          </p>
-        )}
-      </FormControl>
-    </Box>
+          {/* {!eachstudentloading ? (
+          <LinearLoader />
+        ) : ( */}
+          <>
+            <>
+              <TextField
+                id="firstName"
+                name="firstName"
+                label="First Name"
+                color="success"
+                value={formik.values.firstName}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.firstName && Boolean(formik.errors.firstName)
+                }
+                helperText={formik.touched.firstName && formik.errors.firstName}
+              />
+              <TextField
+                id="surname"
+                name="surname"
+                label="Surname"
+                color="success"
+                value={formik.values.surname}
+                onChange={formik.handleChange}
+                error={formik.touched.surname && Boolean(formik.errors.surname)}
+                helperText={formik.touched.surname && formik.errors.surname}
+              />
+              <TextField
+                id="otherName"
+                name="otherName"
+                label="Other Name"
+                color="success"
+                value={formik.values.otherName}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.otherName && Boolean(formik.errors.otherName)
+                }
+                helperText={formik.touched.otherName && formik.errors.otherName}
+              />
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DatePicker
+                  value={formik.values.dateOfBirth}
+                  onChange={(value) =>
+                    formik.setFieldValue("dateOfBirth", value)
+                  }
+                  slotProps={{
+                    textField: {
+                      id: "dateOfBirth",
+                      name: "dateOfBirth",
+                      label: "Date of Birth",
+                      color: "success",
+                      error:
+                        formik.touched.dateOfBirth &&
+                        Boolean(formik.errors.dateOfBirth),
+                      helperText:
+                        formik.touched.dateOfBirth && formik.errors.dateOfBirth,
+                    },
+                  }}
+                />
+              </LocalizationProvider>
+              <FormControl sx={{ m: 1, width: "25ch" }}>
+                <InputLabel id="gender-label" color="success">
+                  Gender
+                </InputLabel>
+                <Select
+                  color="success"
+                  labelId="gender-label"
+                  id="gender"
+                  name="gender"
+                  value={formik.values.gender}
+                  onChange={formik.handleChange}
+                  label="Gender"
+                  error={formik.touched.gender && Boolean(formik.errors.gender)}
+                >
+                  <MenuItem value="M">Male</MenuItem>
+                  <MenuItem value="F">Female</MenuItem>
+                </Select>
+                {formik.touched.gender && formik.errors.gender && (
+                  <p
+                    style={{
+                      color: "#d32f2f",
+                      fontSize: "0.75rem",
+                      margin: "3px 0 0 14px",
+                    }}
+                  >
+                    {formik.errors.gender}
+                  </p>
+                )}
+              </FormControl>
+              <FormControl sx={{ m: 1, width: "25ch" }}>
+                <InputLabel id="marital-status-label" color="success">
+                  Marital Status
+                </InputLabel>
+                <Select
+                  color="success"
+                  labelId="marital-status-label"
+                  id="maritalStatus"
+                  name="maritalStatus"
+                  value={formik.values.maritalStatus}
+                  onChange={formik.handleChange}
+                  label="Marital Status"
+                  error={
+                    formik.touched.maritalStatus &&
+                    Boolean(formik.errors.maritalStatus)
+                  }
+                >
+                  <MenuItem value="S">Single</MenuItem>
+                  <MenuItem value="M">Married</MenuItem>
+                  <MenuItem value="D">Divorced</MenuItem>
+                  <MenuItem value="W">Widowed</MenuItem>
+                  <MenuItem value="P">Prefer Not to Say</MenuItem>
+                </Select>
+                {formik.touched.maritalStatus &&
+                  formik.errors.maritalStatus && (
+                    <p
+                      style={{
+                        color: "#d32f2f",
+                        fontSize: "0.75rem",
+                        margin: "3px 0 0 14px",
+                      }}
+                    >
+                      {formik.errors.maritalStatus}
+                    </p>
+                  )}
+              </FormControl>
+              <FormControl sx={{ m: 1, width: "25ch" }}>
+                <InputLabel id="religion-label" color="success">
+                  Religion
+                </InputLabel>
+                <Select
+                  color="success"
+                  labelId="religion-label"
+                  id="religion"
+                  name="religion"
+                  value={formik.values.religion}
+                  onChange={formik.handleChange}
+                  label="Religion"
+                  error={
+                    formik.touched.religion && Boolean(formik.errors.religion)
+                  }
+                >
+                  <MenuItem value="C">Christianity</MenuItem>
+                  <MenuItem value="I">Islam</MenuItem>
+                  <MenuItem value="O">Other</MenuItem>
+                  <MenuItem value="N">No Religion</MenuItem>
+                  <MenuItem value="P">Prefer Not to Say</MenuItem>
+                </Select>
+                {formik.touched.religion && formik.errors.religion && (
+                  <p
+                    style={{
+                      color: "#d32f2f",
+                      fontSize: "0.75rem",
+                      margin: "3px 0 0 14px",
+                    }}
+                  >
+                    {formik.errors.religion}
+                  </p>
+                )}
+              </FormControl>
+              <TextField
+                id="nationality"
+                name="nationality"
+                label="Nationality"
+                color="success"
+                value={formik.values.nationality}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.nationality &&
+                  Boolean(formik.errors.nationality)
+                }
+                helperText={
+                  formik.touched.nationality && formik.errors.nationality
+                }
+              />
+            </>
+            <FormControl sx={{ m: 1, width: "25ch" }}>
+              <InputLabel id="state-label" color="success">
+                State
+              </InputLabel>
+              <Select
+                color="success"
+                labelId="state-label"
+                id="state"
+                name="state"
+                value={formik.values.state}
+                onChange={handleStateChange}
+                label="State"
+                error={formik.touched.state && Boolean(formik.errors.state)}
+              >
+                {states &&
+                  states.map((state) => (
+                    <MenuItem key={state} value={state}>
+                      {state}
+                    </MenuItem>
+                  ))}
+              </Select>
+              {formik.touched.state && formik.errors.state && (
+                <p
+                  style={{
+                    color: "#d32f2f",
+                    fontSize: "0.75rem",
+                    margin: "3px 0 0 14px",
+                  }}
+                >
+                  {formik.errors.state}
+                </p>
+              )}
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "25ch" }}>
+              <InputLabel id="lga-label" color="success">
+                LGA
+              </InputLabel>
+              <Select
+                color="success"
+                labelId="lga-label"
+                id="lga"
+                name="lga"
+                value={formik.values.lga}
+                onChange={formik.handleChange}
+                label="LGA"
+                error={formik.touched.lga && Boolean(formik.errors.lga)}
+              >
+                {Array.isArray(lgas) && lgas.length > 0 ? (
+                  lgas.map((lga: any) => (
+                    <MenuItem key={lga} value={lga}>
+                      {lga}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem disabled>No LGAs available</MenuItem>
+                )}
+              </Select>
+              {formik.touched.lga && formik.errors.lga && (
+                <p
+                  style={{
+                    color: "#d32f2f",
+                    fontSize: "0.75rem",
+                    margin: "3px 0 0 14px",
+                  }}
+                >
+                  {formik.errors.lga}
+                </p>
+              )}
+            </FormControl>
+            <TextField
+              id="contactAddress"
+              name="contactAddress"
+              label="Contact Address"
+              color="success"
+              value={formik.values.contactAddress}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.contactAddress &&
+                Boolean(formik.errors.contactAddress)
+              }
+              helperText={
+                formik.touched.contactAddress && formik.errors.contactAddress
+              }
+            />
+            <TextField
+              type="number"
+              id="phoneNumber"
+              name="phoneNumber"
+              label="Phone Number"
+              color="success"
+              value={formik.values.phoneNumber}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+              }
+              helperText={
+                formik.touched.phoneNumber && formik.errors.phoneNumber
+              }
+            />
+            <FormControl sx={{ m: 1, width: "25ch" }}>
+              <InputLabel id="physicalChallenge-label" color="success">
+                Physical Challenge
+              </InputLabel>
+              <Select
+                color="success"
+                labelId="physicalChallenge-label"
+                id="physicalChallenge"
+                name="physicalChallenge"
+                value={formik.values.physicalChallenge}
+                onChange={formik.handleChange}
+                label="Physical Challenge"
+                error={
+                  formik.touched.physicalChallenge &&
+                  Boolean(formik.errors.physicalChallenge)
+                }
+              >
+                <MenuItem value="VI">Visually Impaired</MenuItem>
+                <MenuItem value="HI">Hearing Impaired</MenuItem>
+                <MenuItem value="MI">Mobility Impaired</MenuItem>
+                <MenuItem value="OI">Other</MenuItem>
+                <MenuItem value="NA">None</MenuItem>
+              </Select>
+              {formik.touched.physicalChallenge &&
+                formik.errors.physicalChallenge && (
+                  <p
+                    style={{
+                      color: "#d32f2f",
+                      fontSize: "0.75rem",
+                      margin: "3px 0 0 14px",
+                    }}
+                  >
+                    {formik.errors.physicalChallenge}
+                  </p>
+                )}
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "25ch" }}>
+              <InputLabel id="degreeType-label" color="success">
+                Degree Type
+              </InputLabel>
+              <Select
+                labelId="degreeType-label"
+                id="degreeType"
+                name="degreeType"
+                value={formik.values.degreeType}
+                onChange={(event) => {
+                  const selectedId = event.target.value;
+                  formik.handleChange(event);
+                  const degree = degrees.find((d: any) => d.id === selectedId);
+                  if (degree) {
+                    setSelectedDegree({
+                      name: degree.name,
+                      slug: degree.slug,
+                      category: degree.category,
+                      description: degree.description,
+                      coursesCount: degree.coursesCount,
+                      duration: degree.duration,
+                      id: degree.id,
+                    });
+                  }
+                }}
+                label="Degree Type"
+                error={
+                  formik.touched.degreeType && Boolean(formik.errors.degreeType)
+                }
+                color="success"
+              >
+                {degrees &&
+                  degrees.map((degree: any) => (
+                    <MenuItem key={degree.id} value={degree.id}>
+                      {degree.name}
+                    </MenuItem>
+                  ))}
+              </Select>
+              {formik.touched.degreeType && formik.errors.degreeType && (
+                <p
+                  style={{
+                    color: "#d32f2f",
+                    fontSize: "0.75rem",
+                    margin: "3px 0 0 14px",
+                  }}
+                >
+                  {formik.errors.degreeType}
+                </p>
+              )}
+            </FormControl>
+            <FormControl sx={{ m: 1, width: "25ch" }}>
+              <InputLabel id="courses-label" color="success">
+                Courses
+              </InputLabel>
+              <Select
+                labelId="courses-label"
+                id="courses"
+                name="courses"
+                value={formik.values.courses}
+                onChange={(event) => {
+                  const selectedId = event.target.value;
+                  formik.handleChange(event);
+                  const course = courses.find((c: any) => c.id === selectedId);
+                  if (course) {
+                    setSelectedCourse({
+                      CourseName: course.CourseName,
+                      description: course.description,
+                      id: course.id,
+                    });
+                  }
+                }}
+                label="Courses"
+                error={formik.touched.courses && Boolean(formik.errors.courses)}
+                color="success"
+              >
+                {courses &&
+                  courses.map((course) => (
+                    <MenuItem key={course.id} value={course.id}>
+                      {course.CourseName}
+                    </MenuItem>
+                  ))}
+              </Select>
+              {formik.touched.courses && formik.errors.courses && (
+                <p
+                  style={{
+                    color: "#d32f2f",
+                    fontSize: "0.75rem",
+                    margin: "3px 0 0 14px",
+                  }}
+                >
+                  {formik.errors.courses}
+                </p>
+              )}
+            </FormControl>
+          </>
+        </Box>
+      )}
+    </div>
   );
 };
 
@@ -759,6 +811,18 @@ const UpdateStepForm = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const applicantstatusdisplay: any = useSelector((state: RootState) =>
+    Array.isArray(state?.applicantStatus?.status)
+      ? state.applicantStatus.status[0]
+      : state.applicantStatus.status
+  );
+
+  const uploads: any = useSelector((state: RootState) =>
+    Array.isArray(state?.studentUploadsApplicant?.uploads)
+      ? state.studentUploadsApplicant?.uploads[0]
+      : state.studentUploadsApplicant?.uploads
+  );
+
   const eachstudent: any = useSelector(
     (state: RootState) => state?.EachStudent?.student
   );
@@ -823,9 +887,6 @@ const UpdateStepForm = () => {
       mastersDegree: null,
       studentImage: null,
       IdentityImage: null,
-      // birthCertificate: pdf,
-      // firstDegree: pdf,
-      // mastersDegree: pdf,
       studentNysc: null,
       otherCertificate: null,
       phdProposal: null,
@@ -954,24 +1015,170 @@ const UpdateStepForm = () => {
     return activeStep === steps.length - 1;
   };
 
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setLoading(true);
+
+  //   const requiredFiles = ["IdentityImage", "transcript", "studentImage"];
+  //   const optionalFiles = [
+  //     "birthCertificate",
+  //     "firstDegree",
+  //     "mastersDegree",
+  //     "studentNysc",
+  //     "otherCertificate",
+  //     "phdProposal",
+  //     "postGraduateDiploma",
+  //     "resume",
+  //     "nceCertificate",
+  //   ];
+
+  //   const missingFiles = requiredFiles.filter(file => !formik.values[file]);
+
+  //   if (activeStep === 3 && missingFiles.length > 0) {
+  //     alert("Please upload all required files.");
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   if (isLastStep()) {
+  //     try {
+  //       // Submit personal information
+  //       const personalResponse = await axiosInstance.put(
+  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}`,
+  //         {
+  //           firstName: formik.values.firstName,
+  //           surName: formik.values.surname,
+  //           otherNames: formik.values.otherName,
+  //           dateofBirth: formik.values.dateOfBirth.toISOString().split("T")[0],
+  //           gender: formik.values.gender,
+  //           marital_status: formik.values.maritalStatus,
+  //           religion: formik.values.religion,
+  //           nationality: formik.values.nationality,
+  //           state: formik.values.state,
+  //           lga: formik.values.lga,
+  //           contactAddress: formik.values.contactAddress,
+  //           phoneNumber: formik.values.phoneNumber,
+  //           physicalChallenge: formik.values.physicalChallenge,
+  //           applicationType: +formik.values.degreeType,
+  //           choiceofCourse: +formik.values.courses,
+  //           is_admitted: eachstudent?.is_admitted,
+  //           is_active: eachstudent?.is_active,
+  //           regNumber: eachstudent?.regNumber,
+  //         }
+  //       );
+
+  //       const personalId = personalResponse.data.id;
+
+  //       // Submit referee form
+  //       try {
+  //         await axiosInstance.put(
+  //           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}/referees/update/`,
+  //           {
+  //             firstname: formik.values.refereeFirstName,
+  //             lastname: formik.values.refereeLastName,
+  //             email: formik.values.refereeEmail,
+  //             contactAddress: formik.values.refereeContactAddress,
+  //             phoneNumber: formik.values.refereePhoneNumber,
+  //             student: eachstudent?.id,
+  //           }
+  //         );
+  //       } catch (refereeError) {
+  //         console.error("Error submitting referee form:", refereeError);
+  //         alert("Failed to submit referee form. Please try again.");
+  //         return;
+  //       }
+
+  //       // Submit emergency contact form
+  //       try {
+  //         await axiosInstance.put(
+  //           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}/emergency-contacts/update/`,
+  //           {
+  //             firstname: formik.values.emergencyFirstName,
+  //             lastname: formik.values.emergencyLastName,
+  //             email: formik.values.emergencyEmail,
+  //             contactAddress: formik.values.emergencyContactAddress,
+  //             phoneNumber: formik.values.emergencyPhoneNumber,
+  //             student: eachstudent?.id,
+  //           }
+  //         );
+  //       } catch (emergencyError) {
+  //         console.error("Error submitting emergency form:", emergencyError);
+  //         alert("Failed to submit emergency form. Please try again.");
+  //         return;
+  //       }
+
+  //       // Prepare FormData for file uploads
+  //       const formData = new FormData();
+  //       formData.append("student", personalId);
+
+  //       // Append required files from formik.values
+  //       requiredFiles.forEach(fileKey => {
+  //         formData.append(fileKey, formik.values[fileKey]);
+  //       });
+
+  //       // Append optional files from formik.values or default URLs
+  //       await Promise.all(optionalFiles.map(async fileKey => {
+  //         if (formik.values[fileKey]) {
+  //           // Append file if already selected in the form
+  //           formData.append(fileKey, formik.values[fileKey]);
+  //         } else if (uploads && uploads[fileKey]) {
+  //           // Remove base URL from default file URL and append
+  //           const filename = uploads[fileKey].substring(uploads[fileKey].lastIndexOf('/') + 1);
+  //           try {
+  //             const response = await axios.get(uploads[fileKey], {
+  //               responseType: 'blob',
+  //             });
+
+  //             const blob = new Blob([response.data], { type: response.headers['content-type'] });
+  //             const fileToUpload = new File([blob], filename);
+
+  //             formData.append(fileKey, fileToUpload);
+  //           } catch (error) {
+  //             console.error(`Error downloading file ${filename}:`, error);
+  //           }
+  //         }
+  //       }));
+
+  //       // Upload files using axiosInstanceUpload
+  //       try {
+  //         const response = await axiosInstanceUpload.put(
+  //           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}/student-uploads/update/`,
+  //           formData
+  //         );
+
+  //         if (response.status >= 200 && response.status <= 204) {
+  //           setModalOpen(true); // Open modal for success message
+  //           setTimeout(() => {
+  //             setModalOpen(false); // Close modal after 3 seconds
+  //             router.push("/applicant/dashboard"); // Redirect to /dashboard
+  //           }, 3000);
+  //         } else {
+  //           setFileUploadError("Failed to upload files. Please try again.");
+  //         }
+  //       } catch (fileUploadError) {
+  //         console.error("Error uploading files:", fileUploadError);
+  //         setFileUploadError("Failed to upload files. Please try again.");
+  //       }
+
+  //     } catch (personalError) {
+  //       console.error("Error submitting personal information:", personalError);
+  //       setPersonalResponseError(
+  //         "Failed to submit personal information. Please try again."
+  //       );
+  //     }
+  //   } else {
+  //     // Move to the next step if it's not the last step
+  //     handleNext();
+  //   }
+
+  //   setLoading(false);
+  // };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
 
-    const requiredFiles = [
-      "birthCertificate",
-      "firstDegree",
-      "mastersDegree",
-      "studentImage",
-      "IdentityImage",
-      "studentNysc",
-      "otherCertificate",
-      "phdProposal",
-      "postGraduateDiploma",
-      "resume",
-      "transcript",
-      "nceCertificate",
-    ];
+    const requiredFiles = ["IdentityImage", "transcript", "studentImage"];
 
     const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
 
@@ -985,7 +1192,7 @@ const UpdateStepForm = () => {
       try {
         // Submit the first form data
         const personalResponse = await axiosInstance.put(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${eachstudent?.id}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}`,
           {
             firstName: formik.values.firstName,
             surName: formik.values.surname,
@@ -1000,8 +1207,8 @@ const UpdateStepForm = () => {
             contactAddress: formik.values.contactAddress,
             phoneNumber: formik.values.phoneNumber,
             physicalChallenge: formik.values.physicalChallenge,
-            applicationType: +selectedDegree.id,
-            choiceofCourse: +selectedCourse.id,
+            applicationType: +formik.values.degreeType,
+            choiceofCourse: +formik.values.courses,
             is_admitted: eachstudent?.is_admitted,
             is_active: eachstudent?.is_active,
             regNumber: eachstudent?.regNumber,
@@ -1014,13 +1221,14 @@ const UpdateStepForm = () => {
         try {
           // Submit the referee form
           await axiosInstance.put(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/referee/${eachstudent?.id}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}/referees/update/`,
             {
               firstname: formik.values.refereeFirstName,
               lastname: formik.values.refereeLastName,
               email: formik.values.refereeEmail,
               contactAddress: formik.values.refereeContactAddress,
               phoneNumber: formik.values.refereePhoneNumber,
+              student: eachstudent?.id,
             }
           );
         } catch (refereeError) {
@@ -1032,7 +1240,8 @@ const UpdateStepForm = () => {
         try {
           // Submit the emergency form
           await axiosInstance.put(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/emergency-contacts/${eachstudent?.id}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}/emergency-contacts/update/`,
+
             {
               firstname: formik.values.emergencyFirstName,
               lastname: formik.values.emergencyLastName,
@@ -1050,14 +1259,32 @@ const UpdateStepForm = () => {
 
         const formData = new FormData();
         formData.append("student", personalId);
+        // Append required files
         requiredFiles.forEach((fileKey) => {
           formData.append(fileKey, formik.values[fileKey]);
+        });
+        // Append optional files
+        const optionalFiles = [
+          "birthCertificate",
+          "firstDegree",
+          "mastersDegree",
+          "studentNysc",
+          "otherCertificate",
+          "phdProposal",
+          "postGraduateDiploma",
+          "resume",
+          "nceCertificate",
+        ];
+        optionalFiles.forEach((fileKey) => {
+          if (formik.values[fileKey]) {
+            formData.append(fileKey, formik.values[fileKey]);
+          }
         });
 
         try {
           // Upload files
           const response = await axiosInstanceUpload.put(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/student-uploads/${eachstudent?.id}`,
+            `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${applicantstatusdisplay?.id}/student-uploads/update/`,
             formData
           );
 
@@ -1090,148 +1317,6 @@ const UpdateStepForm = () => {
     }
     setLoading(false);
   };
-
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   // console.log(formik.values);
-
-  //   const requiredFiles = [
-  //     "birthCertificate",
-  //     "firstDegree",
-  //     "mastersDegree",
-  //     "studentImage",
-  //     "IdentityImage",
-  //     "studentNysc",
-  //     "otherCertificate",
-  //     "phdProposal",
-  //     "postGraduateDiploma",
-  //     "resume",
-  //     "transcript",
-  //     "nceCertificate",
-  //   ];
-
-  //   // Check if any required file field is null or undefined
-  //   const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
-
-  //   if (activeStep === 3 && missingFiles.length > 0) {
-  //     alert("Please upload all required files.");
-  //     setLoading(false);
-  //     return;
-  //   }
-
-  //   if (isLastStep()) {
-  //     try {
-  //       // Submit the first form data
-  //       const personalResponse = await axiosInstance.put(
-  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students/${eachstudent?.id}`,
-  //         {
-  //           firstName: formik.values.firstName,
-  //           surName: formik.values.surname,
-  //           otherNames: formik.values.otherName,
-  //           dateofBirth: formik.values.dateOfBirth.toISOString().split("T")[0],
-  //           gender: formik.values.gender,
-  //           marital_status: formik.values.maritalStatus,
-  //           religion: formik.values.religion,
-  //           nationality: formik.values.nationality,
-  //           state: formik.values.state,
-  //           lga: formik.values.lga,
-  //           contactAddress: formik.values.contactAddress,
-  //           phoneNumber: formik.values.phoneNumber,
-  //           physicalChallenge: formik.values.physicalChallenge,
-  //           applicationType: +selectedDegree.id,
-  //           choiceofCourse: +selectedCourse.id,
-  //         }
-  //       );
-
-  //       const personalId = personalResponse.data.id;
-  //       console.log(personalId);
-
-  //       try {
-  //         // Submit the referee form
-  //         await dispatch(
-  //           submitRefereeForm({
-  //             firstname: formik.values.refereeFirstName,
-  //             lastname: formik.values.refereeLastName,
-  //             email: formik.values.refereeEmail,
-  //             contactAddress: formik.values.refereeContactAddress,
-  //             phoneNumber: formik.values.refereePhoneNumber,
-  //           })
-  //         );
-  //       } catch (refereeError) {
-  //         console.error("Error submitting referee form:", refereeError);
-  //         alert("Failed to submit referee form. Please try again.");
-  //         return;
-  //       }
-
-  //       try {
-  //         // Submit the emergency form
-  //         await dispatch(
-  //           submitEmergencyForm({
-  //             firstname: formik.values.emergencyFirstName,
-  //             lastname: formik.values.emergencyLastName,
-  //             email: formik.values.emergencyEmail,
-  //             contactAddress: formik.values.emergencyContactAddress,
-  //             phoneNumber: formik.values.emergencyPhoneNumber,
-  //             student: personalId,
-  //           })
-  //         );
-  //       } catch (emergencyError) {
-  //         console.error("Error submitting emergency form:", emergencyError);
-  //         // alert("Failed to submit emergency form. Please try again.");
-  //         return;
-  //       }
-
-  //       const formData = new FormData();
-  //       formData.append("student", personalId);
-  //       requiredFiles.forEach((fileKey) => {
-  //         formData.append(fileKey, formik.values[fileKey]);
-  //       });
-
-  //       try {
-  //         // Upload files
-  //         const response = await axiosInstanceUpload.post(
-  //           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/student-uploads`,
-  //           formData
-  //         );
-
-  //         if (
-  //           response.status === 201 ||
-  //           (response.status >= 200 && response.status <= 204)
-  //         ) {
-  //           setModalOpen(true); // Open modal for success message
-  //           setTimeout(() => {
-  //             setModalOpen(false); // Close modal after 3 seconds
-  //             setTimeout(() => {
-  //               router.push("/applicant/dashboard"); // Redirect to /dashboard after 5 seconds
-  //             }, 1000);
-  //           }, 3000);
-  //         }
-
-  //         if (response.status == 200) {
-  //           setModalOpen(true);
-  //         }
-
-  //         // alert("Form submitted successfully!");
-  //       } catch (fileUploadError) {
-  //         console.error("Error uploading files:", fileUploadError);
-  //         // alert("Failed to upload files. Please try again.");
-  //         setFileUploadError("Failed to upload files. Please try again.");
-  //       }
-  //     } catch (personalError) {
-  //       console.error("Error submitting personal information:", personalError);
-  //       // alert("Failed to submit personal information. Please try again.");
-  //       setPersonalResponseError(
-  //         "Failed to submit personal information. Please try again."
-  //       );
-  //     }
-  //   } else {
-  //     // Move to the next step if it's not the last step
-
-  //     handleNext();
-  //   }
-  //   setLoading(false);
-  // };
 
   const handleCloseModal = () => {
     setModalOpen(false);
@@ -1314,59 +1399,66 @@ const UpdateStepForm = () => {
           )}
           {activeStep === 3 && (
             <div style={{ marginTop: "20px" }}>
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="studentImage"
                 accept=".jpg, .jpeg, .png"
                 formik={formik}
+                required
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="birthCertificate"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="firstDegree"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="mastersDegree"
                 accept=".pdf"
                 formik={formik}
               />
 
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="IdentityImage"
                 accept=".pdf"
                 formik={formik}
+                required
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="studentNysc"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="otherCertificate"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="phdProposal"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload
+              <FileUploadUpdate
                 fieldName="postGraduateDiploma"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload fieldName="resume" accept=".pdf" formik={formik} />
-              <FileUpload
-                fieldName="transcript"
+              <FileUploadUpdate
+                fieldName="resume"
                 accept=".pdf"
                 formik={formik}
               />
-              <FileUpload
+              <FileUploadUpdate
+                fieldName="transcript"
+                accept=".pdf"
+                formik={formik}
+                required
+              />
+              <FileUploadUpdate
                 fieldName="nceCertificate"
                 accept=".pdf"
                 formik={formik}
@@ -1382,18 +1474,6 @@ const UpdateStepForm = () => {
             >
               Back
             </Button>
-            {/* <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                bgcolor: "#0AB99D",
-                "&:hover": {
-                  bgcolor: "#0AB99D",
-                },
-              }}
-            >
-              {activeStep === steps.length - 1 ? "Submit" : "Next"}
-            </Button> */}
 
             <Button
               type="submit"

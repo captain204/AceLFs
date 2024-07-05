@@ -863,14 +863,10 @@ const StepForm = () => {
     return activeStep === steps.length - 1;
   };
 
-
-
-
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    
+
     const requiredFiles = ["IdentityImage", "transcript", "studentImage"];
 
     // Check if any required file field is null or undefined
@@ -918,6 +914,7 @@ const StepForm = () => {
               email: formik.values.refereeEmail,
               contactAddress: formik.values.refereeContactAddress,
               phoneNumber: formik.values.refereePhoneNumber,
+              student: personalId,
             })
           );
         } catch (refereeError) {
@@ -1007,17 +1004,6 @@ const StepForm = () => {
     setLoading(false);
   };
 
-
-
-
-
-
-
-
-
-
-
-
   // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   //   event.preventDefault();
   //   setLoading(true);
@@ -1038,7 +1024,6 @@ const StepForm = () => {
   //     "nceCertificate",
   //   ];
 
-    
   //   const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
 
   //   if (activeStep === 3 && missingFiles.length > 0) {

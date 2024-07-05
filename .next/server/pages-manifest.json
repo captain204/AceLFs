@@ -3,6 +3,8 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/applicant/dashboard": "pages/applicant/dashboard.js",
-  "/404": "pages/404.js",
-  "/applicant/signin": "pages/applicant/signin.js"
+  "/admin/dashboard": "pages/admin/dashboard.js",
+  "/admin/applicants": "pages/admin/applicants.js",
+  "/applicant/admissions/admission-status": "pages/applicant/admissions/admission-status.js",
+  "/applicant/admissions/download-admission": "pages/applicant/admissions/download-admission.js"
 }
