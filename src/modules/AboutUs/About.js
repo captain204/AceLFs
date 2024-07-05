@@ -8,7 +8,7 @@ export default function About() {
           <div className="col-xl-6 col-lg-6">
             <div className="it-about-4-thumb-wrap d-flex align-items-center justify-content-center justify-content-lg-end">
               <div className="it-about-4-thumb-double d-flex flex-column">
-                <img
+                <Image
                   className="mb-20"
                   src="/img/about/ACEDARS-ABOUT.jpg"
                   alt=""

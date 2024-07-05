@@ -329,7 +329,7 @@ function ClientSideTable() {
                     <span style={{ color: "#0AB99D" }}>
                       {currentApplicant.fullName}
                     </span>
-                    's admission?
+                    &apos;s  admission?
                   </span>
                 ) : (
                   <span>
@@ -337,7 +337,7 @@ function ClientSideTable() {
                     <span style={{ color: "#0AB99D" }}>
                       {currentApplicant.fullName}
                     </span>
-                    's admission?
+                    &apos;s  admission?
                   </span>
                 )}
               </Typography>

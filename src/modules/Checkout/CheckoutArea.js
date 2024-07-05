@@ -12,29 +12,28 @@ export default function CheckoutArea() {
   );
   const [selectedShipping, setSelectedShipping] = useState("0");
 
-  const addedToCart = useSelector((state) => state.product);
-  const selectedCourses = Courses.filter((course) =>
-    addedToCart.addedProducts.some((product) => product.id === course.id),
-  );
+  const addedToCart = [];
+  const selectedCourses = []
+  
 
   // Calculate total price
-  const calculateTotalPrice = () => {
-    let total = 0;
-    selectedCourses.forEach((course) => {
-      const quantity = addedToCart.addedProducts.find(
-        (product) => product.id === course.id,
-      ).quantity;
-      total += course.price * quantity;
-    });
-    return total; // Add shipping cost to total
-  };
+  // const calculateTotalPrice = () => {
+  //   let total = 0;
+  //   selectedCourses.forEach((course) => {
+  //     const quantity = addedToCart?.addedProducts.find(
+  //       (product) => product.id === course.id,
+  //     ).quantity;
+  //     total += course.price * quantity;
+  //   });
+  //   return total; // Add shipping cost to total
+  // };
 
   // Set total price when the component mounts or whenever selectedCourses, addedToCart, or shippingCost changes
-  useEffect(() => {
-    const total = calculateTotalPrice();
-    setTotalPrice(total);
-    setPriceWithShipping(total + parseInt(shippingCost));
-  }, [selectedCourses, addedToCart, shippingCost]);
+  // useEffect(() => {
+  //   const total = calculateTotalPrice();
+  //   setTotalPrice(total);
+  //   setPriceWithShipping(total + parseInt(shippingCost));
+  // }, [selectedCourses, addedToCart, shippingCost]);
 
   // Handle radio button change
   const handleShippingChange = (e) => {
@@ -316,7 +315,7 @@ export default function CheckoutArea() {
                         <th className="product-total">Total</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody>
                       {selectedCourses.map((course) => {
                         const quantity = addedToCart.addedProducts.find(
                           (product) => product.id === course.id,
@@ -339,7 +338,7 @@ export default function CheckoutArea() {
                           </tr>
                         );
                       })}
-                    </tbody>
+                    </tbody> */}
                     <tfoot>
                       <tr className="cart-subtotal">
                         <th>Cart Subtotal</th>

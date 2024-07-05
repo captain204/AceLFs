@@ -284,10 +284,10 @@ export default function AdminLayout(props: Props) {
           </Collapse>
         </List>
 
-        <Link href="/courses" passHref>
+        <Link href="/" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/courses" ? "active" : ""}
+              className={router.pathname === "/" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -305,7 +305,7 @@ export default function AdminLayout(props: Props) {
         <Link href="/" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "#" ? "active" : ""}
+              className={router.pathname === "/" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",

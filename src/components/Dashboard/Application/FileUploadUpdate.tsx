@@ -49,7 +49,7 @@ const FileUploadUpdate: React.FC<FileUploadProps> = ({
       >
         <input {...getInputProps()} />
         <Typography variant="body1">
-          Drag 'n' drop <span style={{ color: '#0AB99D' }}>{formatFieldName(fieldName)}</span> file here, or click to select file {required && <span style={{ color: 'red' }}>(required)</span>}
+        Drag &#39;n&#39; drop <span style={{ color: '#0AB99D' }}>{formatFieldName(fieldName)}</span> file here, or click to select file {required && <span style={{ color: 'red' }}>(required)</span>}
         </Typography>
       </Box>
       {formik.touched[fieldName] && formik.errors[fieldName] && (

@@ -350,7 +350,7 @@ export default function Layout(props: Props) {
         <Link href="/applicant/courses" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/courses" ? "active" : ""}
+              className={router.pathname === "/applicant/courses" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
