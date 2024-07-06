@@ -43,8 +43,9 @@ export const loginUser = createAsyncThunk(
         console.log(response);
         const token = response.data.key;
         localStorage.setItem("token", token);
-        window.location.href = "/applicant/dashboard";
+        // const oneHour = 1 / 24;
         Cookies.set("token", token);
+        console.log(token);
       }
       return response.data;
     } catch (error: any) {
@@ -64,6 +65,7 @@ export const loginUser = createAsyncThunk(
     }
   }
 );
+
 
 const loginSlice = createSlice({
   name: "login",

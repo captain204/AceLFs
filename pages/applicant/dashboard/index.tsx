@@ -1,8 +1,8 @@
 import React from "react";
 import Layout from "../../../src/components/Dashboard/Layout";
 
-
-import Dashboard from "../../../src/components/Dashboard/Dashboard";
+import Dash from "../../../src/components/Dashboard/Dashboard";
+import Layout from "../../../src/components/Dashboard/Layout";
 
 const index = () => {
   return (

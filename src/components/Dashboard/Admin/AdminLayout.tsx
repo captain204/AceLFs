@@ -32,22 +32,23 @@ import BarChartIcon from "@mui/icons-material/BarChart";
 import PaymentIcon from "@mui/icons-material/Payment";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { AppDispatch, RootState } from "../../../Globals/store/store";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../Globals/store/store";
-import { useEffect } from "react";
-import { getLoggedInAdmin } from "../../Globals/Slices/AdminSlices/GetLoggedInAdmin";
-import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
+import { getCurrentUser } from "../../../Globals/Slices/AuthSlice/CurrentUserSlice";
 
 const drawerWidth = 240;
 
 interface Props {
   children: React.ReactNode;
-  // username: string;
 }
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function AdminLayout(props: Props) {
-  const dispatch: AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch()
+  React.useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [])
+  const {firstName} = useSelector((state: RootState) => state.currentUser.currentUser)
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
@@ -284,10 +285,10 @@ export default function AdminLayout(props: Props) {
           </Collapse>
         </List>
 
-        <Link href="/" passHref>
+        <Link href="/admin/coursemodules" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "/" ? "active" : ""}
+              className={router.pathname === "/admin/coursemodules" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",

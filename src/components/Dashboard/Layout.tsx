@@ -17,7 +17,6 @@ import InputBase from "@mui/material/InputBase";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -26,21 +25,17 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import SchoolIcon from "@mui/icons-material/School";
+import DownloadIcon from "@mui/icons-material/Download";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import Person4Icon from "@mui/icons-material/Person4";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import BarChartIcon from "@mui/icons-material/BarChart";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { RootState } from "../../Globals/store/store";
-import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getApplicantStatus } from "../../Globals/Slices/ApplicantsSlices/ApplicantsMoreDetail/ApplicantStatus";
-import { getLoggedInUser } from "../../Globals/Slices/ApplicantsSlices/AuthSlice/GetLoggedInApplicant";
-import { getEachStudent } from "../../Globals/Slices/ApplicantsSlices/AuthSlice/EachStudent";
-import { getStudentUploadsApplicant } from "../../Globals/Slices/ApplicantsSlices/UpdateFiles/StudentUpload";
-import { getRefereeApplicant } from "../../Globals/Slices/ApplicantsSlices/UpdateFiles/Refeeree";
-import { ApplicantGetEmergencyContact } from "../../Globals/Slices/ApplicantsSlices/UpdateFiles/EmmergencySlice";
-import { logoutUser } from "../../Globals/Slices/ApplicantsSlices/AuthSlice/Logout";
+import { AppDispatch, RootState } from "../../Globals/store/store";
+import AppRegistrationIcon from "@mui/icons-material/AppRegistration";
+import { getCurrentUser } from "../../Globals/Slices/AuthSlice/CurrentUserSlice";
 
 const drawerWidth = 240;
 
@@ -50,37 +45,22 @@ interface Props {
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function Layout(props: Props) {
-  const dispatch: AppDispatch = useDispatch();
-
-  const user = useSelector((state: RootState) => state?.loggedInUser?.user);
-
-  const applicantstatus: any = useSelector(
-    (state: RootState) => state?.applicantStatus?.status
-  );
-
-  const applicantstatusdisplay: any = useSelector((state: RootState) =>
-    Array.isArray(state?.applicantStatus?.status)
-      ? state.applicantStatus.status[0]
-      : state.applicantStatus.status
-  );
-
-  const uploads: any = useSelector((state: RootState) =>
-    Array.isArray(state?.studentUploadsApplicant?.uploads)
-      ? state.studentUploadsApplicant?.uploads[0]
-      : state.studentUploadsApplicant?.uploads
-  );
-
-  const handleLogout = () => {
-    dispatch(logoutUser());
-  };
-
+  const dispatch: AppDispatch = useDispatch()
+  React.useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [])
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
-
-  const [open, setOpen] = React.useState(true);
-  const handleClick = () => {
-    setOpen(!open);
+  const { firstName } =
+    useSelector((state: RootState) => state.currentUser.currentUser) || {};
+  const [openAdmissions, setOpenAdmissions] = React.useState(true);
+  const [openCoursesDropdown, setOpenCoursesDropdown] = React.useState(true);
+  const handleAdmissionsClick = () => {
+    setOpenAdmissions(!openAdmissions);
+  };
+  const handleCoursesClick = () => {
+    setOpenCoursesDropdown(!openCoursesDropdown);
   };
 
   useEffect(() => {
@@ -199,13 +179,35 @@ export default function Layout(props: Props) {
           </ListItem>
         </Link>
 
+        <Link href="/applicant/application" passHref>
+          <ListItem disablePadding>
+            <ListItemButton
+              className={
+                router.pathname === "/applicant/application" ? "active" : ""
+              }
+              sx={{
+                "&.active": {
+                  bgcolor: "rgba(255, 255, 255, 0.25)",
+                },
+                color: "white",
+              }}
+            >
+              <ListItemIcon sx={{ color: "white" }}>
+                <AppRegistrationIcon />
+              </ListItemIcon>
+              <ListItemText sx={{ fontWeight: "bold" }} primary="Application" />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "#0AB99D" }}
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
           <ListItemButton
-            onClick={handleClick}
+            onClick={handleAdmissionsClick}
+            // className={router.pathname.startsWith('/admissions') ? 'active' : ''}
             sx={{
               "&.active": {
                 bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -217,154 +219,184 @@ export default function Layout(props: Props) {
               <GroupAddIcon />
             </ListItemIcon>
             <ListItemText sx={{ color: "white" }} primary="Admissions" />
-            {open ? (
+            {openAdmissions ? (
               <ExpandLess sx={{ color: "white" }} />
             ) : (
               <ExpandMore sx={{ color: "white" }} />
             )}
           </ListItemButton>
 
-          <Collapse in={open} timeout="auto" unmountOnExit>
+          <Collapse in={openAdmissions} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              {(applicantstatus == undefined || applicantstatus == null) && (
-                <Link href="/applicant/admissions/application" passHref>
-                  <ListItemButton
-                    className={
-                      router.pathname === "/applicant/admissions/application"
-                        ? "active"
-                        : ""
-                    }
-                    sx={{
-                      "&.active": {
-                        bgcolor: "rgba(255, 255, 255, 0.25)",
-                      },
-                      pl: 4,
-                      color: "white",
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "white" }}>
-                      <LocalLibraryIcon />
-                    </ListItemIcon>
-                    <ListItemText
-                      sx={{ color: "white" }}
-                      primary="Application"
-                    />
-                  </ListItemButton>
-                </Link>
-              )}
+              <Link href="/applicant/admissions/msc" passHref>
+                <ListItemButton
+                  className={
+                    router.pathname === "/applicant/admissions/msc"
+                      ? "active"
+                      : ""
+                  }
+                  sx={{
+                    "&.active": {
+                      bgcolor: "rgba(255, 255, 255, 0.25)",
+                    },
+                    pl: 4,
+                    color: "white",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: "white" }} primary="Msc" />
+                </ListItemButton>
+              </Link>
 
-              {applicantstatus !== undefined &&
-                applicantstatus !== null &&
-                !applicantstatusdisplay?.is_admitted && (
-                  <Link href="/applicant/admissions/update-forms" passHref>
-                    <ListItemButton
-                      className={
-                        router.pathname === "/applicant/admissions/update-forms"
-                          ? "active"
-                          : ""
-                      }
-                      sx={{
-                        "&.active": {
-                          bgcolor: "rgba(255, 255, 255, 0.25)",
-                        },
-                        pl: 4,
-                        color: "white",
-                      }}
-                    >
-                      <ListItemIcon sx={{ color: "white" }}>
-                        <LocalLibraryIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        sx={{ color: "white" }}
-                        primary="Update Forms"
-                      />
-                    </ListItemButton>
-                  </Link>
-                )}
+              <Link href="/applicant/admissions/mphil" passHref>
+                <ListItemButton
+                  className={
+                    router.pathname === "/applicant/admissions/mphil"
+                      ? "active"
+                      : ""
+                  }
+                  sx={{
+                    "&.active": {
+                      bgcolor: "rgba(255, 255, 255, 0.25)",
+                    },
+                    pl: 4,
+                    color: "white",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
+                    <Person4Icon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: "white" }} primary="M.phil" />
+                </ListItemButton>
+              </Link>
 
-              {(applicantstatus != undefined ||
-                applicantstatus != null ||
-                applicantstatus == null) && (
-                <Link href="/applicant/admissions/admission-status" passHref>
-                  <ListItemButton
-                    className={
-                      router.pathname ===
-                      "/applicant/admissions/admission-status"
-                        ? "active"
-                        : ""
-                    }
-                    sx={{
-                      "&.active": {
-                        bgcolor: "rgba(255, 255, 255, 0.25)",
-                      },
-                      pl: 4,
-                      color: "white",
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: "white" }}>
-                      <Person4Icon />
-                    </ListItemIcon>
-                    <ListItemText
-                      sx={{ color: "white" }}
-                      primary="Admission Status"
-                    />
-                  </ListItemButton>
-                </Link>
-              )}
+              <Link href="/admissions/phd" passHref>
+                <ListItemButton
+                  className={
+                    router.pathname === "/applicant/admissions/phd"
+                      ? "active"
+                      : ""
+                  }
+                  sx={{
+                    "&.active": {
+                      bgcolor: "rgba(255, 255, 255, 0.25)",
+                    },
+                    pl: 4,
+                    color: "white",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
+                    <SchoolIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: "white" }} primary="PHD" />
+                </ListItemButton>
+              </Link>
 
-              {applicantstatus != null &&
-                applicantstatusdisplay?.is_admitted !== false && (
-                  <Link
-                    href="/applicant/admissions/download-admission"
-                    passHref
-                  >
-                    <ListItemButton
-                      className={
-                        router.pathname ===
-                        "/applicant/admissions/download-admission"
-                          ? "active"
-                          : ""
-                      }
-                      sx={{
-                        "&.active": {
-                          bgcolor: "rgba(255, 255, 255, 0.25)",
-                        },
-                        pl: 4,
-                        color: "white",
-                      }}
-                    >
-                      <ListItemIcon sx={{ color: "white" }}>
-                        <SchoolIcon />
-                      </ListItemIcon>
-                      <ListItemText
-                        sx={{ color: "white" }}
-                        primary="Download A-Letter"
-                      />
-                    </ListItemButton>
-                  </Link>
-                )}
+              <Link href="/admissions/statistics" passHref>
+                <ListItemButton
+                  className={
+                    router.pathname === "/applicant/admissions/statistics"
+                      ? "active"
+                      : ""
+                  }
+                  sx={{
+                    "&.active": {
+                      bgcolor: "rgba(255, 255, 255, 0.25)",
+                    },
+                    pl: 4,
+                    color: "white",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
+                    <BarChartIcon />
+                  </ListItemIcon>
+                  <ListItemText sx={{ color: "white" }} primary="Statistics" />
+                </ListItemButton>
+              </Link>
             </List>
           </Collapse>
         </List>
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "#0AB99D" }}
+          component="nav"
+          aria-labelledby="nested-list-subheader"
+        >
+          <ListItemButton
+            onClick={handleCoursesClick}
+            sx={{
+              "&.active": {
+                bgcolor: "rgba(255, 255, 255, 0.25)",
+              },
+              color: "white",
+            }}
+          >
+            <ListItemIcon sx={{ color: "white" }}>
+              <LibraryBooksIcon />
+            </ListItemIcon>
+            <ListItemText sx={{ color: "white" }} primary="Courses" />
+            {openCoursesDropdown ? (
+              <ExpandLess sx={{ color: "white" }} />
+            ) : (
+              <ExpandMore sx={{ color: "white" }} />
+            )}
+          </ListItemButton>
 
-        <Link href="/applicant/courses" passHref>
-          <ListItem disablePadding>
-            <ListItemButton
-              className={router.pathname === "/applicant/courses" ? "active" : ""}
-              sx={{
-                "&.active": {
-                  bgcolor: "rgba(255, 255, 255, 0.25)",
-                },
-                color: "white",
-              }}
-            >
-              <ListItemIcon sx={{ color: "white" }}>
-                <LibraryBooksIcon />
-              </ListItemIcon>
-              <ListItemText sx={{ color: "white" }} primary="Courses" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
+          <Collapse in={openCoursesDropdown} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              <Link href="/applicant/courses/courseregistration" passHref>
+                <ListItemButton
+                  className={
+                    router.pathname === "/applicant/courses/courseregistration"
+                      ? "active"
+                      : ""
+                  }
+                  sx={{
+                    "&.active": {
+                      bgcolor: "rgba(255, 255, 255, 0.25)",
+                    },
+                    pl: 4,
+                    color: "white",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
+                    <AppRegistrationIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{ color: "white" }}
+                    primary="Course Registration"
+                  />
+                </ListItemButton>
+              </Link>
+
+              <Link href="/applicant/courses/courseform" passHref>
+                <ListItemButton
+                  className={
+                    router.pathname === "/applicant/courses/courseform"
+                      ? "active"
+                      : ""
+                  }
+                  sx={{
+                    "&.active": {
+                      bgcolor: "rgba(255, 255, 255, 0.25)",
+                    },
+                    pl: 4,
+                    color: "white",
+                  }}
+                >
+                  <ListItemIcon sx={{ color: "white" }}>
+                    <DownloadIcon />
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{ color: "white" }}
+                    primary="Download Course Form"
+                  />
+                </ListItemButton>
+              </Link>
+            </List>
+          </Collapse>
+        </List>
       </List>
       <Divider />
       <List>
@@ -421,7 +453,7 @@ export default function Layout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                {user?.username.toUpperCase()}
+                {firstName}
               </Typography>
 
               {/* <Typography
@@ -434,10 +466,7 @@ export default function Layout(props: Props) {
               </Typography> */}
             </div>
 
-            <Avatar
-              alt={applicantstatusdisplay?.firstName}
-              src={uploads?.studentImage}
-            />
+            <Avatar alt={firstName} src="/static/images/avatar/1.jpg" />
           </Box>
         </Toolbar>
       </AppBar>

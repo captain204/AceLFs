@@ -8,13 +8,56 @@ import animationData from "../../../public/img/student3.json";
 import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
 import { useSelector } from "react-redux";
-import { format } from "date-fns";
+import { useDispatch } from "react-redux";
+import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
+
+import { useEffect } from "react";
+import { newsFormAction } from "../../Globals/Slices/ApplicationSlice/News";
+import { getCurrentUser } from "../../Globals/Slices/AuthSlice/CurrentUserSlice";
 
 const drawerWidth = 240;
 
-export default function Dashboard() {
-  const user = useSelector((state: RootState) => state?.loggedInUser?.user);
-  const currentDate = format(new Date(), "do MMMM, yyyy");
+interface Props {
+  /**
+   * Injected by the documentation to work in an iframe.
+   * Remove this when copying and pasting into your project.
+   */
+  window?: () => Window;
+}
+
+
+type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
+export default function ResponsiveDrawer(props: Props) {
+  const { username } = (useSelector((state: RootState) => state.loginUser.signupData) || {});
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentUser())
+  }, [])
+  
+  // const currentDateTime = new Date().toLocaleString("en-US", {
+  //   year: "numeric",
+  //   month: "long",
+  //   day: "numeric",
+  //   hour: "2-digit",
+  //   minute: "2-digit",
+  // });
+
+  // useEffect(() => {
+  //   dispatch(newsFormAction ({
+  //     slug:  "1",
+  //     title: "hey",
+  //     content:  "go",
+  //     image:  "hey.png",
+  //     detailsImage: "God",
+  //     category: "beans",
+  //     commentsCount:  2147483647,
+  //     publishedDate: "2024-06-12"
+  //   }));
+  
+  // }, []);
+
+
 
   const applicantstatus: any = useSelector(
     (state: RootState) => state?.applicantStatus?.status
@@ -69,11 +112,7 @@ export default function Dashboard() {
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  {applicantstatus != null
-                    ? " Welcome back"
-                    : "Welcome Onboard"}{" "}
-                  {""}
-                  {user?.username.toUpperCase()}!
+                  Welcome back, {username}!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
                   Always stay updated in your student portal

@@ -1,0 +1,59 @@
+.courseregform{
+    width: 210mm;
+    height: 297mm;
+   margin: 0 auto;
+   font-size: 0.4cm;
+   padding-bottom: 20px;
+}
+
+.regformheader img{
+    width: 60px;
+    height: 60px;
+}
+.regformheader h4{
+    padding-top: 20px;
+}
+.personalinfotable{
+    margin: auto;
+    margin-top: 50px;
+}
+.personalinfotable tr{
+    justify-content: space-between;
+}
+.personalinfotable tr th{
+    text-align: center;
+    font-size: 0.3cm;
+}
+
+.personalinfotable tr th, .personalinfotable tr td{
+    padding: 5px;
+    width: 350px;
+}
+.personalinfotable tr td{
+    border: 1px solid black;
+    font-size: 0.35cm;
+}
+.modulesinfo th{
+    font-size: 0.39cm;
+}
+.modulesinfo td{
+    font-size: 0.4cm;
+}
+.modulesinfo{
+    margin-top: 5%;
+    height: 500px;
+}
+.modulesinfo table{
+    margin-top: 8%;
+    width: 90%;
+    margin: auto;
+}
+.signatures{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.signatures p{
+    font-size: 0.3cm;
+    width: 200px;
+}

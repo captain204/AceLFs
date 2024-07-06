@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
-import signupReducer from "../Slices/ApplicantsSlices/AuthSlice/SignupSlice";
-import loginUserReducer from "../Slices/ApplicantsSlices/AuthSlice/LoginUserSlice";
-import degreesReducer from "../Slices/ApplicantsSlices/Degree/DegreesSlice";
-import coursesReducer from "../Slices/ApplicantsSlices/Degree/CoursesSlice";
-import emergencyFormReducer from "../Slices/ApplicantsSlices/ApplicationSlice/Emergency";
-import submitRefereeFormReducer from "../Slices/ApplicantsSlices/ApplicationSlice/Referee";
-import submitFirstFormReducer from "../Slices/ApplicantsSlices/ApplicationSlice/FirstFormSlice";
-import newsFormReducer from "../Slices/ApplicantsSlices/ApplicationSlice/News";
-import loginAdminReducer from "../Slices/ApplicantsSlices/AuthSlice/LoginAdminSlice";
+import signupReducer from "../Slices/AuthSlice/SignupSlice";
+import loginUserReducer from "../Slices/AuthSlice/LoginUserSlice";
+
+import degreesReducer from "../Slices/Degree/DegreesSlice";
+import currentUserReducer from "../Slices/AuthSlice/CurrentUserSlice";
+import coursesReducer from "../Slices/Degree/CoursesSlice";
+import emergencyFormReducer from "../Slices/ApplicationSlice/Emergency";
+import submitRefereeFormReducer from "../Slices/ApplicationSlice/Referee";
+import submitFirstFormReducer from "../Slices/ApplicationSlice/FirstFormSlice";
+import newsFormReducer from "../Slices/ApplicationSlice/News";
+import loginAdminReducer from "../Slices/AuthSlice/LoginAdminSlice";
 import applicantsReducer from "../Slices/AdminSlices/ApplicantsSlice";
 import ApproveadmissionReducer from "../Slices/AdminSlices/ApproveAdmission";
 import degreeTypeApplicantsReducer from "../Slices/AdminSlices/DegreeTypeApplicants";
@@ -25,16 +27,18 @@ import refereeApplicantReducer from "../Slices/ApplicantsSlices/UpdateFiles/Refe
 import studentUploadsApplicantReducer from "../Slices/ApplicantsSlices/UpdateFiles/StudentUpload";
 import loggedInAdminReducer from "../Slices/AdminSlices/GetLoggedInAdmin"
 
+
 const rootReducer = combineReducers({
   signup: signupReducer,
   loginUser: loginUserReducer,
+  loginAdmin: loginAdminReducer,
   degrees: degreesReducer,
   courses: coursesReducer,
+  currentUser: currentUserReducer,
   emergency: emergencyFormReducer,
   referee: submitRefereeFormReducer,
   personal: submitFirstFormReducer,
   newsForm: newsFormReducer,
-  loginAdmin: loginAdminReducer,
   applicants: applicantsReducer,
   approve: ApproveadmissionReducer,
   degreetypeapplicants: degreeTypeApplicantsReducer,
