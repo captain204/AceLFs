@@ -19,7 +19,7 @@ const initialState: GetDegreeTypeApplicantsState = {
 
 export const getDegreeTypeApplicants = createAsyncThunk(
   "applicants/getDegreeTypeApplicants",
-  async (applicationType_slug: string) => {
+  async (applicationType_slug: any) => {
     try {
       const response = await axiosInstanceAdmin.get(
         `/api/v1/admissions/program-type/${applicationType_slug}/`

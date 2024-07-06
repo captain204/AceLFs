@@ -13,7 +13,19 @@ import newsFormReducer from "../Slices/ApplicationSlice/News";
 import loginAdminReducer from "../Slices/AuthSlice/LoginAdminSlice";
 import applicantsReducer from "../Slices/AdminSlices/ApplicantsSlice";
 import ApproveadmissionReducer from "../Slices/AdminSlices/ApproveAdmission";
-import degreeTypeApplicantsReducer from "../Slices/AdminSlices/DegreeTypeApplicants"
+import degreeTypeApplicantsReducer from "../Slices/AdminSlices/DegreeTypeApplicants";
+import emergencyContactReducer from "../Slices/ApplicantsSlices/ApplicantsMoreDetail/EmmergencySlice";
+import refereeReducer from "../Slices/ApplicantsSlices/ApplicantsMoreDetail/Refeeree";
+import applicantInformationReducer from "../Slices/ApplicantsSlices/ApplicantsMoreDetail/personal";
+import studentUploadsReducer from "../Slices/ApplicantsSlices/ApplicantsMoreDetail/StudentUpload";
+import applicantStatusReducer from "../Slices/ApplicantsSlices/ApplicantsMoreDetail/ApplicantStatus";
+import loggedInUserReducer from "../Slices/ApplicantsSlices/AuthSlice/GetLoggedInApplicant";
+import EachStudentReducer from "../Slices/ApplicantsSlices/AuthSlice/EachStudent";
+import applicantPersonalInformatReducer from "../Slices/ApplicantsSlices/UpdateFiles/personal";
+import ApplicantGetEmergencyContactReducer from "../Slices/ApplicantsSlices/UpdateFiles/EmmergencySlice";
+import refereeApplicantReducer from "../Slices/ApplicantsSlices/UpdateFiles/Refeeree";
+import studentUploadsApplicantReducer from "../Slices/ApplicantsSlices/UpdateFiles/StudentUpload";
+import loggedInAdminReducer from "../Slices/AdminSlices/GetLoggedInAdmin"
 
 
 const rootReducer = combineReducers({
@@ -29,7 +41,19 @@ const rootReducer = combineReducers({
   newsForm: newsFormReducer,
   applicants: applicantsReducer,
   approve: ApproveadmissionReducer,
-  degreetypeapplicants: degreeTypeApplicantsReducer
+  degreetypeapplicants: degreeTypeApplicantsReducer,
+  applicantEmmergency: emergencyContactReducer,
+  applicantReferee: refereeReducer,
+  applicantPersonal: applicantInformationReducer,
+  applicantUploads: studentUploadsReducer,
+  applicantStatus: applicantStatusReducer,
+  loggedInUser: loggedInUserReducer,
+  EachStudent: EachStudentReducer,
+  getPersonalInfoForApplicant: applicantPersonalInformatReducer,
+  getEmergencyContactForApplicant: ApplicantGetEmergencyContactReducer,
+  refereeForApplicant: refereeApplicantReducer,
+  studentUploadsApplicant: studentUploadsApplicantReducer,
+  loggedInAdmin: loggedInAdminReducer
 });
 
 export const store = configureStore({

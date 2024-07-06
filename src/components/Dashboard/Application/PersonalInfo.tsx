@@ -36,9 +36,9 @@ const schema = yup.object().shape({
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../Globals/store/store";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-import { getAllCourses } from "../../../Globals/Slices/Degree/CoursesSlice";
+import { getAllCourses } from "../../../Globals/Slices/ApplicantsSlices/Degree/CoursesSlice";
 import { useEffect } from "react";
-import { getAllDegrees } from "../../../Globals/Slices/Degree/DegreesSlice";
+import { getAllDegrees } from "../../../Globals/Slices/ApplicantsSlices/Degree/DegreesSlice";
 
 type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 
@@ -72,7 +72,7 @@ export default function PersonalInfo({ onValidate, formRef }: PersonalInfoProps)
   useEffect(() => {
     dispatch(getAllCourses());
     dispatch( getAllDegrees())
-  }, []);
+  }, [dispatch]);
 
 
  

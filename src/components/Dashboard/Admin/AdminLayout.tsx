@@ -42,6 +42,7 @@ interface Props {
   children: React.ReactNode;
 }
 
+type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function AdminLayout(props: Props) {
   const dispatch: AppDispatch = useDispatch()
   React.useEffect(() => {
@@ -51,11 +52,16 @@ export default function AdminLayout(props: Props) {
   const { children } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isClosing, setIsClosing] = React.useState(false);
+  const admin = useSelector((state: RootState) => state?.loggedInAdmin?.admin);
 
   const [open, setOpen] = React.useState(true);
   const handleClick = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    dispatch(getLoggedInAdmin());
+  }, [dispatch]);
 
   const router = useRouter();
 
@@ -99,7 +105,6 @@ export default function AdminLayout(props: Props) {
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
       width: "auto",
     },
   }));
@@ -128,7 +133,7 @@ export default function AdminLayout(props: Props) {
         }}
       >
         <Avatar
-          src="/broken-image.jpg"
+          src="https://marketplace.canva.com/EAGA2vs-oD4/1/0/1600w/canva-navy-white-university-elegant-logo-SXgxVbQ1u70.jpg"
           sx={{
             width: 70,
             height: 70,
@@ -163,38 +168,37 @@ export default function AdminLayout(props: Props) {
           component="nav"
           aria-labelledby="nested-list-subheader"
         >
-          {/* <Link href="/admin/applicants" passHref> */}
-          <ListItemButton
-            className={
-              router.pathname.startsWith("/admin/applicants") ? "active" : ""
-            }
-            sx={{
-              "&.active": {
-                bgcolor: "rgba(255, 255, 255, 0.25)",
-              },
-              color: "white",
-            }}
-          >
-            <ListItemIcon
-              sx={{ color: "white" }}
-              onClick={applicantsNavigation}
+          <Link href="/admin/applicants" passHref>
+            <ListItemButton
+              className={
+                router.pathname.startsWith("/admin/applicants") ? "active" : ""
+              }
+              sx={{
+                "&.active": {
+                  bgcolor: "rgba(255, 255, 255, 0.25)",
+                },
+                color: "white",
+              }}
             >
-              <GroupAddIcon />
-            </ListItemIcon>
-            <ListItemText
-              sx={{ color: "white" }}
-              primary="Applicants"
-              onClick={applicantsNavigation}
-            />
+              <ListItemIcon
+                sx={{ color: "white" }}
+                onClick={applicantsNavigation}
+              >
+                <GroupAddIcon />
+              </ListItemIcon>
+              <ListItemText
+                sx={{ color: "white" }}
+                primary="Applicants"
+                onClick={applicantsNavigation}
+              />
 
-            {open ? (
-              <ExpandLess sx={{ color: "white" }} onClick={handleClick} />
-            ) : (
-              <ExpandMore sx={{ color: "white" }} onClick={handleClick} />
-            )}
-          </ListItemButton>
-
-          {/* </Link> */}
+              {open ? (
+                <ExpandLess sx={{ color: "white" }} onClick={handleClick} />
+              ) : (
+                <ExpandMore sx={{ color: "white" }} onClick={handleClick} />
+              )}
+            </ListItemButton>
+          </Link>
 
           <Collapse in={open} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
@@ -262,9 +266,7 @@ export default function AdminLayout(props: Props) {
 
               <Link href="/" passHref>
                 <ListItemButton
-                  className={
-                    router.pathname === "/" ? "active" : ""
-                  }
+                  className={router.pathname === "/" ? "active" : ""}
                   sx={{
                     "&.active": {
                       bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -304,7 +306,7 @@ export default function AdminLayout(props: Props) {
         <Link href="/" passHref>
           <ListItem disablePadding>
             <ListItemButton
-              className={router.pathname === "#" ? "active" : ""}
+              className={router.pathname === "/" ? "active" : ""}
               sx={{
                 "&.active": {
                   bgcolor: "rgba(255, 255, 255, 0.25)",
@@ -378,20 +380,11 @@ export default function AdminLayout(props: Props) {
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
-                {/* {username} */} Austine
-              </Typography>
-
-              <Typography
-                variant="h6"
-                component="div"
-                sx={{ mr: 2 }}
-                style={{ fontSize: "12px" }}
-              >
-                Admin
+                {/* {username} */} {admin?.username}
               </Typography>
             </div>
 
-            <Avatar alt="Austine Blaise" src="/static/images/avatar/1.jpg" />
+            <Avatar alt={admin?.username.toUpperCase()} src="/static/images/avatar/1.jpg" />
           </Box>
         </Toolbar>
       </AppBar>

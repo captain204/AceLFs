@@ -17,8 +17,8 @@ export default function HeaderFive(props) {
     setMultiLangOpen(false);
   };
 
-  const cartItemsCount = useSelector((state) => state.product).addedProducts
-    .length;
+  // const cartItemsCount = useSelector((state) => state.product)?.addedProducts.length || [];
+  const cartItemsCount = [];
 
   useEffect(() => {
     // Sticky is displayed after scrolling for 100 pixels

@@ -8,7 +8,7 @@ const index = () => {
 
   return (
     <AdminLayout>
-      <Dash />
+      <Dashboard />
     </AdminLayout>
   );
 };

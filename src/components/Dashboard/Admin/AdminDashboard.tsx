@@ -6,15 +6,15 @@ import Typography from "@mui/material/Typography";
 import { Card, CardContent, Menu, MenuItem } from "@mui/material";
 import animationData from "../../../../public/img/student.json";
 import Lottie from "react-lottie";
+import { useSelector } from "react-redux";
+import { RootState } from "../../Globals/store/store";
+import { format } from "date-fns";
 
 const drawerWidth = 240;
 
-interface Props {
-  window?: () => Window;
-  username: string;
-}
-
-export default function ResponsiveDrawer() {
+export default function Dashboard() {
+  const admin = useSelector((state: RootState) => state?.loggedInAdmin?.admin);
+  const currentDate = format(new Date(), "do MMMM, yyyy");
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -57,17 +57,17 @@ export default function ResponsiveDrawer() {
                   component="div"
                   sx={{ fontSize: "15px" }}
                 >
-                  6th october, 2024
+                  {currentDate}
                 </Typography>
                 <Typography
                   variant="h5"
                   component="div"
                   sx={{ marginTop: "20px" }}
                 >
-                  Welcome back, Austine Blaise!
+                  Welcome back, {admin?.username}!
                 </Typography>
                 <Typography variant="body1" sx={{ color: "white" }}>
-                  Always stay updated in your student portal
+                Manage applicants, and monitor statistics from your dashboard.
                 </Typography>
               </Box>
               <Box sx={{ marginLeft: "auto" }}>

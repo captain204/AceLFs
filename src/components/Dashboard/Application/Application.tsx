@@ -22,10 +22,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../Globals/store/store";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
-import { getAllCourses } from "../../../Globals/Slices/Degree/CoursesSlice";
-import { getAllDegrees } from "../../../Globals/Slices/Degree/DegreesSlice";
-import { submitEmergencyForm } from "../../../Globals/Slices/ApplicationSlice/Emergency";
-import { submitRefereeForm } from "../../../Globals/Slices/ApplicationSlice/Referee";
+import { getAllCourses } from "../../../Globals/Slices/ApplicantsSlices/Degree/CoursesSlice";
+import { getAllDegrees } from "../../../Globals/Slices/ApplicantsSlices/Degree/DegreesSlice";
+import { submitEmergencyForm } from "../../../Globals/Slices/ApplicantsSlices/ApplicationSlice/Emergency";
+import { submitRefereeForm } from "../../../Globals/Slices/ApplicantsSlices/ApplicationSlice/Referee";
 import FileUpload from "./FileUpload";
 import axiosInstance from "../../../Globals/Interceptor";
 import axiosInstanceUpload from "../../../Globals/InterceptorUpload";
@@ -866,22 +866,8 @@ const StepForm = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
-    // console.log(formik.values);
 
-    const requiredFiles = [
-      "birthCertificate",
-      "firstDegree",
-      "mastersDegree",
-      "studentImage",
-      "IdentityImage",
-      "studentNysc",
-      "otherCertificate",
-      "phdProposal",
-      "postGraduateDiploma",
-      "resume",
-      "transcript",
-      "nceCertificate",
-    ];
+    const requiredFiles = ["IdentityImage", "transcript", "studentImage"];
 
     // Check if any required file field is null or undefined
     const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
@@ -928,6 +914,7 @@ const StepForm = () => {
               email: formik.values.refereeEmail,
               contactAddress: formik.values.refereeContactAddress,
               phoneNumber: formik.values.refereePhoneNumber,
+              student: personalId,
             })
           );
         } catch (refereeError) {
@@ -950,14 +937,31 @@ const StepForm = () => {
           );
         } catch (emergencyError) {
           console.error("Error submitting emergency form:", emergencyError);
-          // alert("Failed to submit emergency form. Please try again.");
           return;
         }
 
         const formData = new FormData();
         formData.append("student", personalId);
+        // Append required files
         requiredFiles.forEach((fileKey) => {
           formData.append(fileKey, formik.values[fileKey]);
+        });
+        // Append optional files
+        const optionalFiles = [
+          "birthCertificate",
+          "firstDegree",
+          "mastersDegree",
+          "studentNysc",
+          "otherCertificate",
+          "phdProposal",
+          "postGraduateDiploma",
+          "resume",
+          "nceCertificate",
+        ];
+        optionalFiles.forEach((fileKey) => {
+          if (formik.values[fileKey]) {
+            formData.append(fileKey, formik.values[fileKey]);
+          }
         });
 
         try {
@@ -975,7 +979,7 @@ const StepForm = () => {
             setTimeout(() => {
               setModalOpen(false); // Close modal after 3 seconds
               setTimeout(() => {
-                router.push("/applicant/dashboard"); // Redirect to /dashboard after 5 seconds
+                window.location.href = "/applicant/dashboard"; // Redirect to /dashboard after 5 seconds
               }, 1000);
             }, 3000);
           }
@@ -983,31 +987,167 @@ const StepForm = () => {
           if (response.status == 200) {
             setModalOpen(true);
           }
-
-          // alert("Form submitted successfully!");
         } catch (fileUploadError) {
           console.error("Error uploading files:", fileUploadError);
-          // alert("Failed to upload files. Please try again.");
           setFileUploadError("Failed to upload files. Please try again.");
         }
       } catch (personalError) {
         console.error("Error submitting personal information:", personalError);
-        // alert("Failed to submit personal information. Please try again.");
         setPersonalResponseError(
           "Failed to submit personal information. Please try again."
         );
       }
     } else {
       // Move to the next step if it's not the last step
-
       handleNext();
     }
     setLoading(false);
   };
 
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+  //   setLoading(true);
+  //   // console.log(formik.values);
+
+  //   const requiredFiles = [
+  //     "birthCertificate",
+  //     "firstDegree",
+  //     "mastersDegree",
+  //     "studentImage",
+  //     "IdentityImage",
+  //     "studentNysc",
+  //     "otherCertificate",
+  //     "phdProposal",
+  //     "postGraduateDiploma",
+  //     "resume",
+  //     "transcript",
+  //     "nceCertificate",
+  //   ];
+
+  //   const missingFiles = requiredFiles.filter((file) => !formik.values[file]);
+
+  //   if (activeStep === 3 && missingFiles.length > 0) {
+  //     alert("Please upload all required files.");
+  //     setLoading(false);
+  //     return;
+  //   }
+
+  //   if (isLastStep()) {
+  //     try {
+  //       // Submit the first form data
+  //       const personalResponse = await axiosInstance.post(
+  //         `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/students`,
+  //         {
+  //           firstName: formik.values.firstName,
+  //           surName: formik.values.surname,
+  //           otherNames: formik.values.otherName,
+  //           dateofBirth: formik.values.dateOfBirth.toISOString().split("T")[0],
+  //           gender: formik.values.gender,
+  //           marital_status: formik.values.maritalStatus,
+  //           religion: formik.values.religion,
+  //           nationality: formik.values.nationality,
+  //           state: formik.values.state,
+  //           lga: formik.values.lga,
+  //           contactAddress: formik.values.contactAddress,
+  //           phoneNumber: formik.values.phoneNumber,
+  //           physicalChallenge: formik.values.physicalChallenge,
+  //           applicationType: +selectedDegree.id,
+  //           choiceofCourse: +selectedCourse.id,
+  //         }
+  //       );
+
+  //       const personalId = personalResponse.data.id;
+  //       console.log(personalId);
+
+  //       try {
+  //         // Submit the referee form
+  //         await dispatch(
+  //           submitRefereeForm({
+  //             firstname: formik.values.refereeFirstName,
+  //             lastname: formik.values.refereeLastName,
+  //             email: formik.values.refereeEmail,
+  //             contactAddress: formik.values.refereeContactAddress,
+  //             phoneNumber: formik.values.refereePhoneNumber,
+  //           })
+  //         );
+  //       } catch (refereeError) {
+  //         console.error("Error submitting referee form:", refereeError);
+  //         alert("Failed to submit referee form. Please try again.");
+  //         return;
+  //       }
+
+  //       try {
+  //         // Submit the emergency form
+  //         await dispatch(
+  //           submitEmergencyForm({
+  //             firstname: formik.values.emergencyFirstName,
+  //             lastname: formik.values.emergencyLastName,
+  //             email: formik.values.emergencyEmail,
+  //             contactAddress: formik.values.emergencyContactAddress,
+  //             phoneNumber: formik.values.emergencyPhoneNumber,
+  //             student: personalId,
+  //           })
+  //         );
+  //       } catch (emergencyError) {
+  //         console.error("Error submitting emergency form:", emergencyError);
+  //         // alert("Failed to submit emergency form. Please try again.");
+  //         return;
+  //       }
+
+  //       const formData = new FormData();
+  //       formData.append("student", personalId);
+  //       requiredFiles.forEach((fileKey) => {
+  //         formData.append(fileKey, formik.values[fileKey]);
+  //       });
+
+  //       try {
+  //         // Upload files
+  //         const response = await axiosInstanceUpload.post(
+  //           `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/admissions/student-uploads`,
+  //           formData
+  //         );
+
+  //         if (
+  //           response.status === 201 ||
+  //           (response.status >= 200 && response.status <= 204)
+  //         ) {
+  //           setModalOpen(true); // Open modal for success message
+  //           setTimeout(() => {
+  //             setModalOpen(false); // Close modal after 3 seconds
+  //             setTimeout(() => {
+  //               window.location.href = "/applicant/dashboard"; // Redirect to /dashboard after 5 seconds
+  //             }, 1000);
+  //           }, 3000);
+  //         }
+
+  //         if (response.status == 200) {
+  //           setModalOpen(true);
+  //         }
+
+  //         // alert("Form submitted successfully!");
+  //       } catch (fileUploadError) {
+  //         console.error("Error uploading files:", fileUploadError);
+  //         // alert("Failed to upload files. Please try again.");
+  //         setFileUploadError("Failed to upload files. Please try again.");
+  //       }
+  //     } catch (personalError) {
+  //       console.error("Error submitting personal information:", personalError);
+  //       // alert("Failed to submit personal information. Please try again.");
+  //       setPersonalResponseError(
+  //         "Failed to submit personal information. Please try again."
+  //       );
+  //     }
+  //   } else {
+  //     // Move to the next step if it's not the last step
+
+  //     handleNext();
+  //   }
+  //   setLoading(false);
+  // };
+
   const handleCloseModal = () => {
     setModalOpen(false);
-    router.push("/applicant/dashboard");
+    window.location.href = "/applicant/dashboard";
   };
 
   const defaultOptions = {
@@ -1090,6 +1230,7 @@ const StepForm = () => {
                 fieldName="studentImage"
                 accept=".jpg, .jpeg, .png"
                 formik={formik}
+                required
               />
               <FileUpload
                 fieldName="birthCertificate"
@@ -1111,6 +1252,7 @@ const StepForm = () => {
                 fieldName="IdentityImage"
                 accept=".pdf"
                 formik={formik}
+                required
               />
               <FileUpload
                 fieldName="studentNysc"
@@ -1137,6 +1279,7 @@ const StepForm = () => {
                 fieldName="transcript"
                 accept=".pdf"
                 formik={formik}
+                required
               />
               <FileUpload
                 fieldName="nceCertificate"
@@ -1176,7 +1319,7 @@ const StepForm = () => {
                   bgcolor: "#0AB99D",
                 },
               }}
-              disabled={loading} 
+              disabled={loading}
             >
               {loading
                 ? "Loading..."

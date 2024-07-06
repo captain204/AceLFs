@@ -3,7 +3,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Card, CardContent} from "@mui/material";
+import { Card, CardContent } from "@mui/material";
 import animationData from "../../../public/img/student3.json";
 import Lottie from "react-lottie";
 import { RootState } from "../../Globals/store/store";
@@ -59,6 +59,9 @@ export default function ResponsiveDrawer(props: Props) {
 
 
 
+  const applicantstatus: any = useSelector(
+    (state: RootState) => state?.applicantStatus?.status
+  );
 
   const defaultOptions = {
     loop: true,
@@ -79,18 +82,6 @@ export default function ResponsiveDrawer(props: Props) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-        {/* <Toolbar /> */}
-
-        {/* <motion.div
-        variants={fadeInVariants}
-        initial="hide"
-        whileInView="show"
-        exit="hide"
-        viewport={{
-          once: true,
-        }}
-      > */}
-
         <Box sx={{ width: "100%" }}>
           <Card
             sx={{
@@ -112,9 +103,9 @@ export default function ResponsiveDrawer(props: Props) {
                 <Typography
                   variant="h6"
                   component="div"
-                  sx={{ fontSize: "15px" }}
+                  sx={{ fontSize: "18px" }}
                 >
-                  6th october, 2024
+                  {currentDate}
                 </Typography>
                 <Typography
                   variant="h5"

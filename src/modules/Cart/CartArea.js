@@ -86,17 +86,17 @@ const ProductRow = ({ id, slug, title, price, image, updateSubtotal }) => {
 const CartArea = () => {
   const [productSubtotals, setProductSubtotals] = useState({});
 
-  const addedToCart = useSelector((state) => state.product);
-  const selectedCourses = Courses.filter((course) =>
-    addedToCart.addedProducts.some((product) => product.id === course.id),
-  );
+  // const addedToCart = useSelector((state) => state.product);
+  // const selectedCourses = Courses.filter((course) =>
+  //   addedToCart?.addedProducts.some((product) => product.id === course.id) || [],
+  // );
 
-  const updateSubtotal = (productId, subtotal) => {
-    setProductSubtotals((prevSubtotals) => ({
-      ...prevSubtotals,
-      [productId]: subtotal,
-    }));
-  };
+  // const updateSubtotal = (productId, subtotal) => {
+  //   setProductSubtotals((prevSubtotals) => ({
+  //     ...prevSubtotals,
+  //     [productId]: subtotal,
+  //   }));
+  // };
 
   // Calculate total price whenever product subtotals change
   const getTotalPrice = () => {
@@ -129,7 +129,7 @@ const CartArea = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {selectedCourses.length > 0 ? (
+                    {/* {selectedCourses.length > 0 ? (
                       selectedCourses.map((course) => (
                         <ProductRow
                           key={course.id}
@@ -143,7 +143,7 @@ const CartArea = () => {
                           Cart is Empty
                         </td>
                       </tr>
-                    )}
+                    )} */}
                   </tbody>
                 </table>
               </div>

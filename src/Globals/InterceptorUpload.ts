@@ -10,7 +10,7 @@ const axiosInstanceUpload = axios.create({
 
 axiosInstanceUpload.interceptors.request.use(
   async (config) => {
-    const token = localStorage.getItem('token'); // Retrieve token from localStorage
+    const token = localStorage.getItem("token"); // Retrieve token from localStorage
     if (token) {
       config.headers["Authorization"] = `Token ${token}`; // Set Authorization header with token
     }
@@ -53,9 +53,12 @@ axiosInstanceUpload.interceptors.response.use(
           break;
         default:
           // Default error handling
-          toast.error("An unexpected error occurred.", {
-            position: "top-left",
-          });
+          toast.info(
+            "Your Files are missing, re-upload the required files and any other again!",
+            {
+              position: "top-left",
+            }
+          );
       }
     }
     return Promise.reject(error);

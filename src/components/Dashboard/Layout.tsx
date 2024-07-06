@@ -43,6 +43,7 @@ interface Props {
   children: React.ReactNode;
 }
 
+type AppDispatch = ThunkDispatch<RootState, unknown, UnknownAction>;
 export default function Layout(props: Props) {
   const dispatch: AppDispatch = useDispatch()
   React.useEffect(() => {
@@ -61,6 +62,23 @@ export default function Layout(props: Props) {
   const handleCoursesClick = () => {
     setOpenCoursesDropdown(!openCoursesDropdown);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getLoggedInUser());
+      await dispatch(getApplicantStatus());
+      if (applicantstatusdisplay?.id) {
+        await dispatch(getEachStudent(applicantstatusdisplay?.id));
+        await dispatch(getStudentUploadsApplicant(applicantstatusdisplay?.id));
+        await dispatch(getRefereeApplicant(applicantstatusdisplay?.id));
+        await dispatch(
+          ApplicantGetEmergencyContact(applicantstatusdisplay?.id)
+        );
+      }
+    };
+
+    fetchData();
+  }, [dispatch, applicantstatusdisplay?.id]);
 
   const router = useRouter();
 
@@ -98,9 +116,9 @@ export default function Layout(props: Props) {
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
-    width: "100%",
+    width: "40%",
     [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
+      // marginLeft: theme.spacing(3),
       width: "auto",
     },
   }));
@@ -129,7 +147,7 @@ export default function Layout(props: Props) {
         }}
       >
         <Avatar
-          src="/broken-image.jpg"
+          src="https://marketplace.canva.com/EAGA2vs-oD4/1/0/1600w/canva-navy-white-university-elegant-logo-SXgxVbQ1u70.jpg"
           sx={{
             width: 70,
             height: 70,
@@ -382,7 +400,7 @@ export default function Layout(props: Props) {
       </List>
       <Divider />
       <List>
-        <ListItem disablePadding sx={{ color: "white" }}>
+        <ListItem disablePadding sx={{ color: "white" }} onClick={handleLogout}>
           <ListItemButton>
             <ListItemIcon sx={{ color: "white" }}>
               <LogoutIcon />
@@ -438,14 +456,14 @@ export default function Layout(props: Props) {
                 {firstName}
               </Typography>
 
-              <Typography
+              {/* <Typography
                 variant="h6"
                 component="div"
                 sx={{ mr: 2 }}
                 style={{ fontSize: "12px" }}
               >
                 3rd year
-              </Typography>
+              </Typography> */}
             </div>
 
             <Avatar alt={firstName} src="/static/images/avatar/1.jpg" />

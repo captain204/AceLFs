@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { ThunkDispatch, UnknownAction } from "@reduxjs/toolkit";
 import { RootState } from "../../Globals/store/store";
-import { loginUser } from "../../Globals/Slices/AuthSlice/LoginUserSlice";
+import { loginUser } from "../../Globals/Slices/ApplicantsSlices/AuthSlice/LoginUserSlice";
 import LoaderSpinner from "../../components/Spinner";
 
 // Validation schema
@@ -73,14 +73,14 @@ export default function SignInArea() {
   return (
     <div className="it-signup-area pt-120 pb-120">
       <div className="container">
-        <div className="it-signup-bg p-relative">
+        <div className="bg-light p-relative">
           <div className="it-signup-thumb d-none d-lg-block">
-            <Image
-              src="/img/contact/signup.jpg"
+            <img
+              src="https://img.freepik.com/free-photo/group-five-african-college-students-spending-time-together-campus-university-yard-black-afro-friends-studying-education-theme_627829-6007.jpg"
               alt=""
               width={663}
               height={637}
-              objectFit="contain"
+              style={{ objectFit: 'contain' }}
             />
           </div>
           <div className="row">
@@ -89,44 +89,43 @@ export default function SignInArea() {
                 <div className="it-signup-wrap">
                   <h4 className="it-signup-title">Sign In</h4>
                   <div className="it-signup-input-wrap">
-                    <div className="it-signup-input mb-20">
+                    <div className="mb-3">
                       <input
                         type="text"
+                        className="form-control"
                         placeholder="Username *"
                         {...register("username")}
                         value={username}
                         onChange={handleUsernameChange}
                       />
                       {errors.username && (
-                        <p style={{ color: "red" }}>
-                          {errors.username.message}
-                        </p>
+                        <p className="text-danger">{errors.username.message}</p>
                       )}
                     </div>
-                    <div className="it-signup-input mb-20">
+                    <div className="mb-3">
                       <input
                         type="email"
+                        className="form-control"
                         placeholder="Email *"
                         {...register("email")}
                         value={email}
                         onChange={handleEmailChange}
                       />
                       {errors.email && (
-                        <p style={{ color: "red" }}>{errors.email.message}</p>
+                        <p className="text-danger">{errors.email.message}</p>
                       )}
                     </div>
-                    <div className="it-signup-input mb-20">
+                    <div className="mb-3">
                       <input
                         type="password"
+                        className="form-control"
                         placeholder="Password *"
                         {...register("password")}
                         value={password}
                         onChange={handlePasswordChange}
                       />
                       {errors.password && (
-                        <p style={{ color: "red" }}>
-                          {errors.password.message}
-                        </p>
+                        <p className="text-danger">{errors.password.message}</p>
                       )}
                     </div>
                   </div>
@@ -169,7 +168,7 @@ export default function SignInArea() {
                   <div className="it-signup-text">
                     <span>
                       Don't have an account?{" "}
-                      <Link href="applicant/signup">Sign Up</Link>
+                      <Link href="/applicant/signup">Sign Up</Link>
                     </span>
                   </div>
                 </div>
